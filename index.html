@@ -2,106 +2,102 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GOD DEV | Vault Pro</title>
+    <title>GOD DEV | Vault de Elite</title>
     <style>
         :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; --border: #333; }
-        body { background: var(--bg); color: var(--txt); font-family: 'JetBrains Mono', monospace; padding: 20px; display: flex; justify-content: center; }
+        body { background: var(--bg); color: var(--txt); font-family: 'JetBrains Mono', monospace; padding: 20px; display: flex; justify-content: center; transition: 0.5s; }
         .container { width: 100%; max-width: 900px; }
         
         header { border-bottom: 2px solid var(--acc); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        h1 { font-size: 1.5rem; margin: 0; color: var(--acc); }
+        h1 { font-size: 1.5rem; margin: 0; color: var(--acc); text-shadow: 0 0 10px rgba(0,255,65,0.3); }
 
-        .controls { display: flex; gap: 10px; }
+        .controls { display: flex; gap: 10px; align-items: center; }
         .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 5px 12px; cursor: pointer; font-size: 0.7rem; border-radius: 3px; text-transform: uppercase; }
         .btn-tool:hover { background: var(--acc); color: #000; }
 
+        /* MODO FOCO */
+        .focus-mode .input-box, .focus-mode header .controls, .focus-mode .filter-section { display: none !important; }
+        .focus-mode header { border-bottom: 1px solid #222; justify-content: center; }
+
         .input-box { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
         input, select { background: #000; border: 1px solid var(--border); padding: 12px; color: var(--acc); outline: none; border-radius: 4px; font-family: inherit; }
-        input:focus { border-color: var(--acc); }
         
         .btn-add { background: var(--acc); color: #000; border: none; padding: 0 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        .btn-add:hover { box-shadow: 0 0 20px var(--acc); transform: scale(1.02); }
+        .btn-add:hover { box-shadow: 0 0 20px var(--acc); }
 
-        .filter-section { margin-bottom: 20px; display: flex; align-items: center; gap: 15px; font-size: 0.9rem; color: #888; }
-        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 5px 15px; border-radius: 20px; cursor: pointer; }
+        .filter-section { margin-bottom: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
         .filter-btn.active { background: var(--acc); color: #000; border-color: var(--acc); }
 
         .grid { display: grid; gap: 12px; }
-        .item { background: var(--surf); padding: 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); transition: 0.2s; }
-        .item:hover { border-left-width: 10px; background: #1a1a1a; }
+        .item { background: var(--surf); padding: 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); }
         .item-info strong { color: var(--acc); font-size: 1.1rem; display: block; }
-        .item-info small { color: #666; font-size: 0.8rem; }
-        .tag { display: inline-block; background: #222; color: #aaa; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; margin-top: 5px; border: 1px solid #444; }
+        .tag { display: inline-block; background: #222; color: #aaa; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; margin-top: 5px; }
         
-        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 5px 12px; cursor: pointer; border-radius: 4px; }
-        .del-btn:hover { background: #ff4444; color: #fff; }
-        
-        #fileInput { display: none; }
-        @media (max-width: 700px) { .input-box { grid-template-columns: 1fr; } }
+        .actions { display: flex; gap: 10px; align-items: center; }
+        .qr-icon { cursor: pointer; font-size: 1.2rem; filter: grayscale(1); transition: 0.3s; }
+        .qr-icon:hover { filter: grayscale(0); transform: scale(1.2); }
+        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 5px 12px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
+
+        /* MODAL QR */
+        #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:999; flex-direction:column; }
+        #qr-container { background: white; padding: 20px; border-radius: 10px; }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <div id="qr-modal" onclick="this.style.display='none'">
+        <div id="qr-container"></div>
+        <p style="margin-top:20px; color:var(--acc)">CLIQUE PARA FECHAR</p>
+    </div>
+
+    <div class="container" id="main-container">
         <header>
-            <h1>VAULT_PRO_V3</h1>
+            <h1 onclick="toggleFocus()" style="cursor:pointer" title="Clique para Modo Foco">VAULT_ELITE_SYSTEM</h1>
             <div class="controls">
-                <button class="btn-tool" onclick="exportData()">Exportar</button>
+                <button class="btn-tool" onclick="toggleFocus()">Modo Foco</button>
+                <button class="btn-tool" onclick="exportData()">Backup</button>
                 <button class="btn-tool" onclick="document.getElementById('fileInput').click()">Importar</button>
                 <input type="file" id="fileInput" onchange="importData(event)" accept=".json">
             </div>
         </header>
 
         <div class="input-box">
-            <input type="text" id="t" placeholder="Nome do Site">
-            <input type="text" id="u" placeholder="URL (google.com)">
-            <input type="text" id="c" placeholder="Categoria (ex: Estudos)" list="cat-list">
+            <input type="text" id="t" placeholder="Título">
+            <input type="text" id="u" placeholder="URL">
+            <input type="text" id="c" placeholder="Categoria" list="cat-list">
             <datalist id="cat-list"></datalist>
-            <button class="btn-add" onclick="add()">SALVAR</button>
+            <button class="btn-add" onclick="add()">ARMAZENAR</button>
         </div>
 
-        <div class="filter-section" id="filters">
-            <span>Filtrar:</span>
-            <button class="filter-btn active" onclick="filterBy('all')">Tudo</button>
-        </div>
+        <div class="filter-section" id="filters"></div>
 
         <div id="list" class="grid"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-        const DB_KEY = 'god_dev_vault_v3';
+        const DB_KEY = 'god_dev_vault_v4';
         let currentFilter = 'all';
 
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             renderFilters(data);
-            
-            const filteredData = currentFilter === 'all' 
-                ? data 
-                : data.filter(l => l.cat === currentFilter);
+            const filteredData = currentFilter === 'all' ? data : data.filter(l => l.cat === currentFilter);
 
             document.getElementById('list').innerHTML = filteredData.map(l => `
                 <div class="item">
                     <div class="item-info">
                         <strong>${l.title}</strong>
-                        <a href="${l.url}" target="_blank" style="color:#eee; text-decoration:none; font-size:0.85rem;">${l.url}</a>
+                        <a href="${l.url}" target="_blank" style="color:#eee; text-decoration:none; font-size:0.8rem; opacity:0.7;">${l.url}</a>
                         <br><span class="tag">${l.cat}</span>
                     </div>
-                    <button class="del-btn" onclick="del('${l.id}')">APAGAR</button>
+                    <div class="actions">
+                        <span class="qr-icon" onclick="showQR('${l.url}')">📱</span>
+                        <button class="del-btn" onclick="del('${l.id}')">APAGAR</button>
+                    </div>
                 </div>
             `).reverse().join('');
-        }
-
-        function renderFilters(data) {
-            const categories = ['all', ...new Set(data.map(l => l.cat))];
-            const datalist = document.getElementById('cat-list');
-            datalist.innerHTML = categories.filter(c => c !== 'all').map(c => `<option value="${c}">`).join('');
-
-            const filterContainer = document.getElementById('filters');
-            filterContainer.innerHTML = '<span>Filtrar:</span>' + categories.map(c => `
-                <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="filterBy('${c}')">
-                    ${c === 'all' ? 'Tudo' : c}
-                </button>
-            `).join('');
         }
 
         function add() {
@@ -111,36 +107,44 @@
             if(!u) return;
 
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db.push({
-                id: Date.now().toString(),
-                title: t,
-                url: u.startsWith('http') ? u : 'https://' + u,
-                cat: c
-            });
-
+            db.push({ id: Date.now().toString(), title: t, url: u.startsWith('http') ? u : 'https://'+u, cat: c });
             localStorage.setItem(DB_KEY, JSON.stringify(db));
-            document.getElementById('t').value = '';
-            document.getElementById('u').value = '';
-            document.getElementById('c').value = '';
+            document.getElementById('t').value = ''; document.getElementById('u').value = '';
             load();
         }
 
+        function showQR(url) {
+            const container = document.getElementById('qr-container');
+            container.innerHTML = "";
+            new QRCode(container, { text: url, width: 200, height: 200 });
+            document.getElementById('qr-modal').style.display = 'flex';
+        }
+
+        function toggleFocus() {
+            document.body.classList.toggle('focus-mode');
+        }
+
         function del(id) {
-            if(!confirm("Deseja deletar?")) return;
+            if(!confirm("Eliminar registro?")) return;
             let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             db = db.filter(l => l.id !== id);
             localStorage.setItem(DB_KEY, JSON.stringify(db));
             load();
         }
 
-        function filterBy(cat) {
-            currentFilter = cat;
-            load();
+        function filterBy(cat) { currentFilter = cat; load(); }
+
+        function renderFilters(data) {
+            const categories = ['all', ...new Set(data.map(l => l.cat))];
+            document.getElementById('filters').innerHTML = '<span>FILTRO:</span>' + categories.map(c => `
+                <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="filterBy('${c}')">
+                    ${c.toUpperCase()}
+                </button>
+            `).join('');
         }
 
         function exportData() {
-            const data = localStorage.getItem(DB_KEY);
-            const blob = new Blob([data], {type: 'application/json'});
+            const blob = new Blob([localStorage.getItem(DB_KEY)], {type: 'application/json'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = `vault_backup.json`;
@@ -149,10 +153,7 @@
 
         function importData(e) {
             const reader = new FileReader();
-            reader.onload = (event) => {
-                localStorage.setItem(DB_KEY, event.target.result);
-                load();
-            };
+            reader.onload = (event) => { localStorage.setItem(DB_KEY, event.target.result); load(); };
             reader.readAsText(e.target.files[0]);
         }
 
