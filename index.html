@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD DEV | VAULT SUPREMO V17 - THE TITAN ARCHITECT</title>
+    <title>GOD DEV | VAULT SUPREMO V18 - THE ARCHITECT TITAN</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -11,56 +11,41 @@
     
     <style>
         /* -----------------------------------------------------------------------------
-           1. SISTEMA DE CORES E TEMAS EXPANDIDO (VARIÁVEIS DE AMBIENTE)
+           1. SISTEMA DE CORES E VARIÁVEIS DE AMBIENTE (CORE V17)
         -------------------------------------------------------------------------------- */
         :root { 
             --bg: #050505; 
             --acc: #00ff41; 
-            --surf: rgba(15, 15, 15, 0.9); 
+            --surf: rgba(15, 15, 15, 0.95); 
             --txt: #ffffff; 
             --border: #333333; 
             --grad: linear-gradient(45deg, #00ff41, #008f11);
-            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --shadow: 0 10px 40px rgba(0,0,0,0.7);
+            --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .theme-oficial { 
-            --bg: #f0f2f5; 
-            --acc: #1a73e8; 
-            --surf: rgba(255, 255, 255, 0.9); 
-            --txt: #202124; 
-            --border: #dadce0; 
-            --grad: linear-gradient(45deg, #1a73e8, #8ab4f8);
+            --bg: #f0f2f5; --acc: #1a73e8; --surf: rgba(255, 255, 255, 0.95); 
+            --txt: #202124; --border: #dadce0; --grad: linear-gradient(45deg, #1a73e8, #8ab4f8);
         } 
 
         .theme-gold { 
-            --bg: #0f0f0f; 
-            --acc: #d4af37; 
-            --surf: rgba(30, 30, 30, 0.9); 
-            --txt: #f1f1f1; 
-            --border: #aa841e; 
-            --grad: linear-gradient(45deg, #d4af37, #f9e29c);
+            --bg: #0f0f0f; --acc: #d4af37; --surf: rgba(30, 30, 30, 0.95); 
+            --txt: #f1f1f1; --border: #aa841e; --grad: linear-gradient(45deg, #d4af37, #f9e29c);
         }
 
         .theme-cyberpunk { 
-            --bg: #0d0221; 
-            --acc: #ff007f; 
-            --surf: rgba(25, 14, 58, 0.9); 
-            --txt: #00f0ff; 
-            --border: #5a189a; 
-            --grad: linear-gradient(45deg, #ff007f, #00f0ff);
+            --bg: #0d0221; --acc: #ff007f; --surf: rgba(25, 14, 58, 0.95); 
+            --txt: #00f0ff; --border: #5a189a; --grad: linear-gradient(45deg, #ff007f, #00f0ff);
         }
 
         .theme-ruby { 
-            --bg: #1a0505; 
-            --acc: #e63946; 
-            --surf: rgba(45, 10, 10, 0.9); 
-            --txt: #f1faee; 
-            --border: #a8222e; 
-            --grad: linear-gradient(45deg, #e63946, #457b9d);
+            --bg: #1a0505; --acc: #e63946; --surf: rgba(45, 10, 10, 0.95); 
+            --txt: #f1faee; --border: #a8222e; --grad: linear-gradient(45deg, #e63946, #457b9d);
         }
 
         /* -----------------------------------------------------------------------------
-           2. RESET E LAYOUT ESTRUTURAL (SIDEBAR + MAIN)
+           2. RESET E ESTRUTURA TITÂNICA
         -------------------------------------------------------------------------------- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -72,740 +57,567 @@
             height: 100vh; 
             width: 100vw;
             overflow: hidden; 
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.5s ease;
         }
 
-        /* CANVAS DE FUNDO - NEBULOSA DINÂMICA */
         #nebula-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.6;
-            transition: opacity 2s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; opacity: 0.7;
         }
 
-        /* SIDEBAR DE NOTAS (SCRAPBOOK) */
+        /* -----------------------------------------------------------------------------
+           3. SIDEBAR (SCRAPBOOK & ACCESS LOG)
+        -------------------------------------------------------------------------------- */
         #scrapbook { 
-            width: 320px; 
+            width: 350px; 
             background: var(--surf); 
             border-right: 1px solid var(--border); 
-            padding: 25px; 
+            padding: 30px; 
             display: flex; 
             flex-direction: column; 
             z-index: 100;
-            backdrop-filter: blur(20px);
-            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(30px);
+            box-shadow: 15px 0 50px rgba(0,0,0,0.6);
         }
 
         #scrapbook h3 { 
-            color: var(--acc); 
-            font-size: 0.8rem; 
-            letter-spacing: 3px; 
-            margin-bottom: 20px; 
-            text-transform: uppercase;
-            border-left: 3px solid var(--acc);
-            padding-left: 10px;
+            color: var(--acc); font-size: 0.8rem; letter-spacing: 4px; 
+            margin-bottom: 25px; border-left: 4px solid var(--acc); padding-left: 15px;
         }
 
-        #scrapbook textarea { 
-            flex: 1; 
-            background: rgba(0,0,0,0.4); 
-            color: var(--txt); 
-            border: 1px solid var(--border); 
-            padding: 20px; 
-            font-family: inherit; 
-            resize: none; 
-            outline: none; 
-            border-radius: 8px; 
-            font-size: 0.9rem; 
-            line-height: 1.6;
-            transition: border 0.3s;
+        #notes { 
+            flex: 1; background: rgba(0,0,0,0.5); color: var(--txt); 
+            border: 1px solid var(--border); padding: 25px; font-family: inherit; 
+            resize: none; outline: none; border-radius: 12px; font-size: 0.95rem; 
+            line-height: 1.8; transition: 0.3s;
+        }
+        #notes:focus { border-color: var(--acc); box-shadow: inset 0 0 10px rgba(0,255,65,0.1); }
+
+        #access-log {
+            margin-top: 25px; height: 120px; font-size: 0.65rem; color: var(--acc);
+            overflow-y: auto; background: rgba(0,0,0,0.3); padding: 10px;
+            border-radius: 8px; border: 1px solid var(--border); opacity: 0.7;
         }
 
-        #scrapbook textarea:focus { border-color: var(--acc); }
-
-        /* ÁREA DE CONTEÚDO PRINCIPAL */
+        /* -----------------------------------------------------------------------------
+           4. MAIN CONTENT & HEADER
+        -------------------------------------------------------------------------------- */
         main { 
-            flex: 1; 
-            padding: 40px; 
-            overflow-y: auto; 
-            position: relative; 
-            z-index: 10;
-            scroll-behavior: smooth;
+            flex: 1; padding: 50px; overflow-y: auto; position: relative; 
+            z-index: 10; scroll-behavior: smooth;
         }
 
-        /* -----------------------------------------------------------------------------
-           3. CABEÇALHO E CONTROLES DE COMANDO
-        -------------------------------------------------------------------------------- */
         header { 
-            border-bottom: 2px solid var(--acc); 
-            padding-bottom: 25px; 
-            margin-bottom: 40px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            border-bottom: 3px solid var(--acc); padding-bottom: 30px; 
+            margin-bottom: 50px; display: flex; justify-content: space-between; align-items: center;
         }
 
-        header h1 { 
-            font-size: 1.8rem; 
-            font-weight: 900; 
-            letter-spacing: -1px; 
-            background: var(--grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .main-title-container { display: flex; align-items: center; gap: 20px; }
+        #main-title { 
+            font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;
+            background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
-        .controls { display: flex; gap: 10px; align-items: center; }
 
         /* -----------------------------------------------------------------------------
-           4. DASHBOARD ANALYTICS
+           5. DASHBOARD ANALYTICS & STORAGE BAR
         -------------------------------------------------------------------------------- */
-        .dashboard-grid { 
-            display: grid; 
-            grid-template-columns: 2fr 1fr; 
-            gap: 30px; 
-            margin-bottom: 40px; 
-        }
-
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 50px; }
+        
         .stat-card { 
-            background: var(--surf); 
-            padding: 25px; 
-            border-radius: 15px; 
-            border: 1px solid var(--border); 
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
+            background: var(--surf); padding: 35px; border-radius: 20px; 
+            border: 1px solid var(--border); backdrop-filter: blur(15px);
+            box-shadow: var(--shadow); position: relative;
         }
 
-        .stat-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: var(--grad);
+        .stat-card::after {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: var(--grad);
         }
 
-        #totalCounter { 
-            font-size: 5rem; 
-            font-weight: 900; 
-            margin: 0; 
-            color: var(--acc);
-            text-shadow: 0 0 20px rgba(0,255,65,0.3);
+        #totalCounter { font-size: 6rem; font-weight: 900; color: var(--acc); text-shadow: 0 0 30px rgba(0,255,65,0.4); }
+
+        .storage-container { width: 100%; height: 10px; background: #1a1a1a; border-radius: 20px; margin-top: 20px; overflow: hidden; }
+        #storage-bar { height: 100%; width: 0%; background: var(--grad); transition: 1.5s ease-in-out; }
+
+        /* -----------------------------------------------------------------------------
+           6. SISTEMA DE ABAS (PÁGINA INICIAL / DOCUMENTOS)
+        -------------------------------------------------------------------------------- */
+        .tab-content { display: none; animation: slideUp 0.6s ease-out; }
+        .tab-content.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .tab-nav { display: flex; gap: 15px; margin-bottom: 30px; }
+        .tab-btn { 
+            padding: 12px 30px; background: transparent; border: 2px solid var(--acc);
+            color: var(--acc); border-radius: 50px; cursor: pointer; font-weight: 900;
+            transition: 0.3s; letter-spacing: 2px;
+        }
+        .tab-btn.active { background: var(--acc); color: #000; box-shadow: 0 0 20px rgba(0,255,65,0.3); }
+
+        /* -----------------------------------------------------------------------------
+           7. SISTEMA DE ARQUIVOS TXT (GRID & VIEWER)
+        -------------------------------------------------------------------------------- */
+        .txt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        
+        .txt-card { 
+            background: var(--surf); border: 2px solid var(--border); padding: 30px 20px;
+            border-radius: 18px; text-align: center; cursor: pointer; transition: var(--transition);
+            position: relative; overflow: hidden;
+        }
+        .txt-card:hover { border-color: var(--acc); transform: translateY(-10px); background: rgba(255,255,255,0.05); }
+        .txt-card i { font-size: 3.5rem; color: var(--acc); margin-bottom: 15px; display: block; }
+        .txt-card h5 { font-size: 1rem; color: var(--txt); font-weight: bold; margin-bottom: 10px; }
+        .txt-card .txt-meta { font-size: 0.6rem; opacity: 0.5; font-family: sans-serif; }
+
+        #txt-viewer-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 5000; flex-direction: column; padding: 60px;
+            animation: fadeIn 0.3s ease;
+        }
+        #txt-editor-area {
+            flex: 1; background: transparent; color: #00ff41; border: 2px solid #222;
+            padding: 40px; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
+            line-height: 1.8; resize: none; outline: none; border-radius: 15px;
         }
 
         /* -----------------------------------------------------------------------------
-           5. SISTEMA DE APLICATIVOS (APPS GRID)
+           8. INPUT BOX E REGISTROS DE LINKS
         -------------------------------------------------------------------------------- */
-        .apps-container { 
-            display: none; 
-            margin-bottom: 40px; 
-            animation: slideIn 0.5s ease-out;
+        .input-box { 
+            display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 20px;
+            background: var(--surf); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
+            margin-bottom: 40px; backdrop-filter: blur(15px); box-shadow: var(--shadow);
         }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .apps-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-            gap: 20px; 
+        .input-field { display: flex; flex-direction: column; gap: 10px; }
+        .input-field label { font-size: 0.7rem; font-weight: bold; color: var(--acc); opacity: 0.8; letter-spacing: 2px; }
+        
+        input, select { 
+            background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 18px;
+            color: var(--txt); border-radius: 10px; outline: none; font-family: inherit;
         }
+        input:focus { border-color: var(--acc); box-shadow: 0 0 15px rgba(0,255,65,0.1); }
 
-        .app-card { 
-            background: var(--surf); 
-            border: 1px solid var(--border); 
-            border-radius: 15px; 
-            padding: 30px 20px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .app-card:hover { 
-            border-color: var(--acc); 
-            transform: scale(1.05); 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .app-card i { font-size: 3.5rem; margin-bottom: 15px; }
-        .app-card.insta i { color: #E1306C; }
-        .app-card.tele i { color: #0088cc; }
-        .app-card.whats i { color: #25D366; }
-        .app-card.github i { color: #fff; }
-        .app-card span { font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; }
-
-        /* -----------------------------------------------------------------------------
-           6. SEARCH E FILTROS
-        -------------------------------------------------------------------------------- */
-        .search-container { margin-bottom: 30px; position: relative; }
-
-        #search-input { 
-            width: 100%; 
-            background: var(--surf); 
-            border: 2px solid var(--border); 
-            padding: 20px 60px; 
-            color: var(--txt); 
-            border-radius: 50px; 
-            outline: none; 
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        #search-input:focus { border-color: var(--acc); box-shadow: 0 0 20px rgba(0,255,65,0.2); }
-
-        .search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.5; }
-
-        /* -----------------------------------------------------------------------------
-           7. MODO FOCO ZEN (SENSORIAL)
-        -------------------------------------------------------------------------------- */
-        .focus-mode #scrapbook, 
-        .focus-mode .input-box, 
-        .focus-mode .dashboard-grid, 
-        .focus-mode .video-section, 
-        .focus-mode .controls, 
-        .focus-mode .search-container, 
-        .focus-mode .apps-container,
-        .focus-mode #filters { 
-            display: none !important; 
-        }
-
-        .focus-mode main { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh;
-        }
-
-        .focus-mode #nebula-canvas { opacity: 1; }
-        .focus-mode #list { width: 90%; max-width: 1000px; max-height: 70vh; overflow-y: auto; }
-
-        #exit-focus { 
-            display: none; 
-            position: fixed; 
-            bottom: 50px; 
-            left: 50%; 
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.7); 
-            border: 2px solid var(--acc); 
-            color: var(--acc);
-            padding: 20px 60px; 
-            border-radius: 100px; 
-            cursor: pointer; 
-            z-index: 10001; 
-            font-weight: 900;
-            backdrop-filter: blur(15px);
-            letter-spacing: 5px;
+        .btn-add { 
+            background: var(--acc); color: #000; border: none; padding: 18px 40px;
+            font-weight: 900; cursor: pointer; border-radius: 10px; text-transform: uppercase;
             transition: 0.3s;
         }
+        .btn-add:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,255,65,0.4); }
 
-        #exit-focus:hover { background: var(--acc); color: #000; }
+        .item { 
+            background: var(--surf); padding: 30px; border-radius: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 8px solid var(--acc); margin-bottom: 20px; transition: 0.4s;
+            backdrop-filter: blur(10px); box-shadow: var(--shadow);
+        }
+        .item:hover { transform: translateX(15px); background: rgba(255,255,255,0.05); }
+
+        /* -----------------------------------------------------------------------------
+           9. MULTIMÍDIA E MODO ZEN
+        -------------------------------------------------------------------------------- */
+        .video-section { 
+            background: var(--surf); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
+            margin-bottom: 40px; display: none; animation: fadeIn 0.5s;
+        }
+        
+        .focus-mode #scrapbook, .focus-mode header, .focus-mode .dashboard-grid, 
+        .focus-mode .input-box, .focus-mode .search-container, .focus-mode .tab-nav {
+            display: none !important;
+        }
+        .focus-mode main { display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .focus-mode #nebula-canvas { opacity: 1; }
+
+        #exit-focus {
+            display: none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); border: 2px solid var(--acc); color: var(--acc);
+            padding: 25px 80px; border-radius: 100px; cursor: pointer; z-index: 10000;
+            font-weight: 900; letter-spacing: 8px; text-transform: uppercase;
+        }
         .focus-mode #exit-focus { display: block; }
 
         /* -----------------------------------------------------------------------------
-           8. INPUTS E BOTÕES TÉCNICOS
+           10. UTILITÁRIOS E BOTOES FERRAMENTA
         -------------------------------------------------------------------------------- */
-        .input-box { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr auto; 
-            gap: 15px; 
-            background: var(--surf); 
-            padding: 30px; 
-            border-radius: 15px; 
-            border: 1px solid var(--border); 
-            margin-bottom: 30px; 
-            backdrop-filter: blur(10px);
-        }
-
-        input, select { 
-            background: rgba(0,0,0,0.5); 
-            border: 1px solid var(--border); 
-            padding: 15px; 
-            color: var(--txt); 
-            border-radius: 8px; 
-            outline: none; 
-            font-family: inherit;
-            font-size: 0.9rem;
-        }
-
-        input:focus { border-color: var(--acc); }
-
-        .btn-add { 
-            background: var(--acc); 
-            color: #000; 
-            border: none; 
-            padding: 15px 35px; 
-            font-weight: 900; 
-            cursor: pointer; 
-            border-radius: 8px; 
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        .btn-add:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,65,0.4); }
-
         .btn-tool { 
-            background: transparent; 
-            color: var(--acc); 
-            border: 1px solid var(--acc); 
-            padding: 10px 18px; 
-            cursor: pointer; 
-            border-radius: 6px; 
-            font-size: 0.75rem; 
-            font-weight: bold; 
-            transition: 0.2s;
-            text-transform: uppercase;
+            background: transparent; color: var(--acc); border: 1px solid var(--acc);
+            padding: 12px 20px; cursor: pointer; border-radius: 8px; font-size: 0.75rem;
+            font-weight: bold; transition: 0.2s; text-transform: uppercase; margin-left: 10px;
         }
-
         .btn-tool:hover { background: var(--acc); color: #000; }
 
-        /* -----------------------------------------------------------------------------
-           9. LISTAGEM DE REGISTROS (GRID)
-        -------------------------------------------------------------------------------- */
-        .grid { display: grid; gap: 15px; }
-
-        .item { 
-            background: var(--surf); 
-            padding: 25px; 
-            border-radius: 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-left: 6px solid var(--acc); 
-            transition: 0.4s;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-        }
-
-        .item:hover { transform: translateX(10px); background: rgba(255,255,255,0.05); }
-
-        .item-info h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--acc); }
-        .item-info p { font-size: 0.8rem; opacity: 0.6; word-break: break-all; }
-        .item-cat { font-size: 0.7rem; background: var(--border); padding: 4px 10px; border-radius: 4px; margin-left: 10px; font-weight: bold; }
-
-        /* -----------------------------------------------------------------------------
-           10. MODAIS E UTILITÁRIOS
-        -------------------------------------------------------------------------------- */
         #qr-modal { 
-            display:none; 
-            position:fixed; 
-            top:0; left:0; width:100%; height:100%; 
-            background:rgba(0,0,0,0.9); 
-            justify-content:center; 
-            align-items:center; 
-            z-index:10000; 
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:6000;
         }
 
-        .video-section { 
-            background: var(--surf); 
-            border: 1px solid var(--border); 
-            padding: 30px; 
-            border-radius: 15px; 
-            margin-bottom: 30px; 
-            display: none; 
-            backdrop-filter: blur(10px);
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--acc); }
     </style>
 </head>
 <body id="app-body">
 
     <canvas id="nebula-canvas"></canvas>
+    
+    <button id="exit-focus" onclick="toggleFocus()">DESATIVAR ZEN</button>
 
-    <button id="exit-focus" onclick="toggleFocus()">DESATIVAR MODO ZEN</button>
+    <div id="txt-viewer-overlay">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h2 id="current-txt-name" style="color:var(--acc); font-size:1.5rem;">ARQUIVO_TITAN.TXT</h2>
+            <div style="display:flex; gap:15px;">
+                <button class="btn-add" onclick="saveAndDownloadTxt()">BAIXAR TXT</button>
+                <button class="btn-tool" onclick="closeTxtViewer()" style="color:#ff4757; border-color:#ff4757">FECHAR PROTOCOLO [X]</button>
+            </div>
+        </div>
+        <textarea id="txt-editor-area" spellcheck="false"></textarea>
+    </div>
 
     <div id="qr-modal" onclick="this.style.display='none'">
-        <div id="qr-container" style="background:white; padding:30px; border-radius:20px; box-shadow: 0 0 50px var(--acc);"></div>
-        <p style="margin-top:20px; color:var(--acc); font-weight:bold;">CLIQUE PARA FECHAR</p>
+        <div id="qr-container" style="background:white; padding:40px; border-radius:25px;"></div>
     </div>
 
     <aside id="scrapbook">
         <h3>> SCRAPBOOK_NOTAS</h3>
-        <textarea id="notes" placeholder="Digite comandos, rascunhos ou notas técnicas aqui..." oninput="saveNotes()"></textarea>
-        
-        <div style="margin-top:20px; border-top: 1px solid var(--border); padding-top:20px;">
-            <p style="font-size:0.6rem; opacity:0.5; margin-bottom:10px;">LOG DE ACESSO:</p>
-            <div id="access-log" style="font-size:0.6rem; color:var(--acc); overflow:hidden;"></div>
-        </div>
+        <textarea id="notes" placeholder="Rascunhos mentais e comandos..." oninput="saveNotes()"></textarea>
+        <div id="access-log"></div>
     </aside>
 
     <main>
         <header>
-            <div style="display:flex; align-items:center;">
-                <button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; border:none; margin-right:20px; padding: 10px 25px;">INÍCIO</button>
-                <h1 id="main-title">VAULT_TITAN_ARCHITECT_V17</h1>
+            <div class="main-title-container">
+                <button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; font-size:1rem; padding:15px 30px;">INÍCIO</button>
+                <h1 id="main-title">VAULT_TITAN_V18</h1>
             </div>
             <div class="controls">
                 <select onchange="changeTheme(this.value)" class="btn-tool" style="background:var(--surf)">
                     <option value="">MATRIX PRO</option>
-                    <option value="theme-oficial">CLEAN GOOGLE</option>
+                    <option value="theme-oficial">CLEAN DARK</option>
                     <option value="theme-gold">ROYAL GOLD</option>
-                    <option value="theme-cyberpunk">CYBER VIBE</option>
-                    <option value="theme-ruby">RUBY DARK</option>
+                    <option value="theme-cyberpunk">CYBERPUNK 2077</option>
+                    <option value="theme-ruby">RUBY BLOOD</option>
                 </select>
-                <button class="btn-tool" onclick="toggleSection('apps-container')">APLICATIVOS</button>
                 <button class="btn-tool" onclick="toggleSection('video-section')">MULTIMÍDIA</button>
-                <button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 15px var(--acc);">MODO ZEN</button>
-                <button class="btn-tool" onclick="exportData()"><i class="fas fa-download"></i> BACKUP</button>
-                <button class="btn-tool" onclick="document.getElementById('file-input').click()"><i class="fas fa-upload"></i> IMPORT</button>
-                <input type="file" id="file-input" style="display:none" onchange="importData(event)">
+                <button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 20px var(--acc);">MODO ZEN</button>
+                <button class="btn-tool" onclick="exportData()">BACKUP DB</button>
+                <button class="btn-tool" onclick="document.getElementById('file-txt-input').click()">IMPORTAR TXT</button>
+                <input type="file" id="file-txt-input" style="display:none" accept=".txt" onchange="processTxtImport(event)">
             </div>
         </header>
 
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <h4 style="margin-bottom:15px; font-size:0.8rem; opacity:0.7;">DISTRIBUIÇÃO DE CATEGORIAS</h4>
-                <div style="height: 180px;">
-                    <canvas id="categoryChart"></canvas>
+        <div class="tab-nav">
+            <button class="tab-btn active" id="btn-vault" onclick="switchTab('tab-vault')">COFRE DE LINKS</button>
+            <button class="tab-btn" id="btn-docs" onclick="switchTab('tab-docs')">DOCUMENTOS TXT</button>
+        </div>
+
+        <div id="tab-vault" class="tab-content active">
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <h4 style="font-size:0.7rem; opacity:0.6; margin-bottom:15px;">DISTRUIBUIÇÃO ANALÍTICA</h4>
+                    <div style="height:200px;"><canvas id="mainChart"></canvas></div>
+                </div>
+                <div class="stat-card" style="text-align:center;">
+                    <h2 id="totalCounter">0</h2>
+                    <p style="font-weight:bold; opacity:0.6;">ENTRADAS TOTAIS</p>
+                    <div class="storage-container"><div id="storage-bar"></div></div>
                 </div>
             </div>
-            <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h2 id="totalCounter">0</h2>
-                <p style="font-weight: bold; letter-spacing: 2px; opacity:0.6;">ENTRADAS NO DATABASE</p>
-                <div style="margin-top:15px; width: 100%; height: 5px; background: #222; border-radius: 10px;">
-                    <div id="storage-bar" style="height:100%; width:0%; background:var(--acc); border-radius:10px; transition:1s;"></div>
+
+            <div class="search-container" style="margin-bottom:40px; position:relative;">
+                <i class="fas fa-search" style="position:absolute; left:25px; top:50%; transform:translateY(-50%); opacity:0.5;"></i>
+                <input type="text" id="search-input" placeholder="Pesquisar no Vault..." oninput="load()" style="width:100%; padding-left:60px; border-radius:50px; background:var(--surf);">
+            </div>
+
+            <div class="video-section" id="video-section">
+                <div style="display:flex; gap:20px; margin-bottom:20px;">
+                    <input type="text" id="v-url" placeholder="URL do YouTube..." style="flex:1">
+                    <button class="btn-add" onclick="playVideo()">CARREGAR</button>
                 </div>
+                <div id="player-wrap" style="display:none; border-radius:15px; overflow:hidden;"><iframe id="v-frame" width="100%" height="450" frameborder="0" allowfullscreen></iframe></div>
             </div>
+
+            <div class="input-box">
+                <div class="input-field"><label>TÍTULO</label><input type="text" id="t" placeholder="..."></div>
+                <div class="input-field"><label>URL</label><input type="text" id="u" placeholder="https://..."></div>
+                <div class="input-field"><label>CATEGORIA</label><input type="text" id="c" placeholder="Geral" list="cat-list"><datalist id="cat-list"></datalist></div>
+                <div class="input-field" style="justify-content:flex-end;"><button class="btn-add" onclick="add()">ARMAZENAR</button></div>
+            </div>
+
+            <div id="filters" style="margin-bottom:30px; display:flex; gap:12px; flex-wrap:wrap;"></div>
+            <div class="grid" id="list"></div>
         </div>
 
-        <div class="apps-container" id="apps-container">
-            <div class="apps-grid">
-                <a href="https://instagram.com" target="_blank" class="app-card insta"><i class="fab fa-instagram"></i><span>INSTAGRAM</span></a>
-                <a href="https://web.telegram.org" target="_blank" class="app-card tele"><i class="fab fa-telegram"></i><span>TELEGRAM</span></a>
-                <a href="https://web.whatsapp.com" target="_blank" class="app-card whats"><i class="fab fa-whatsapp"></i><span>WHATSAPP</span></a>
-                <a href="https://github.com" target="_blank" class="app-card github"><i class="fab fa-github"></i><span>GITHUB</span></a>
-                <a href="https://youtube.com" target="_blank" class="app-card" style="color:#ff0000"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
-                <a href="https://chat.openai.com" target="_blank" class="app-card" style="color:#10a37f"><i class="fas fa-robot"></i><span>CHATGPT</span></a>
-            </div>
+        <div id="tab-docs" class="tab-content">
+            <h2 style="margin-bottom:30px; border-left:6px solid var(--acc); padding-left:20px;">BIBLIOTECA DE DOCUMENTOS</h2>
+            <div class="txt-grid" id="txt-list-container">
+                </div>
         </div>
-
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="search-input" placeholder="Pesquisar por título, link ou categoria..." oninput="load()">
-        </div>
-
-        <div class="video-section" id="video-section">
-            <div style="display:flex; gap:15px; margin-bottom:20px;">
-                <input type="text" id="v-url" placeholder="Cole a URL do vídeo do YouTube aqui..." style="flex:1">
-                <button class="btn-add" onclick="playVideo()">CARREGAR PLAYER</button>
-            </div>
-            <div id="player-container" style="display:none; border-radius:10px; overflow:hidden; border:2px solid var(--border);">
-                <iframe id="video-frame" width="100%" height="450" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-
-        <div class="input-box">
-            <div style="display:flex; flex-direction:column; gap:5px;">
-                <label style="font-size:0.6rem; font-weight:bold; opacity:0.5;">TÍTULO</label>
-                <input type="text" id="t" placeholder="Ex: Documentação API">
-            </div>
-            <div style="display:flex; flex-direction:column; gap:5px;">
-                <label style="font-size:0.6rem; font-weight:bold; opacity:0.5;">ENDEREÇO URL</label>
-                <input type="text" id="u" placeholder="https://...">
-            </div>
-            <div style="display:flex; flex-direction:column; gap:5px;">
-                <label style="font-size:0.6rem; font-weight:bold; opacity:0.5;">CATEGORIA</label>
-                <input type="text" id="c" placeholder="Geral" list="cat-suggestions">
-                <datalist id="cat-suggestions"></datalist>
-            </div>
-            <div style="display:flex; align-items:flex-end;">
-                <button class="btn-add" onclick="add()">ARMAZENAR NO VAULT</button>
-            </div>
-        </div>
-
-        <div id="filters" style="margin-bottom:30px; display:flex; gap:10px; flex-wrap:wrap;"></div>
-
-        <div class="grid" id="list"></div>
     </main>
 
     <script>
-        const DB_KEY = 'vault_titan_v17_db';
+        const DB_KEY = 'titan_vault_db_v18';
+        const TXT_KEY = 'titan_txt_db_v18';
         let myChart = null;
         let currentFilter = 'all';
+        let currentTab = 'tab-vault';
         let audioCtx = null;
         let noiseNode = null;
-        let nebulaParticles = [];
+        let openTxtId = null;
 
-        // --- MOTOR DE ÁUDIO BINAURAL ---
-        function toggleAmbientSound(active) {
-            if (active) {
-                try {
-                    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const bufferSize = 2 * audioCtx.sampleRate;
-                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                    const output = buffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-
-                    noiseNode = audioCtx.createBufferSource();
-                    noiseNode.buffer = buffer;
-                    noiseNode.loop = true;
-                    
-                    const filter = audioCtx.createBiquadFilter();
-                    filter.type = 'lowpass';
-                    filter.frequency.value = 300; 
-
-                    const gain = audioCtx.createGain();
-                    gain.gain.value = 0.05; 
-
-                    noiseNode.connect(filter);
-                    filter.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    noiseNode.start();
-                } catch(e) { console.error("Audio engine failed to start."); }
-            } else {
-                if (noiseNode) { noiseNode.stop(); noiseNode = null; }
-            }
-        }
-
-        // --- MOTOR GRÁFICO NEBULOSA ---
+        // --- MOTOR GRÁFICO (NEBULOSA V17 EXPANDIDA) ---
         const canvas = document.getElementById('nebula-canvas');
         const ctx = canvas.getContext('2d');
+        let particles = [];
 
         function initNebula() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            nebulaParticles = [];
-            const count = 200; // Densidade aumentada
-            for (let i = 0; i < count; i++) {
-                nebulaParticles.push({
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            particles = [];
+            for(let i=0; i<250; i++) {
+                particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 3 + 0.5,
-                    speed: Math.random() * 0.5 + 0.1,
+                    size: Math.random() * 2.5 + 0.2,
+                    speed: Math.random() * 0.4 + 0.1,
                     opacity: Math.random(),
                     drift: Math.random() * 2 - 1
                 });
             }
         }
 
-        function animateNebula() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
             const accent = getComputedStyle(document.body).getPropertyValue('--acc').trim();
             ctx.fillStyle = accent;
-            
-            nebulaParticles.forEach(p => {
+            particles.forEach(p => {
                 p.y -= p.speed;
-                p.x += Math.sin(p.y / 50) * 0.5; // Efeito de flutuação lateral
-                
-                if (p.y < 0) {
-                    p.y = canvas.height;
-                    p.x = Math.random() * canvas.width;
-                }
-                
+                p.x += Math.sin(p.y / 60) * 0.3;
+                if(p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
                 ctx.globalAlpha = p.opacity;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
             });
-            requestAnimationFrame(animateNebula);
+            requestAnimationFrame(animate);
         }
 
-        // --- CORE DATABASE FUNCTIONS ---
+        // --- SISTEMA DE ABAS ---
+        function switchTab(id) {
+            currentTab = id;
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            document.getElementById('btn-vault').classList.toggle('active', id === 'tab-vault');
+            document.getElementById('btn-docs').classList.toggle('active', id === 'tab-docs');
+
+            if(id === 'tab-docs') loadTxtLibrary();
+            else load();
+        }
+
+        // --- GESTÃO DE DOCUMENTOS TXT ---
+        function processTxtImport(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+                db.push({
+                    id: Date.now().toString(),
+                    name: file.name,
+                    content: ev.target.result,
+                    date: new Date().toLocaleString()
+                });
+                localStorage.setItem(TXT_KEY, JSON.stringify(db));
+                addLog(`DOCUMENTO IMPORTADO: ${file.name}`);
+                switchTab('tab-docs');
+            };
+            reader.readAsText(file);
+        }
+
+        function loadTxtLibrary() {
+            const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+            const container = document.getElementById('txt-list-container');
+            container.innerHTML = db.map(f => `
+                <div class="txt-card" onclick="openTxtViewer('${f.id}')">
+                    <i class="fas fa-file-code"></i>
+                    <h5>${f.name}</h5>
+                    <p class="txt-meta">MODIFICADO EM: ${f.date}</p>
+                    <button onclick="event.stopPropagation(); deleteTxt('${f.id}')" style="margin-top:15px; background:none; border:none; color:#ff4757; cursor:pointer; font-weight:bold; font-size:0.7rem;">[ELIMINAR]</button>
+                </div>
+            `).join('');
+        }
+
+        function openTxtViewer(id) {
+            const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+            const file = db.find(f => f.id === id);
+            if(file) {
+                openTxtId = id;
+                document.getElementById('current-txt-name').innerText = file.name;
+                document.getElementById('txt-editor-area').value = file.content;
+                document.getElementById('txt-viewer-overlay').style.display = 'flex';
+                addLog(`VISUALIZANDO: ${file.name}`);
+            }
+        }
+
+        function closeTxtViewer() {
+            // Auto-save ao fechar
+            const content = document.getElementById('txt-editor-area').value;
+            const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+            const idx = db.findIndex(f => f.id === openTxtId);
+            if(idx !== -1) {
+                db[idx].content = content;
+                db[idx].date = new Date().toLocaleString();
+                localStorage.setItem(TXT_KEY, JSON.stringify(db));
+            }
+            document.getElementById('txt-viewer-overlay').style.display = 'none';
+            loadTxtLibrary();
+        }
+
+        function saveAndDownloadTxt() {
+            const content = document.getElementById('txt-editor-area').value;
+            const name = document.getElementById('current-txt-name').innerText;
+            const blob = new Blob([content], {type: 'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = name;
+            a.click();
+        }
+
+        function deleteTxt(id) {
+            if(confirm("DELETAR ESTE DOCUMENTO DO TITAN?")) {
+                let db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+                db = db.filter(f => f.id !== id);
+                localStorage.setItem(TXT_KEY, JSON.stringify(db));
+                loadTxtLibrary();
+            }
+        }
+
+        // --- CORE VAULT ENGINE (LINKS) ---
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             const term = document.getElementById('search-input').value.toLowerCase();
             
-            // Log de acesso
-            const log = document.getElementById('access-log');
-            const now = new Date();
-            log.innerHTML = `> LAST_SYNC: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}<br>` + log.innerHTML;
-            if(log.innerHTML.length > 500) log.innerHTML = log.innerHTML.substring(0, 500);
-
-            // Contador e Barra
             document.getElementById('totalCounter').innerText = data.length;
             document.getElementById('storage-bar').style.width = Math.min(data.length * 2, 100) + '%';
 
             const filtered = data.filter(l => {
-                const matchSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term) || l.cat.toLowerCase().includes(term);
-                const matchCat = currentFilter === 'all' || l.cat === currentFilter;
-                return matchSearch && matchCat;
+                const mSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term);
+                const mCat = currentFilter === 'all' || l.cat === currentFilter;
+                return mSearch && mCat;
             });
 
-            const listEl = document.getElementById('list');
-            listEl.innerHTML = filtered.map(l => `
+            document.getElementById('list').innerHTML = filtered.map(l => `
                 <div class="item">
                     <div class="item-info">
-                        <h4>${l.title} <span class="item-cat">${l.cat}</span></h4>
-                        <p>${l.url}</p>
+                        <h4 style="color:var(--acc); margin-bottom:5px;">${l.title} <span style="font-size:0.6rem; background:#222; padding:3px 8px; border-radius:3px; margin-left:10px; color:#fff;">${l.cat}</span></h4>
+                        <p style="font-size:0.8rem; opacity:0.5;">${l.url}</p>
                     </div>
-                    <div style="display:flex; gap:15px; align-items:center;">
-                        <i class="fas fa-external-link-alt" style="cursor:pointer; opacity:0.7;" onclick="window.open('${l.url}', '_blank')"></i>
-                        <i class="fas fa-qrcode" style="cursor:pointer; opacity:0.7;" onclick="showQR('${l.url}')"></i>
-                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; cursor:pointer; border-radius:4px; font-size:0.6rem; padding:5px 10px;">DELETAR</button>
+                    <div style="display:flex; gap:20px; align-items:center;">
+                        <i class="fas fa-external-link-alt" style="cursor:pointer; font-size:1.2rem;" onclick="window.open('${l.url}','_blank')"></i>
+                        <i class="fas fa-qrcode" style="cursor:pointer; font-size:1.2rem;" onclick="showQR('${l.url}')"></i>
+                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.7rem;">DELETAR</button>
                     </div>
                 </div>
             `).reverse().join('');
 
             updateChart(data);
             renderFilters(data);
-            document.getElementById('notes').value = localStorage.getItem('vault_titan_notes') || '';
+            document.getElementById('notes').value = localStorage.getItem('titan_notes_v18') || '';
         }
 
         function add() {
-            const t = document.getElementById('t').value;
-            const u = document.getElementById('u').value;
-            const c = document.getElementById('c').value || 'Geral';
-            if(!u) return alert("URL é obrigatória!");
-
+            const u = document.getElementById('u').value; if(!u) return alert("URL NECESSÁRIA");
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             db.push({
                 id: Date.now().toString(),
-                title: t || 'Sem Título',
+                title: document.getElementById('t').value || 'Link s/ Título',
                 url: u.startsWith('http') ? u : 'https://' + u,
-                cat: c,
-                date: new Date().toISOString()
+                cat: document.getElementById('c').value || 'Geral'
             });
-
             localStorage.setItem(DB_KEY, JSON.stringify(db));
-            document.getElementById('t').value = '';
-            document.getElementById('u').value = '';
+            document.getElementById('t').value=''; document.getElementById('u').value='';
+            addLog("REGISTRO ADICIONADO AO VAULT");
             load();
         }
 
-        function del(id) {
-            if(confirm("Confirmar exclusão definitiva do registro?")) {
-                let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-                db = db.filter(item => item.id !== id);
-                localStorage.setItem(DB_KEY, JSON.stringify(db));
-                load();
-            }
+        function del(id) { if(confirm("ELIMINAR REGISTRO?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]'); db = db.filter(i=>i.id!==id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
+
+        // --- MOTOR SENSORIAL (ÁUDIO E FOCO) ---
+        function toggleAmbientSound(active) {
+            if (active) {
+                try {
+                    if (!audioCtx) audioCtx = new AudioContext();
+                    const bufferSize = 2 * audioCtx.sampleRate, buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+                    noiseNode = audioCtx.createBufferSource();
+                    noiseNode.buffer = buffer; noiseNode.loop = true;
+                    const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 350;
+                    const gain = audioCtx.createGain(); gain.gain.value = 0.04;
+                    noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+                    noiseNode.start();
+                } catch(e) {}
+            } else if (noiseNode) { noiseNode.stop(); noiseNode = null; }
         }
 
-        // --- UI E INTERATIVIDADE ---
         function toggleFocus() {
-            const body = document.body;
-            const isZen = body.classList.toggle('focus-mode');
-            
-            if (isZen) {
-                toggleAmbientSound(true);
-                document.getElementById('main-title').innerText = "ZEN_MODE_PROTOCOL_ACTIVE";
-            } else {
-                toggleAmbientSound(false);
-                document.getElementById('main-title').innerText = "VAULT_TITAN_ARCHITECT_V17";
-            }
+            const isZen = document.body.classList.toggle('focus-mode');
+            toggleAmbientSound(isZen);
+            document.getElementById('main-title').innerText = isZen ? "TITAN_ZEN_PROTOCOL" : "VAULT_TITAN_V18";
+        }
+
+        // --- UTILITÁRIOS ---
+        function addLog(msg) {
+            const log = document.getElementById('access-log');
+            log.innerHTML = `> [${new Date().toLocaleTimeString()}] ${msg}<br>` + log.innerHTML;
         }
 
         function goHome() {
             currentFilter = 'all';
             document.getElementById('search-input').value = '';
-            document.getElementById('apps-container').style.display = 'none';
-            document.getElementById('video-section').style.display = 'none';
             if(document.body.classList.contains('focus-mode')) toggleFocus();
-            load();
+            switchTab('tab-vault');
         }
 
-        function toggleSection(id) {
-            const el = document.getElementById(id);
-            const display = window.getComputedStyle(el).display;
-            el.style.display = (display === 'none') ? (id === 'apps-container' ? 'block' : 'block') : 'none';
-        }
-
-        function changeTheme(theme) {
-            document.body.className = theme;
-            load();
-        }
-
-        function saveNotes() {
-            localStorage.setItem('vault_titan_notes', document.getElementById('notes').value);
-        }
-
-        function showQR(url) {
-            const container = document.getElementById('qr-container');
-            container.innerHTML = "";
-            new QRCode(container, { text: url, width: 200, height: 200 });
-            document.getElementById('qr-modal').style.display = 'flex';
-        }
-
+        function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display==='none'||s.style.display==='')?'block':'none'; }
+        
+        function changeTheme(t) { document.body.className = t; load(); }
+        
+        function saveNotes() { localStorage.setItem('titan_notes_v18', document.getElementById('notes').value); }
+        
+        function showQR(u) { const c = document.getElementById('qr-container'); c.innerHTML=""; new QRCode(c, {text:u, width:250, height:250}); document.getElementById('qr-modal').style.display='flex'; }
+        
         function playVideo() {
-            const url = document.getElementById('v-url').value;
-            let videoId = "";
-            if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
-            else if (url.includes("be/")) videoId = url.split("be/")[1];
-
-            if (videoId) {
-                document.getElementById('video-frame').src = `https://www.youtube.com/embed/${videoId}`;
-                document.getElementById('player-container').style.display = 'block';
-            }
+            const u = document.getElementById('v-url').value;
+            const id = u.includes('v=') ? u.split('v=')[1].split('&')[0] : u.split('be/')[1];
+            if(id) { document.getElementById('v-frame').src=`https://www.youtube.com/embed/${id}`; document.getElementById('player-wrap').style.display='block'; }
         }
 
         function updateChart(data) {
-            const cats = {};
-            data.forEach(item => cats[item.cat] = (cats[item.cat] || 0) + 1);
-            
-            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const cats = {}; data.forEach(i => cats[i.cat] = (cats[i.cat] || 0) + 1);
+            const ctxC = document.getElementById('mainChart').getContext('2d');
             if(myChart) myChart.destroy();
-            
-            const accentColor = getComputedStyle(document.body).getPropertyValue('--acc').trim();
-
-            myChart = new Chart(ctx, {
+            myChart = new Chart(ctxC, {
                 type: 'bar',
-                data: {
-                    labels: Object.keys(cats),
-                    datasets: [{
-                        label: 'Registros',
-                        data: Object.values(cats),
-                        backgroundColor: accentColor,
-                        borderColor: accentColor,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { beginAtZero: true, ticks: { color: '#888' }, grid: { color: '#222' } },
-                        x: { ticks: { color: '#888' }, grid: { display: false } }
-                    },
-                    plugins: { legend: { display: false } }
-                }
+                data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#222' } }, x: { grid: { display: false } } } }
             });
         }
 
         function renderFilters(data) {
             const cats = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('cat-suggestions').innerHTML = cats.filter(c => c !== 'all').map(c => `<option value="${c}">`).join('');
-            
-            document.getElementById('filters').innerHTML = cats.map(c => `
-                <button onclick="currentFilter='${c}';load()" class="btn-tool" style="
-                    background: ${currentFilter === c ? 'var(--acc)' : 'transparent'};
-                    color: ${currentFilter === c ? '#000' : 'var(--acc)'};
-                ">${c}</button>
-            `).join('');
+            document.getElementById('cat-list').innerHTML = cats.filter(c=>c!=='all').map(c=>`<option value="${c}">`).join('');
+            document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c}</button>`).join('');
         }
 
         function exportData() {
-            const data = localStorage.getItem(DB_KEY);
-            const blob = new Blob([data], {type: 'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `VAULT_TITAN_BACKUP_${new Date().getTime()}.json`;
-            a.click();
+            const data = { links: localStorage.getItem(DB_KEY), docs: localStorage.getItem(TXT_KEY), notes: localStorage.getItem('titan_notes_v18') };
+            const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `TITAN_MASTER_BACKUP.json`; a.click();
         }
 
-        function importData(e) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                localStorage.setItem(DB_KEY, event.target.result);
-                load();
-                alert("DATABASE SINCRONIZADA COM SUCESSO!");
-            };
-            reader.readAsText(e.target.files[0]);
-        }
-
-        // --- STARTUP ---
+        // --- INICIALIZAÇÃO ---
         window.onload = () => {
             initNebula();
-            animateNebula();
+            animate();
             load();
+            addLog("SISTEMA TITAN INICIALIZADO");
         };
         window.onresize = initNebula;
     </script>
