@@ -2,95 +2,109 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GOD DEV | Vault de Elite</title>
+    <title>GOD DEV | Vault Multi-Task</title>
     <style>
         :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; --border: #333; }
         body { background: var(--bg); color: var(--txt); font-family: 'JetBrains Mono', monospace; padding: 20px; display: flex; justify-content: center; transition: 0.5s; }
         .container { width: 100%; max-width: 900px; }
         
-        header { border-bottom: 2px solid var(--acc); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        h1 { font-size: 1.5rem; margin: 0; color: var(--acc); text-shadow: 0 0 10px rgba(0,255,65,0.3); }
+        header { border-bottom: 2px solid var(--acc); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        h1 { font-size: 1.5rem; color: var(--acc); text-shadow: 0 0 10px rgba(0,255,65,0.3); }
 
-        .controls { display: flex; gap: 10px; align-items: center; }
-        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 5px 12px; cursor: pointer; font-size: 0.7rem; border-radius: 3px; text-transform: uppercase; }
+        .controls { display: flex; gap: 8px; }
+        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 6px 12px; cursor: pointer; font-size: 0.7rem; border-radius: 4px; text-transform: uppercase; }
         .btn-tool:hover { background: var(--acc); color: #000; }
 
-        /* MODO FOCO */
-        .focus-mode .input-box, .focus-mode header .controls, .focus-mode .filter-section { display: none !important; }
-        .focus-mode header { border-bottom: 1px solid #222; justify-content: center; }
+        /* MODO FOCO DINÂMICO */
+        .focus-mode .input-box, .focus-mode .controls, .focus-mode .filter-section, .focus-mode .video-section { display: none !important; }
+        .focus-mode header { justify-content: center; border-color: #222; }
+        #exit-focus { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: #ff4444; color: #fff; border: none; padding: 15px; border-radius: 50%; cursor: pointer; box-shadow: 0 0 20px rgba(255,68,68,0.4); font-weight: bold; }
+        .focus-mode #exit-focus { display: block; }
+
+        /* CENTRAL DE VÍDEO */
+        .video-section { background: var(--surf); border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: none; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-top: 15px; border-radius: 4px; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
         .input-box { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
-        input, select { background: #000; border: 1px solid var(--border); padding: 12px; color: var(--acc); outline: none; border-radius: 4px; font-family: inherit; }
+        input { background: #000; border: 1px solid var(--border); padding: 12px; color: var(--acc); outline: none; border-radius: 4px; font-family: inherit; }
         
-        .btn-add { background: var(--acc); color: #000; border: none; padding: 0 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        .btn-add:hover { box-shadow: 0 0 20px var(--acc); }
+        .btn-add { background: var(--acc); color: #000; border: none; padding: 0 20px; font-weight: bold; cursor: pointer; border-radius: 4px; }
 
-        .filter-section { margin-bottom: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
+        .filter-section { margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.75rem; }
         .filter-btn.active { background: var(--acc); color: #000; border-color: var(--acc); }
 
-        .grid { display: grid; gap: 12px; }
-        .item { background: var(--surf); padding: 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); }
-        .item-info strong { color: var(--acc); font-size: 1.1rem; display: block; }
-        .tag { display: inline-block; background: #222; color: #aaa; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; margin-top: 5px; }
+        .grid { display: grid; gap: 10px; }
+        .item { background: var(--surf); padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--acc); }
+        .item-info strong { color: var(--acc); display: block; }
         
-        .actions { display: flex; gap: 10px; align-items: center; }
-        .qr-icon { cursor: pointer; font-size: 1.2rem; filter: grayscale(1); transition: 0.3s; }
-        .qr-icon:hover { filter: grayscale(0); transform: scale(1.2); }
-        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 5px 12px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
+        .actions { display: flex; gap: 12px; align-items: center; }
+        .qr-icon { cursor: pointer; font-size: 1.1rem; filter: grayscale(1); }
+        .qr-icon:hover { filter: grayscale(0); }
+        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 0.7rem; }
 
-        /* MODAL QR */
         #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:999; flex-direction:column; }
-        #qr-container { background: white; padding: 20px; border-radius: 10px; }
+        #qr-container { background: white; padding: 15px; border-radius: 8px; }
     </style>
 </head>
-<body>
+<body id="body">
+
+    <button id="exit-focus" onclick="toggleFocus()">SAIR DO FOCO</button>
 
     <div id="qr-modal" onclick="this.style.display='none'">
         <div id="qr-container"></div>
-        <p style="margin-top:20px; color:var(--acc)">CLIQUE PARA FECHAR</p>
+        <p style="margin-top:15px; color:var(--acc)">TOQUE PARA VOLTAR</p>
     </div>
 
-    <div class="container" id="main-container">
+    <div class="container">
         <header>
-            <h1 onclick="toggleFocus()" style="cursor:pointer" title="Clique para Modo Foco">VAULT_ELITE_SYSTEM</h1>
+            <h1>VAULT_TERMINAL</h1>
             <div class="controls">
-                <button class="btn-tool" onclick="toggleFocus()">Modo Foco</button>
+                <button class="btn-tool" onclick="toggleVideoSection()">Vídeo Player</button>
+                <button class="btn-tool" onclick="toggleFocus()">Foco</button>
                 <button class="btn-tool" onclick="exportData()">Backup</button>
                 <button class="btn-tool" onclick="document.getElementById('fileInput').click()">Importar</button>
-                <input type="file" id="fileInput" onchange="importData(event)" accept=".json">
+                <input type="file" id="fileInput" onchange="importData(event)" accept=".json" style="display:none">
             </div>
         </header>
+
+        <div class="video-section" id="video-section">
+            <div style="display:flex; gap:10px">
+                <input type="text" id="v-url" placeholder="URL do Vídeo (YouTube)" style="flex:1">
+                <button class="btn-add" onclick="playVideo()">CARREGAR</button>
+            </div>
+            <div id="player" class="video-container" style="display:none">
+                <iframe id="video-frame" src="" allowfullscreen></iframe>
+            </div>
+        </div>
 
         <div class="input-box">
             <input type="text" id="t" placeholder="Título">
             <input type="text" id="u" placeholder="URL">
             <input type="text" id="c" placeholder="Categoria" list="cat-list">
             <datalist id="cat-list"></datalist>
-            <button class="btn-add" onclick="add()">ARMAZENAR</button>
+            <button class="btn-add" onclick="add()">SALVAR</button>
         </div>
 
         <div class="filter-section" id="filters"></div>
-
         <div id="list" class="grid"></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-        const DB_KEY = 'god_dev_vault_v4';
+        const DB_KEY = 'god_dev_vault_v5';
         let currentFilter = 'all';
 
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             renderFilters(data);
-            const filteredData = currentFilter === 'all' ? data : data.filter(l => l.cat === currentFilter);
-
-            document.getElementById('list').innerHTML = filteredData.map(l => `
+            const filtered = currentFilter === 'all' ? data : data.filter(l => l.cat === currentFilter);
+            document.getElementById('list').innerHTML = filtered.map(l => `
                 <div class="item">
                     <div class="item-info">
                         <strong>${l.title}</strong>
-                        <a href="${l.url}" target="_blank" style="color:#eee; text-decoration:none; font-size:0.8rem; opacity:0.7;">${l.url}</a>
-                        <br><span class="tag">${l.cat}</span>
+                        <a href="${l.url}" target="_blank" style="color:#888; text-decoration:none; font-size:0.75rem;">${l.url}</a>
                     </div>
                     <div class="actions">
                         <span class="qr-icon" onclick="showQR('${l.url}')">📱</span>
@@ -105,7 +119,6 @@
             const u = document.getElementById('u').value;
             const c = document.getElementById('c').value || 'Geral';
             if(!u) return;
-
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             db.push({ id: Date.now().toString(), title: t, url: u.startsWith('http') ? u : 'https://'+u, cat: c });
             localStorage.setItem(DB_KEY, JSON.stringify(db));
@@ -113,50 +126,61 @@
             load();
         }
 
+        /* LÓGICA DE VÍDEO */
+        function toggleVideoSection() {
+            const s = document.getElementById('video-section');
+            s.style.display = s.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function playVideo() {
+            let url = document.getElementById('v-url').value;
+            if(!url) return;
+            let videoId = "";
+            if(url.includes('v=')) videoId = url.split('v=')[1].split('&')[0];
+            else if(url.includes('be/')) videoId = url.split('be/')[1];
+            
+            if(videoId) {
+                document.getElementById('video-frame').src = `https://www.youtube.com/embed/${videoId}`;
+                document.getElementById('player').style.display = 'block';
+            } else {
+                alert("Por favor, use uma URL válida do YouTube.");
+            }
+        }
+
+        function toggleFocus() { document.body.classList.toggle('focus-mode'); }
         function showQR(url) {
             const container = document.getElementById('qr-container');
             container.innerHTML = "";
-            new QRCode(container, { text: url, width: 200, height: 200 });
+            new QRCode(container, { text: url, width: 180, height: 180 });
             document.getElementById('qr-modal').style.display = 'flex';
         }
-
-        function toggleFocus() {
-            document.body.classList.toggle('focus-mode');
-        }
-
         function del(id) {
-            if(!confirm("Eliminar registro?")) return;
-            let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db = db.filter(l => l.id !== id);
-            localStorage.setItem(DB_KEY, JSON.stringify(db));
-            load();
+            if(confirm("Eliminar?")) {
+                let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+                db = db.filter(l => l.id !== id);
+                localStorage.setItem(DB_KEY, JSON.stringify(db));
+                load();
+            }
         }
-
         function filterBy(cat) { currentFilter = cat; load(); }
-
         function renderFilters(data) {
             const categories = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('filters').innerHTML = '<span>FILTRO:</span>' + categories.map(c => `
+            document.getElementById('filters').innerHTML = categories.map(c => `
                 <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="filterBy('${c}')">
                     ${c.toUpperCase()}
                 </button>
             `).join('');
         }
-
         function exportData() {
-            const blob = new Blob([localStorage.getItem(DB_KEY)], {type: 'application/json'});
             const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `vault_backup.json`;
-            a.click();
+            a.href = URL.createObjectURL(new Blob([localStorage.getItem(DB_KEY)], {type: 'application/json'}));
+            a.download = `backup_vault.json`; a.click();
         }
-
         function importData(e) {
             const reader = new FileReader();
             reader.onload = (event) => { localStorage.setItem(DB_KEY, event.target.result); load(); };
             reader.readAsText(e.target.files[0]);
         }
-
         load();
     </script>
 </body>
