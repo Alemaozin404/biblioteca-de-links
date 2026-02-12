@@ -2,123 +2,158 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GOD DEV | Vault Supremo 0.2.0</title>
+    <title>GOD DEV | Vault Pro</title>
     <style>
-        :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; }
-        body { background: var(--bg); color: var(--txt); font-family: 'Consolas', monospace; padding: 40px; }
-        .container { max-width: 900px; margin: auto; }
-        header { border-bottom: 2px solid var(--acc); padding-bottom: 10px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .input-box { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 4px; border: 1px solid #222; }
-        input { background: #000; border: 1px solid #333; padding: 12px; color: var(--acc); outline: none; border-radius: 4px; }
-        button { background: var(--acc); color: #000; border: none; padding: 12px 20px; font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 4px; }
-        button:hover { box-shadow: 0 0 15px var(--acc); transform: translateY(-2px); }
-        .btn-secondary { background: #222; color: var(--acc); border: 1px solid var(--acc); margin-left: 10px; padding: 8px 15px; font-size: 0.8rem; }
-        .grid { display: grid; gap: 10px; margin-top: 30px; }
-        .item { background: var(--surf); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); border-radius: 4px; transition: 0.2s; }
-        .item:hover { background: #1a1a1a; }
-        .item-info a { color: var(--txt); text-decoration: none; font-size: 1.1rem; font-weight: bold; }
-        .item-info a:hover { color: var(--acc); }
-        .item-info small { color: #888; display: block; margin-top: 5px; }
-        .del { color: #ff4444; cursor: pointer; background: none; border: 1px solid #ff4444; padding: 5px 10px; border-radius: 4px; }
-        .del:hover { background: #ff4444; color: white; }
+        :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; --border: #333; }
+        body { background: var(--bg); color: var(--txt); font-family: 'JetBrains Mono', monospace; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 900px; }
+        
+        header { border-bottom: 2px solid var(--acc); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        h1 { font-size: 1.5rem; margin: 0; color: var(--acc); }
+
+        .controls { display: flex; gap: 10px; }
+        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 5px 12px; cursor: pointer; font-size: 0.7rem; border-radius: 3px; text-transform: uppercase; }
+        .btn-tool:hover { background: var(--acc); color: #000; }
+
+        .input-box { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
+        input, select { background: #000; border: 1px solid var(--border); padding: 12px; color: var(--acc); outline: none; border-radius: 4px; font-family: inherit; }
+        input:focus { border-color: var(--acc); }
+        
+        .btn-add { background: var(--acc); color: #000; border: none; padding: 0 25px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+        .btn-add:hover { box-shadow: 0 0 20px var(--acc); transform: scale(1.02); }
+
+        .filter-section { margin-bottom: 20px; display: flex; align-items: center; gap: 15px; font-size: 0.9rem; color: #888; }
+        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 5px 15px; border-radius: 20px; cursor: pointer; }
+        .filter-btn.active { background: var(--acc); color: #000; border-color: var(--acc); }
+
+        .grid { display: grid; gap: 12px; }
+        .item { background: var(--surf); padding: 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); transition: 0.2s; }
+        .item:hover { border-left-width: 10px; background: #1a1a1a; }
+        .item-info strong { color: var(--acc); font-size: 1.1rem; display: block; }
+        .item-info small { color: #666; font-size: 0.8rem; }
+        .tag { display: inline-block; background: #222; color: #aaa; font-size: 0.6rem; padding: 2px 8px; border-radius: 10px; margin-top: 5px; border: 1px solid #444; }
+        
+        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 5px 12px; cursor: pointer; border-radius: 4px; }
+        .del-btn:hover { background: #ff4444; color: #fff; }
+        
         #fileInput { display: none; }
+        @media (max-width: 700px) { .input-box { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>SYSTEM: LINK_VAULT</h1>
-            <div>
-                <button class="btn-secondary" onclick="exportBackup()">EXPORTAR BACKUP</button>
-                <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">IMPORTAR</button>
-                <input type="file" id="fileInput" onchange="importBackup(event)" accept=".json">
+            <h1>VAULT_PRO_V3</h1>
+            <div class="controls">
+                <button class="btn-tool" onclick="exportData()">Exportar</button>
+                <button class="btn-tool" onclick="document.getElementById('fileInput').click()">Importar</button>
+                <input type="file" id="fileInput" onchange="importData(event)" accept=".json">
             </div>
         </header>
 
         <div class="input-box">
-            <input type="text" id="t" placeholder="Identificador (Ex: Dashboard)">
-            <input type="text" id="u" placeholder="URL (ex: google.com)">
-            <button onclick="add()">ARMAZENAR</button>
+            <input type="text" id="t" placeholder="Nome do Site">
+            <input type="text" id="u" placeholder="URL (google.com)">
+            <input type="text" id="c" placeholder="Categoria (ex: Estudos)" list="cat-list">
+            <datalist id="cat-list"></datalist>
+            <button class="btn-add" onclick="add()">SALVAR</button>
+        </div>
+
+        <div class="filter-section" id="filters">
+            <span>Filtrar:</span>
+            <button class="filter-btn active" onclick="filterBy('all')">Tudo</button>
         </div>
 
         <div id="list" class="grid"></div>
     </div>
 
     <script>
-        const DB_KEY = 'vault_links_db';
+        const DB_KEY = 'god_dev_vault_v3';
+        let currentFilter = 'all';
 
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            const listElement = document.getElementById('list');
-            listElement.innerHTML = data.map(l => `
+            renderFilters(data);
+            
+            const filteredData = currentFilter === 'all' 
+                ? data 
+                : data.filter(l => l.cat === currentFilter);
+
+            document.getElementById('list').innerHTML = filteredData.map(l => `
                 <div class="item">
                     <div class="item-info">
-                        <a href="${l.url}" target="_blank">${l.title}</a>
-                        <small>${l.url}</small>
+                        <strong>${l.title}</strong>
+                        <a href="${l.url}" target="_blank" style="color:#eee; text-decoration:none; font-size:0.85rem;">${l.url}</a>
+                        <br><span class="tag">${l.cat}</span>
                     </div>
-                    <button class="del" onclick="del('${l.id}')">APAGAR</button>
+                    <button class="del-btn" onclick="del('${l.id}')">APAGAR</button>
                 </div>
             `).reverse().join('');
         }
 
+        function renderFilters(data) {
+            const categories = ['all', ...new Set(data.map(l => l.cat))];
+            const datalist = document.getElementById('cat-list');
+            datalist.innerHTML = categories.filter(c => c !== 'all').map(c => `<option value="${c}">`).join('');
+
+            const filterContainer = document.getElementById('filters');
+            filterContainer.innerHTML = '<span>Filtrar:</span>' + categories.map(c => `
+                <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="filterBy('${c}')">
+                    ${c === 'all' ? 'Tudo' : c}
+                </button>
+            `).join('');
+        }
+
         function add() {
-            const t = document.getElementById('t').value;
+            const t = document.getElementById('t').value || 'Link';
             const u = document.getElementById('u').value;
-            if(!u) return alert("Soberano, a URL é obrigatória.");
+            const c = document.getElementById('c').value || 'Geral';
+            if(!u) return;
 
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            const newItem = {
+            db.push({
                 id: Date.now().toString(),
-                title: t || 'Link Sem Nome',
-                url: u.startsWith('http') ? u : 'https://' + u
-            };
+                title: t,
+                url: u.startsWith('http') ? u : 'https://' + u,
+                cat: c
+            });
 
-            db.push(newItem);
             localStorage.setItem(DB_KEY, JSON.stringify(db));
             document.getElementById('t').value = '';
             document.getElementById('u').value = '';
+            document.getElementById('c').value = '';
             load();
         }
 
         function del(id) {
-            if(!confirm("Deseja eliminar este registro, meu Senhor?")) return;
+            if(!confirm("Deseja deletar?")) return;
             let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             db = db.filter(l => l.id !== id);
             localStorage.setItem(DB_KEY, JSON.stringify(db));
             load();
         }
 
-        // --- FUNÇÕES DE SOBERANIA DE DADOS ---
-        function exportBackup() {
+        function filterBy(cat) {
+            currentFilter = cat;
+            load();
+        }
+
+        function exportData() {
             const data = localStorage.getItem(DB_KEY);
-            if(!data || data === '[]') return alert("O Vault está vazio, meu Senhor.");
-            
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
+            const blob = new Blob([data], {type: 'application/json'});
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `vault_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.href = URL.createObjectURL(blob);
+            a.download = `vault_backup.json`;
             a.click();
         }
 
-        function importBackup(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
+        function importData(e) {
             const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (Array.isArray(importedData)) {
-                        localStorage.setItem(DB_KEY, JSON.stringify(importedData));
-                        load();
-                        alert("Backup restaurado com sucesso!");
-                    }
-                } catch (err) {
-                    alert("Erro ao ler o arquivo de backup.");
-                }
+            reader.onload = (event) => {
+                localStorage.setItem(DB_KEY, event.target.result);
+                load();
             };
-            reader.readAsText(file);
+            reader.readAsText(e.target.files[0]);
         }
 
         load();
