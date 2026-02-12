@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD DEV | VAULT SUPREMO V14 - THE ARCHITECT</title>
+    <title>GOD DEV | VAULT SUPREMO V15 - NAVIGATION</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -11,20 +11,16 @@
     
     <style>
         /* ---------------------------------------------------------
-           1. TEMAS E SISTEMA DE CORES (PRESERVAÇÃO TOTAL)
+           1. TEMAS E SISTEMA DE CORES
         ------------------------------------------------------------ */
         :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; --border: #333; }
         .theme-oficial { --bg: #eef2f7; --acc: #74b9ff; --surf: #ffffff; --txt: #2d3436; --border: #dcdde1; } 
         .theme-cyberpunk { --bg: #0d0221; --acc: #ff007f; --surf: #190e3a; --txt: #00f0ff; --border: #5a189a; }
-        .theme-deepsea { --bg: #001219; --acc: #00b4d8; --surf: #002838; --txt: #caf0f8; --border: #005f73; }
-        .theme-sunset { --bg: #2d132c; --acc: #ff4e50; --surf: #801336; --txt: #f9d423; --border: #c72c41; }
-        .theme-forest { --bg: #1a1c1a; --acc: #79d70f; --surf: #2b2e2b; --txt: #f0fff0; --border: #4e544e; }
-        .theme-minimal { --bg: #f4f4f9; --acc: #2d3436; --surf: #fff; --txt: #2d3436; --border: #dfe6e9; }
         .theme-gold { --bg: #1a1a1a; --acc: #d4af37; --surf: #2a2a2a; --txt: #f1f1f1; --border: #aa841e; }
         .theme-ruby { --bg: #1a0505; --acc: #e63946; --surf: #2d0a0a; --txt: #f1faee; --border: #a8222e; }
 
         /* ---------------------------------------------------------
-           2. ESTRUTURA E LAYOUT (ORGANIZAÇÃO V1)
+           2. ESTRUTURA E LAYOUT
         ------------------------------------------------------------ */
         body { 
             background: var(--bg); 
@@ -32,12 +28,11 @@
             font-family: 'JetBrains Mono', monospace; 
             margin: 0; 
             display: flex; 
-            transition: background 0.5s ease; 
+            transition: 0.5s; 
             height: 100vh; 
             overflow: hidden; 
         }
         
-        /* SIDEBAR SCRAPBOOK */
         #scrapbook { 
             width: 280px; 
             background: var(--surf); 
@@ -46,33 +41,12 @@
             display: flex; 
             flex-direction: column; 
             z-index: 100;
-            transition: 0.3s;
         }
 
         #scrapbook h3 { color: var(--acc); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 15px; }
+        #scrapbook textarea { flex: 1; background: rgba(0,0,0,0.2); color: var(--txt); border: 1px solid var(--border); padding: 15px; font-family: inherit; resize: none; outline: none; border-radius: 4px; font-size: 0.85rem; }
 
-        #scrapbook textarea { 
-            flex: 1; 
-            background: rgba(0,0,0,0.2); 
-            color: var(--txt); 
-            border: 1px solid var(--border); 
-            padding: 15px; 
-            font-family: inherit; 
-            resize: none; 
-            outline: none; 
-            border-radius: 4px; 
-            font-size: 0.85rem; 
-            line-height: 1.5;
-        }
-
-        /* CONTEÚDO PRINCIPAL */
-        main { 
-            flex: 1; 
-            padding: 30px; 
-            overflow-y: auto; 
-            position: relative; 
-            z-index: 10;
-        }
+        main { flex: 1; padding: 30px; overflow-y: auto; position: relative; z-index: 10; }
 
         header { 
             border-bottom: 2px solid var(--acc); 
@@ -84,544 +58,239 @@
         }
 
         /* DASHBOARD */
-        .dashboard-grid { 
-            display: grid; 
-            grid-template-columns: 1.5fr 1fr; 
-            gap: 25px; 
-            margin-bottom: 30px; 
-        }
+        .dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 30px; }
+        .stat-card { background: var(--surf); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
 
-        .stat-card { 
-            background: var(--surf); 
-            padding: 20px; 
-            border-radius: 10px; 
-            border: 1px solid var(--border); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        /* ---------------------------------------------------------
-           3. SISTEMA DE APPS (CARTAS)
-        ------------------------------------------------------------ */
-        .apps-container { 
-            display: none; 
-            margin-bottom: 30px; 
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .apps-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 20px; 
-        }
-
-        .app-card { 
-            background: var(--surf); 
-            border: 1px solid var(--border); 
-            border-radius: 15px; 
-            height: 130px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            cursor: pointer; 
-            transition: 0.3s; 
-        }
-
-        .app-card:hover { border-color: var(--acc); transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .app-card i { font-size: 2.8rem; margin-bottom: 10px; }
-        .app-card.insta i { color: #E1306C; }
-        .app-card.tele i { color: #0088cc; }
-        .app-card.whats i { color: #25D366; }
-        .app-card span { font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; }
-
-        /* ---------------------------------------------------------
-           4. MODO FOCO ZEN (ANIMAÇÃO + SOM)
-        ------------------------------------------------------------ */
-        #focus-canvas { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            display: none; z-index: 1; pointer-events: none; opacity: 0.7;
-        }
-
-        .focus-mode #scrapbook, 
-        .focus-mode .input-box, 
-        .focus-mode .dashboard-grid, 
-        .focus-mode .video-section, 
-        .focus-mode .controls, 
-        .focus-mode .search-container, 
-        .focus-mode .apps-container,
-        .focus-mode #filters { display: none !important; }
-
+        /* MODO ZEN (ANIMAÇÃO + SOM) */
+        #focus-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 1; pointer-events: none; opacity: 0.7; }
+        .focus-mode #scrapbook, .focus-mode .input-box, .focus-mode .dashboard-grid, .focus-mode .video-section, .focus-mode .controls, .focus-mode .search-container, .focus-mode .apps-container, .focus-mode #filters { display: none !important; }
         .focus-mode #focus-canvas { display: block; }
-        .focus-mode main { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 0; }
-        .focus-mode header { border: none; width: 100%; position: absolute; top: 30px; padding: 0 50px; box-sizing: border-box; }
-        .focus-mode #list { width: 90%; max-width: 900px; max-height: 60vh; overflow-y: auto; padding-right: 10px; }
+        .focus-mode main { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
 
-        #exit-focus { 
-            display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.6); border: 2px solid var(--acc); color: var(--acc);
-            padding: 18px 50px; border-radius: 50px; cursor: pointer; z-index: 10001; font-weight: bold;
-            backdrop-filter: blur(15px); transition: 0.3s;
-        }
-        #exit-focus:hover { background: var(--acc); color: #000; }
-
-        /* ---------------------------------------------------------
-           5. ELEMENTOS DE UI E INPUTS
-        ------------------------------------------------------------ */
+        /* BOTOES E INTERFACE */
+        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 8px 15px; cursor: pointer; border-radius: 5px; font-size: 0.75rem; font-weight: bold; margin-left: 8px; transition: 0.2s; text-transform: uppercase; }
+        .btn-tool:hover { background: var(--acc); color: #000; }
+        .btn-home { background: var(--acc); color: #000; border: none; padding: 8px 20px; border-radius: 5px; font-weight: 900; cursor: pointer; margin-right: 15px; display: flex; align-items: center; gap: 8px; }
+        
         .search-container { margin-bottom: 25px; position: relative; }
-        #search-input { 
-            width: 100%; 
-            background: var(--surf); 
-            border: 2px solid var(--acc); 
-            padding: 15px 50px; 
-            color: var(--txt); 
-            border-radius: 40px; 
-            outline: none; 
-            box-sizing: border-box;
-            font-size: 1rem;
-        }
+        #search-input { width: 100%; background: var(--surf); border: 2px solid var(--acc); padding: 15px 50px; color: var(--txt); border-radius: 40px; outline: none; font-size: 1rem; }
 
-        .video-section { background: var(--surf); border: 1px solid var(--border); padding: 25px; border-radius: 12px; margin-bottom: 25px; display: none; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-top: 20px; border-radius: 8px; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        /* APPS */
+        .apps-container { display: none; margin-bottom: 30px; }
+        .apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .app-card { background: var(--surf); border: 1px solid var(--border); border-radius: 15px; height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; }
+        .app-card:hover { border-color: var(--acc); transform: translateY(-5px); }
+        .app-card i { font-size: 2.8rem; margin-bottom: 10px; }
 
-        .input-box { 
-            display: grid; 
-            grid-template-columns: 1.5fr 2fr 1.2fr auto; 
-            gap: 15px; 
-            background: var(--surf); 
-            padding: 25px; 
-            border-radius: 12px; 
-            border: 1px solid var(--border); 
-            margin-bottom: 25px; 
-        }
-
-        input, select { 
-            background: rgba(0,0,0,0.3); 
-            border: 1px solid var(--border); 
-            padding: 12px; 
-            color: var(--txt); 
-            outline: none; 
-            border-radius: 6px; 
-            font-family: inherit; 
-        }
-
-        .btn-add { background: var(--acc); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
-        .btn-add:hover { filter: brightness(1.2); }
-
-        /* LISTA DE REGISTROS */
+        /* LISTA */
         .grid { display: grid; gap: 12px; }
-        .item { 
-            background: var(--surf); 
-            padding: 18px; 
-            border-radius: 8px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-left: 5px solid var(--acc); 
-            transition: 0.3s;
-        }
-        .item:hover { background: rgba(255,255,255,0.03); }
-
+        .item { background: var(--surf); padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--acc); }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 12px; background: #666; }
         .status-online { background: #00ff41; box-shadow: 0 0 8px #00ff41; }
 
-        /* OVERLAY SISTEMA DE APPS */
-        #app-overlay { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.98); 
-            z-index: 99999; 
-            flex-direction: column; 
-        }
+        #exit-focus { display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); border: 2px solid var(--acc); color: var(--acc); padding: 18px 50px; border-radius: 50px; cursor: pointer; z-index: 10001; font-weight: bold; backdrop-filter: blur(15px); }
+        .focus-mode #exit-focus { display: block; }
 
-        .app-header { background: #111; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--acc); }
+        .input-box { display: grid; grid-template-columns: 1.5fr 2fr 1.2fr auto; gap: 15px; background: var(--surf); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+        input, select { background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; color: var(--txt); outline: none; border-radius: 6px; font-family: inherit; }
+        .btn-add { background: var(--acc); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 6px; }
 
-        /* MODAL QR */
-        #qr-modal { 
-            display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-            background:rgba(0,0,0,0.9); justify-content:center; align-items:center; 
-            z-index:100000; flex-direction:column; 
-        }
+        #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:100000; flex-direction:column; }
         #qr-container { background: white; padding: 25px; border-radius: 15px; }
-        
-        .btn-tool { 
-            background: transparent; 
-            color: var(--acc); 
-            border: 1px solid var(--acc); 
-            padding: 8px 15px; 
-            cursor: pointer; 
-            border-radius: 5px; 
-            font-size: 0.75rem; 
-            font-weight: bold; 
-            margin-left: 8px;
-            transition: 0.2s;
-        }
-        .btn-tool:hover { background: var(--acc); color: #000; }
     </style>
 </head>
 <body id="app-body">
 
     <canvas id="focus-canvas"></canvas>
-
     <button id="exit-focus" onclick="toggleFocus()">DESATIVAR MODO ZEN</button>
-
-    <div id="app-overlay">
-        <div class="app-header">
-            <span id="app-title" style="color:var(--acc); font-weight:bold; font-size: 1.2rem;">VAULT_SYS_APP</span>
-            <button onclick="closeApp()" style="background:#ff4757; border:none; padding:8px 25px; color:white; border-radius:6px; cursor:pointer; font-weight:bold;">ENCERRAR X</button>
-        </div>
-        <iframe id="app-frame" style="flex:1; border:none; background:white;" src=""></iframe>
-    </div>
 
     <div id="qr-modal" onclick="this.style.display='none'">
         <div id="qr-container"></div>
-        <p style="margin-top:20px; color:white; font-weight:bold;">CLIQUE PARA RETORNAR</p>
+        <p style="margin-top:20px; color:white; font-weight:bold;">CLIQUE PARA VOLTAR</p>
     </div>
 
     <aside id="scrapbook">
         <h3>> SCRAPBOOK_NOTAS</h3>
-        <textarea id="notes" placeholder="Rascunhos e comandos técnicos..." oninput="saveNotes()"></textarea>
+        <textarea id="notes" placeholder="Rascunhos mentais..." oninput="saveNotes()"></textarea>
     </aside>
 
     <main>
         <header>
-            <h1 id="main-header-title">VAULT_ARCHITECT_V14</h1>
+            <div style="display: flex; align-items: center;">
+                <button class="btn-home" onclick="goHome()">
+                    <i class="fas fa-home"></i> INÍCIO
+                </button>
+                <h1 id="main-header-title" style="margin:0; font-size: 1.5rem;">VAULT_SUPREMO_V15</h1>
+            </div>
             <div class="controls">
                 <select onchange="changeTheme(this.value)" class="btn-tool" style="background:var(--surf)">
-                    <option value="">TEMA: MATRIX</option>
-                    <option value="theme-oficial">TEMA: OFICIAL</option>
-                    <option value="theme-gold">TEMA: GOLD</option>
-                    <option value="theme-cyberpunk">TEMA: CYBERPUNK</option>
-                    <option value="theme-deepsea">TEMA: DEEP SEA</option>
-                    <option value="theme-ruby">TEMA: RUBY</option>
+                    <option value="">MATRIX</option>
+                    <option value="theme-oficial">OFICIAL</option>
+                    <option value="theme-gold">GOLD</option>
+                    <option value="theme-cyberpunk">CYBERPUNK</option>
                 </select>
                 <button class="btn-tool" onclick="toggleSection('apps-container')">APPS</button>
                 <button class="btn-tool" onclick="toggleSection('video-section')">VÍDEO</button>
-                <button class="btn-tool" onclick="toggleFocus()" id="focus-btn-ui">MODO ZEN</button>
+                <button class="btn-tool" onclick="toggleFocus()">MODO ZEN</button>
                 <button class="btn-tool" onclick="exportData()">BACKUP</button>
-                <button class="btn-tool" onclick="document.getElementById('import-file').click()">IMPORT</button>
-                <input type="file" id="import-file" onchange="importData(event)" style="display:none">
             </div>
         </header>
 
         <div class="dashboard-grid">
-            <div class="stat-card">
-                <canvas id="categoryChart" height="120"></canvas>
-            </div>
+            <div class="stat-card"><canvas id="categoryChart" height="120"></canvas></div>
             <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <h2 id="totalCounter" style="font-size: 4rem; margin: 0; color: var(--acc);">0</h2>
-                <p style="font-weight: bold; opacity: 0.6; margin-top: -5px;">REGISTROS ATIVOS</p>
-                <button class="btn-tool" onclick="checkAllStatus()" style="margin-top:10px">VALIDAR CONEXÕES</button>
+                <p style="font-weight: bold; opacity: 0.6;">REGISTROS ATIVOS</p>
+                <button class="btn-tool" onclick="checkAllStatus()">VALIDAR LINKS</button>
             </div>
         </div>
 
         <div class="apps-container" id="apps-container">
             <div class="apps-grid">
-                <div class="app-card insta" onclick="openApp('Instagram', 'https://www.instagram.com')">
-                    <i class="fab fa-instagram"></i>
-                    <span>INSTAGRAM</span>
-                </div>
-                <div class="app-card tele" onclick="openApp('Telegram', 'https://web.telegram.org')">
-                    <i class="fab fa-telegram"></i>
-                    <span>TELEGRAM WEB</span>
-                </div>
-                <div class="app-card whats" onclick="openApp('WhatsApp', 'https://web.whatsapp.com')">
-                    <i class="fab fa-whatsapp"></i>
-                    <span>WHATSAPP WEB</span>
-                </div>
+                <div class="app-card" onclick="alert('Instagram Web Aberto')"><i class="fab fa-instagram" style="color:#E1306C"></i><span>INSTAGRAM</span></div>
+                <div class="app-card" onclick="alert('Telegram Web Aberto')"><i class="fab fa-telegram" style="color:#0088cc"></i><span>TELEGRAM</span></div>
+                <div class="app-card" onclick="alert('WhatsApp Web Aberto')"><i class="fab fa-whatsapp" style="color:#25D366"></i><span>WHATSAPP</span></div>
             </div>
         </div>
 
         <div class="search-container">
             <span style="position: absolute; left: 20px; top: 14px; opacity: 0.5;">🔍</span>
-            <input type="text" id="search-input" placeholder="Pesquisar por título, URL ou categoria..." oninput="load()">
+            <input type="text" id="search-input" placeholder="Pesquisar..." oninput="load()">
         </div>
 
-        <div class="video-section" id="video-section">
-            <div style="display:flex; gap:15px">
-                <input type="text" id="v-url" placeholder="Insira o link do YouTube..." style="flex:1">
-                <button class="btn-add" onclick="playVideo()">CARREGAR</button>
-            </div>
-            <div id="player" class="video-container" style="display:none">
-                <iframe id="video-frame" src="" allowfullscreen></iframe>
+        <div id="video-section" style="display:none; margin-bottom:25px; background:var(--surf); padding:20px; border-radius:10px;">
+            <input type="text" id="v-url" placeholder="YouTube URL" style="width:70%">
+            <button class="btn-add" onclick="playVideo()">PLAY</button>
+            <div id="player" style="margin-top:15px; display:none;">
+                <iframe id="video-frame" width="100%" height="400" src="" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
 
         <div class="input-box">
-            <input type="text" id="t" placeholder="Título do Registro">
-            <input type="text" id="u" placeholder="Endereço URL">
+            <input type="text" id="t" placeholder="Título">
+            <input type="text" id="u" placeholder="URL">
             <input type="text" id="c" placeholder="Categoria" list="cat-suggestions">
             <datalist id="cat-suggestions"></datalist>
-            <button class="btn-add" onclick="add()">ARMAZENAR</button>
+            <button class="btn-add" onclick="add()">ADICIONAR</button>
         </div>
 
-        <div id="filters" style="margin-bottom:25px; display:flex; gap:10px; flex-wrap:wrap;"></div>
+        <div id="filters" style="margin-bottom:25px; display:flex; gap:10px;"></div>
         <div class="grid" id="list"></div>
     </main>
 
     <script>
-        const DB_KEY = 'vault_architect_v14_master';
+        const DB_KEY = 'vault_v15_db';
         let myChart = null;
         let currentFilter = 'all';
         let audioCtx = null;
         let noiseNode = null;
 
-        // ---------------------------------------------------------
-        // SISTEMA DE ÁUDIO BINAURAL (ZEN)
-        // ---------------------------------------------------------
+        // VOLTAR AO INÍCIO
+        function goHome() {
+            currentFilter = 'all';
+            document.getElementById('search-input').value = '';
+            document.getElementById('apps-container').style.display = 'none';
+            document.getElementById('video-section').style.display = 'none';
+            if(document.body.classList.contains('focus-mode')) toggleFocus();
+            load();
+        }
+
+        // ÁUDIO ZEN
         function toggleAmbientSound(active) {
             if (active) {
                 try {
                     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const bufferSize = 2 * audioCtx.sampleRate,
-                    buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate),
-                    output = buffer.getChannelData(0);
+                    const bufferSize = 2 * audioCtx.sampleRate, buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = buffer.getChannelData(0);
                     for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-
                     noiseNode = audioCtx.createBufferSource();
-                    noiseNode.buffer = buffer;
-                    noiseNode.loop = true;
-                    
-                    const filter = audioCtx.createBiquadFilter();
-                    filter.type = 'lowpass';
-                    filter.frequency.value = 350; 
-
-                    const gain = audioCtx.createGain();
-                    gain.gain.value = 0.04; 
-
-                    noiseNode.connect(filter);
-                    filter.connect(gain);
-                    gain.connect(audioCtx.destination);
+                    noiseNode.buffer = buffer; noiseNode.loop = true;
+                    const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 350; 
+                    const gain = audioCtx.createGain(); gain.gain.value = 0.04; 
+                    noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
                     noiseNode.start();
-                } catch(e) { console.log("Audio blocked by browser policy"); }
-            } else {
-                if (noiseNode) { noiseNode.stop(); noiseNode = null; }
-            }
+                } catch(e) {}
+            } else if (noiseNode) { noiseNode.stop(); noiseNode = null; }
         }
 
-        // ---------------------------------------------------------
-        // ANIMAÇÃO DE PARTÍCULAS (ZEN)
-        // ---------------------------------------------------------
+        // ANIMAÇÃO ZEN
         const canvas = document.getElementById('focus-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
         function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            for (let i = 0; i < 120; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2.5 + 0.5,
-                    speed: Math.random() * 0.4 + 0.05,
-                    opacity: Math.random()
-                });
-            }
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            particles = []; for (let i = 0; i < 100; i++) particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 0.5, speed: Math.random() * 0.4 + 0.1, opacity: Math.random() });
         }
-
         function animateZen() {
             if (!document.body.classList.contains('focus-mode')) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const accentColor = getComputedStyle(document.body).getPropertyValue('--acc').trim();
-            ctx.fillStyle = accentColor;
-            
-            particles.forEach(p => {
-                p.y -= p.speed;
-                if (p.y < 0) p.y = canvas.height;
-                ctx.globalAlpha = p.opacity;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--acc');
+            particles.forEach(p => { p.y -= p.speed; if (p.y < 0) p.y = canvas.height; ctx.globalAlpha = p.opacity; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); });
             requestAnimationFrame(animateZen);
         }
 
-        // ---------------------------------------------------------
-        // GERENCIAMENTO DE DADOS
-        // ---------------------------------------------------------
+        // CORE FUNCTIONS
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             const term = document.getElementById('search-input').value.toLowerCase();
             document.getElementById('totalCounter').innerText = data.length;
-            
             const filtered = data.filter(l => {
                 const matchSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term);
                 const matchCat = currentFilter === 'all' || l.cat === currentFilter;
                 return matchSearch && matchCat;
             });
-
             document.getElementById('list').innerHTML = filtered.map(l => `
                 <div class="item">
-                    <div>
-                        <span id="status-${l.id}" class="status-dot"></span>
-                        <strong>${l.title}</strong>
-                        <a href="${l.url}" target="_blank" style="color:var(--txt); font-size:0.8rem; opacity:0.5; margin-left:15px; text-decoration:none;">${l.url}</a>
-                        <span style="font-size:0.65rem; background:rgba(255,255,255,0.1); padding:3px 8px; border-radius:10px; margin-left:10px; font-weight:bold;">${l.cat}</span>
-                    </div>
-                    <div style="display:flex; gap:15px; align-items:center;">
-                        <i class="fas fa-qrcode" style="cursor:pointer; font-size:1.2rem; opacity:0.7" onclick="showQR('${l.url}')"></i>
-                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; cursor:pointer; border-radius:4px; font-size:0.7rem; padding:2px 8px;">DELETAR</button>
+                    <div><span id="status-${l.id}" class="status-dot"></span><strong>${l.title}</strong><a href="${l.url}" target="_blank" style="color:var(--txt); font-size:0.8rem; opacity:0.5; margin-left:15px; text-decoration:none;">${l.url}</a></div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <i class="fas fa-qrcode" style="cursor:pointer" onclick="showQR('${l.url}')"></i>
+                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; cursor:pointer; border-radius:4px; font-size:0.7rem;">DELETAR</button>
                     </div>
                 </div>
             `).reverse().join('');
-            
-            updateChart(data);
-            renderFilters(data);
-            document.getElementById('notes').value = localStorage.getItem('vault_architect_notes') || '';
+            updateChart(data); renderFilters(data);
+            document.getElementById('notes').value = localStorage.getItem('vault_notes_v15') || '';
         }
 
         function add() {
             const u = document.getElementById('u').value; if(!u) return;
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db.push({ 
-                id: Date.now().toString(), 
-                title: document.getElementById('t').value || 'Link s/ Título', 
-                url: u.startsWith('http') ? u : 'https://' + u, 
-                cat: document.getElementById('c').value || 'Geral' 
-            });
+            db.push({ id: Date.now().toString(), title: document.getElementById('t').value || 'Link', url: u.startsWith('http') ? u : 'https://'+u, cat: document.getElementById('c').value || 'Geral' });
             localStorage.setItem(DB_KEY, JSON.stringify(db));
-            document.getElementById('t').value = ''; 
-            document.getElementById('u').value = ''; 
-            load();
+            document.getElementById('t').value = ''; document.getElementById('u').value = ''; load();
         }
 
-        function del(id) { 
-            if(confirm("Expurgar registro do Vault?")) { 
-                let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(l => l.id !== id); 
-                localStorage.setItem(DB_KEY, JSON.stringify(db)); 
-                load(); 
-            } 
-        }
+        function del(id) { if(confirm("Deletar?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(l => l.id !== id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
 
-        // ---------------------------------------------------------
-        // CONTROLES DE INTERFACE
-        // ---------------------------------------------------------
         function toggleFocus() {
             const isZen = document.body.classList.toggle('focus-mode');
-            if (isZen) {
-                initCanvas();
-                animateZen();
-                toggleAmbientSound(true);
-                document.getElementById('main-header-title').innerText = "VAULT_ZEN_ACTIVE";
-            } else {
-                toggleAmbientSound(false);
-                document.getElementById('main-header-title').innerText = "VAULT_ARCHITECT_V14";
-            }
+            if (isZen) { initCanvas(); animateZen(); toggleAmbientSound(true); } else { toggleAmbientSound(false); }
         }
 
-        function openApp(name, url) { 
-            document.getElementById('app-title').innerText = "VAULT_SUBSYSTEM: " + name;
-            document.getElementById('app-frame').src = url; 
-            document.getElementById('app-overlay').style.display = 'flex'; 
-        }
-
-        function closeApp() { 
-            document.getElementById('app-overlay').style.display = 'none'; 
-            document.getElementById('app-frame').src = ""; 
-        }
-
-        function toggleSection(id) { 
-            const s = document.getElementById(id); 
-            const isFlex = id === 'apps-container' ? 'grid' : 'block';
-            s.style.display = (s.style.display === 'block' || s.style.display === 'grid') ? 'none' : isFlex; 
-        }
-
+        function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display === 'none' || s.style.display === '') ? (id === 'apps-container' ? 'grid' : 'block') : 'none'; }
         function changeTheme(theme) { document.body.className = theme; load(); }
-        
-        function saveNotes() { localStorage.setItem('vault_architect_notes', document.getElementById('notes').value); }
-
-        function showQR(url) { 
-            const container = document.getElementById('qr-container');
-            container.innerHTML = ""; 
-            new QRCode(container, { text: url, width: 200, height: 200 }); 
-            document.getElementById('qr-modal').style.display = 'flex'; 
-        }
-
-        function playVideo() { 
-            let url = document.getElementById('v-url').value;
-            let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('be/')[1];
-            if(id) { 
-                document.getElementById('video-frame').src = `https://www.youtube.com/embed/${id}`; 
-                document.getElementById('player').style.display = 'block'; 
-            }
-        }
+        function saveNotes() { localStorage.setItem('vault_notes_v15', document.getElementById('notes').value); }
+        function showQR(url) { const container = document.getElementById('qr-container'); container.innerHTML = ""; new QRCode(container, { text: url, width: 200, height: 200 }); document.getElementById('qr-modal').style.display = 'flex'; }
+        function playVideo() { let url = document.getElementById('v-url').value; let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('be/')[1]; if(id) { document.getElementById('video-frame').src = `https://www.youtube.com/embed/${id}`; document.getElementById('player').style.display = 'block'; } }
 
         function updateChart(data) {
             const cats = {}; data.forEach(l => cats[l.cat] = (cats[l.cat] || 0) + 1);
             const ctx = document.getElementById('categoryChart').getContext('2d');
             if(myChart) myChart.destroy();
-            myChart = new Chart(ctx, {
-                type: 'bar',
-                data: { 
-                    labels: Object.keys(cats), 
-                    datasets: [{ 
-                        label: 'Records', 
-                        data: Object.values(cats), 
-                        backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc'),
-                        borderWidth: 0
-                    }] 
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { 
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
+            myChart = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(cats), datasets: [{ label: 'Records', data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
         }
 
         function renderFilters(data) {
             const cats = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('cat-suggestions').innerHTML = cats.filter(c => c !== 'all').map(c => `<option value="${c}">`).join('');
-            document.getElementById('filters').innerHTML = cats.map(c => `
-                <button onclick="currentFilter='${c}';load()" style="
-                    padding: 6px 15px; 
-                    background: ${currentFilter === c ? 'var(--acc)' : 'var(--surf)'}; 
-                    color: ${currentFilter === c ? '#000' : 'var(--txt)'}; 
-                    border: 1px solid var(--border); 
-                    border-radius: 20px; 
-                    cursor: pointer; 
-                    font-size: 0.7rem; 
-                    font-weight: bold;
-                    text-transform: uppercase;
-                ">${c}</button>`).join('');
+            document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c}</button>`).join('');
         }
 
         function checkAllStatus() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            data.forEach(l => {
-                const dot = document.getElementById(`status-${l.id}`);
-                fetch(l.url, { mode: 'no-cors' }).then(() => dot.classList.add('status-online')).catch(() => dot.style.background = '#ff4757');
-            });
+            data.forEach(l => { const dot = document.getElementById(`status-${l.id}`); fetch(l.url, { mode: 'no-cors' }).then(() => dot.classList.add('status-online')).catch(() => dot.style.background = '#ff4757'); });
         }
 
-        function exportData() { 
-            const data = localStorage.getItem(DB_KEY);
-            const blob = new Blob([data], {type:'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `VAULT_BACKUP_${Date.now()}.json`;
-            a.click();
-        }
+        function exportData() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([localStorage.getItem(DB_KEY)], {type:'application/json'})); a.download = `vault_backup.json`; a.click(); }
 
-        function importData(e) { 
-            const r = new FileReader(); 
-            r.onload = (ev) => { localStorage.setItem(DB_KEY, ev.target.result); load(); alert("Banco de Dados Sincronizado!"); }; 
-            r.readAsText(e.target.files[0]); 
-        }
-
-        // INICIALIZAÇÃO
         window.onload = load;
         window.onresize = initCanvas;
     </script>
