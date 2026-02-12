@@ -2,66 +2,99 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GOD DEV | Vault Multi-Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOD DEV | VAULT SUPREMO ÔMEGA</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
         :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; --border: #333; }
-        body { background: var(--bg); color: var(--txt); font-family: 'JetBrains Mono', monospace; padding: 20px; display: flex; justify-content: center; transition: 0.5s; }
-        .container { width: 100%; max-width: 900px; }
+        .theme-cyberpunk { --bg: #0d0221; --acc: #ff007f; --surf: #190e3a; --txt: #00f0ff; --border: #5a189a; }
+        .theme-minimal { --bg: #f4f4f9; --acc: #2d3436; --surf: #fff; --txt: #2d3436; --border: #dfe6e9; }
+
+        body { background: var(--bg); color: var(--txt); font-family: 'JetBrains Mono', monospace; margin: 0; display: flex; transition: 0.3s; height: 100vh; overflow: hidden; }
         
-        header { border-bottom: 2px solid var(--acc); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
-        h1 { font-size: 1.5rem; color: var(--acc); text-shadow: 0 0 10px rgba(0,255,65,0.3); }
+        /* SIDEBAR (SCRAPBOOK / NOTAS) */
+        #scrapbook { width: 280px; background: var(--surf); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; transition: 0.3s; }
+        #scrapbook textarea { flex: 1; background: #000; color: var(--acc); border: 1px solid var(--border); padding: 10px; font-family: inherit; resize: none; outline: none; border-radius: 4px; font-size: 0.85rem; }
 
-        .controls { display: flex; gap: 8px; }
-        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 6px 12px; cursor: pointer; font-size: 0.7rem; border-radius: 4px; text-transform: uppercase; }
-        .btn-tool:hover { background: var(--acc); color: #000; }
+        /* CONTEÚDO PRINCIPAL */
+        main { flex: 1; padding: 25px; overflow-y: auto; position: relative; }
+        header { border-bottom: 2px solid var(--acc); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        h1 { font-size: 1.4rem; color: var(--acc); margin: 0; text-shadow: 0 0 10px rgba(0,255,65,0.2); }
 
-        /* MODO FOCO DINÂMICO */
-        .focus-mode .input-box, .focus-mode .controls, .focus-mode .filter-section, .focus-mode .video-section { display: none !important; }
-        .focus-mode header { justify-content: center; border-color: #222; }
-        #exit-focus { display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: #ff4444; color: #fff; border: none; padding: 15px; border-radius: 50%; cursor: pointer; box-shadow: 0 0 20px rgba(255,68,68,0.4); font-weight: bold; }
-        .focus-mode #exit-focus { display: block; }
+        /* DASHBOARD E ESTATÍSTICAS */
+        .dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .stat-card { background: var(--surf); padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
 
         /* CENTRAL DE VÍDEO */
         .video-section { background: var(--surf); border: 1px solid var(--border); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: none; }
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-top: 15px; border-radius: 4px; background: #000; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
+        /* BOX DE ENTRADA */
         .input-box { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
-        input { background: #000; border: 1px solid var(--border); padding: 12px; color: var(--acc); outline: none; border-radius: 4px; font-family: inherit; }
-        
-        .btn-add { background: var(--acc); color: #000; border: none; padding: 0 20px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        input, select { background: #000; border: 1px solid var(--border); padding: 10px; color: var(--acc); outline: none; border-radius: 4px; font-family: inherit; }
+        .btn-add { background: var(--acc); color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+        .btn-add:hover { box-shadow: 0 0 15px var(--acc); }
 
-        .filter-section { margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.75rem; }
+        /* FILTROS */
+        .filter-section { margin-bottom: 20px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 0.8rem; }
+        .filter-btn { background: #222; border: 1px solid var(--border); color: #eee; padding: 4px 12px; border-radius: 20px; cursor: pointer; }
         .filter-btn.active { background: var(--acc); color: #000; border-color: var(--acc); }
 
+        /* LISTA DE LINKS */
         .grid { display: grid; gap: 10px; }
-        .item { background: var(--surf); padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--acc); }
-        .item-info strong { color: var(--acc); display: block; }
-        
-        .actions { display: flex; gap: 12px; align-items: center; }
-        .qr-icon { cursor: pointer; font-size: 1.1rem; filter: grayscale(1); }
-        .qr-icon:hover { filter: grayscale(0); }
-        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 4px 8px; cursor: pointer; border-radius: 4px; font-size: 0.7rem; }
+        .item { background: var(--surf); padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); transition: 0.2s; }
+        .item:hover { transform: translateX(5px); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; background: #555; }
+        .status-online { background: #00ff41; box-shadow: 0 0 5px #00ff41; }
+        .tag { background: #333; color: #aaa; font-size: 0.65rem; padding: 2px 6px; border-radius: 3px; margin-left: 8px; }
 
+        /* AÇÕES E MODAIS */
+        .actions { display: flex; gap: 12px; align-items: center; }
+        .qr-icon { cursor: pointer; font-size: 1.2rem; filter: grayscale(1); transition: 0.3s; }
+        .qr-icon:hover { filter: grayscale(0); transform: scale(1.2); }
+        .del-btn { color: #ff4444; background: none; border: 1px solid #ff4444; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.75rem; }
+        
         #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:999; flex-direction:column; }
         #qr-container { background: white; padding: 15px; border-radius: 8px; }
+
+        /* CONTROLES TÉCNICOS */
+        .controls { display: flex; gap: 8px; }
+        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; }
+        #exit-focus { display: none; position: fixed; bottom: 20px; right: 20px; background: #ff4444; color: #fff; border: none; padding: 15px 25px; border-radius: 30px; cursor: pointer; z-index: 1000; font-weight: bold; box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+
+        /* MODO FOCO */
+        .focus-mode #scrapbook, .focus-mode .input-box, .focus-mode .dashboard-grid, .focus-mode .filter-section, .focus-mode .video-section, .focus-mode .controls { display: none !important; }
+        .focus-mode #exit-focus { display: block; }
+        .focus-mode header { justify-content: center; }
     </style>
 </head>
-<body id="body">
+<body id="app-body">
 
-    <button id="exit-focus" onclick="toggleFocus()">SAIR DO FOCO</button>
+    <button id="exit-focus" onclick="toggleFocus()">SAIR DO MODO FOCO</button>
 
     <div id="qr-modal" onclick="this.style.display='none'">
         <div id="qr-container"></div>
-        <p style="margin-top:15px; color:var(--acc)">TOQUE PARA VOLTAR</p>
+        <p style="margin-top:15px; color:var(--acc)">CLIQUE PARA VOLTAR</p>
     </div>
 
-    <div class="container">
+    <aside id="scrapbook">
+        <h3 style="color: var(--acc); font-size: 0.75rem; margin-bottom: 10px;">> SCRAPBOOK_NOTAS</h3>
+        <textarea id="notes" placeholder="Digite comandos ou rascunhos..." oninput="saveNotes()"></textarea>
+    </aside>
+
+    <main>
         <header>
-            <h1>VAULT_TERMINAL</h1>
+            <h1>VAULT_SUPREMO_OMEGA</h1>
             <div class="controls">
-                <button class="btn-tool" onclick="toggleVideoSection()">Vídeo Player</button>
+                <select onchange="changeTheme(this.value)" class="btn-tool">
+                    <option value="">TEMA: MATRIX</option>
+                    <option value="theme-cyberpunk">TEMA: CYBERPUNK</option>
+                    <option value="theme-minimal">TEMA: MINIMAL</option>
+                </select>
+                <button class="btn-tool" onclick="toggleVideoSection()">Vídeo</button>
                 <button class="btn-tool" onclick="toggleFocus()">Foco</button>
                 <button class="btn-tool" onclick="exportData()">Backup</button>
                 <button class="btn-tool" onclick="document.getElementById('fileInput').click()">Importar</button>
@@ -69,9 +102,20 @@
             </div>
         </header>
 
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <canvas id="categoryChart" height="110"></canvas>
+            </div>
+            <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                <h2 id="totalCounter" style="font-size: 3.5rem; margin: 0; color: var(--acc);">0</h2>
+                <p style="font-size: 0.8rem; letter-spacing: 2px;">LINKS ATIVOS</p>
+                <button class="btn-tool" onclick="checkAllStatus()">VALIDAR CONEXÕES</button>
+            </div>
+        </div>
+
         <div class="video-section" id="video-section">
             <div style="display:flex; gap:10px">
-                <input type="text" id="v-url" placeholder="URL do Vídeo (YouTube)" style="flex:1">
+                <input type="text" id="v-url" placeholder="URL do YouTube" style="flex:1">
                 <button class="btn-add" onclick="playVideo()">CARREGAR</button>
             </div>
             <div id="player" class="video-container" style="display:none">
@@ -80,53 +124,72 @@
         </div>
 
         <div class="input-box">
-            <input type="text" id="t" placeholder="Título">
-            <input type="text" id="u" placeholder="URL">
+            <input type="text" id="t" placeholder="Título do Site">
+            <input type="text" id="u" placeholder="URL (google.com)">
             <input type="text" id="c" placeholder="Categoria" list="cat-list">
             <datalist id="cat-list"></datalist>
-            <button class="btn-add" onclick="add()">SALVAR</button>
+            <button class="btn-add" onclick="add()">GUARDAR</button>
         </div>
 
         <div class="filter-section" id="filters"></div>
-        <div id="list" class="grid"></div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <div class="grid" id="list"></div>
+    </main>
+
     <script>
-        const DB_KEY = 'god_dev_vault_v5';
+        const DB_KEY = 'god_dev_vault_omega';
+        let myChart = null;
         let currentFilter = 'all';
 
+        // INICIALIZAÇÃO E CARREGAMENTO
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            document.getElementById('totalCounter').innerText = data.length;
+            
             renderFilters(data);
             const filtered = currentFilter === 'all' ? data : data.filter(l => l.cat === currentFilter);
+
             document.getElementById('list').innerHTML = filtered.map(l => `
                 <div class="item">
                     <div class="item-info">
+                        <span id="status-${l.id}" class="status-dot"></span>
                         <strong>${l.title}</strong>
-                        <a href="${l.url}" target="_blank" style="color:#888; text-decoration:none; font-size:0.75rem;">${l.url}</a>
+                        <a href="${l.url}" target="_blank" style="color:var(--acc); font-size:0.75rem; text-decoration:none; opacity:0.7;">${l.url}</a>
+                        <span class="tag">${l.cat}</span>
                     </div>
                     <div class="actions">
-                        <span class="qr-icon" onclick="showQR('${l.url}')">📱</span>
-                        <button class="del-btn" onclick="del('${l.id}')">APAGAR</button>
+                        <span class="qr-icon" onclick="showQR('${l.url}')" title="Gerar QR Code">📱</span>
+                        <button class="del-btn" onclick="del('${l.id}')">DELETAR</button>
                     </div>
                 </div>
             `).reverse().join('');
+            
+            updateChart(data);
+            document.getElementById('notes').value = localStorage.getItem('vault_notes') || '';
         }
 
+        // ADIÇÃO DE LINKS
         function add() {
             const t = document.getElementById('t').value || 'Link';
             const u = document.getElementById('u').value;
             const c = document.getElementById('c').value || 'Geral';
-            if(!u) return;
+            if(!u) return alert("Soberano, a URL é obrigatória.");
+
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db.push({ id: Date.now().toString(), title: t, url: u.startsWith('http') ? u : 'https://'+u, cat: c });
+            db.push({ 
+                id: Date.now().toString(), 
+                title: t, 
+                url: u.startsWith('http') ? u : 'https://' + u, 
+                cat: c 
+            });
             localStorage.setItem(DB_KEY, JSON.stringify(db));
-            document.getElementById('t').value = ''; document.getElementById('u').value = '';
+            document.getElementById('t').value = ''; 
+            document.getElementById('u').value = '';
+            document.getElementById('c').value = '';
             load();
         }
 
-        /* LÓGICA DE VÍDEO */
+        // VÍDEO PLAYER
         function toggleVideoSection() {
             const s = document.getElementById('video-section');
             s.style.display = s.style.display === 'block' ? 'none' : 'block';
@@ -134,7 +197,6 @@
 
         function playVideo() {
             let url = document.getElementById('v-url').value;
-            if(!url) return;
             let videoId = "";
             if(url.includes('v=')) videoId = url.split('v=')[1].split('&')[0];
             else if(url.includes('be/')) videoId = url.split('be/')[1];
@@ -142,12 +204,49 @@
             if(videoId) {
                 document.getElementById('video-frame').src = `https://www.youtube.com/embed/${videoId}`;
                 document.getElementById('player').style.display = 'block';
-            } else {
-                alert("Por favor, use uma URL válida do YouTube.");
             }
         }
 
+        // ESTATÍSTICAS (CHART.JS)
+        function updateChart(data) {
+            const cats = {};
+            data.forEach(l => cats[l.cat] = (cats[l.cat] || 0) + 1);
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            if(myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(cats),
+                    datasets: [{ 
+                        label: 'Links por Categoria', 
+                        data: Object.values(cats), 
+                        backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc')
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, grid: {color:'#222'} }, x: { grid: {display:false} } },
+                    plugins: { legend: { labels: { color: '#888', font: {family:'JetBrains Mono'} } } }
+                }
+            });
+        }
+
+        // STATUS CHECK
+        function checkAllStatus() {
+            const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            data.forEach(l => {
+                const dot = document.getElementById(`status-${l.id}`);
+                fetch(l.url, { mode: 'no-cors' })
+                    .then(() => dot.classList.add('status-online'))
+                    .catch(() => dot.style.background = '#ff4444');
+            });
+        }
+
+        // AUXILIARES (BACKUP, TEMA, QR)
+        function changeTheme(theme) { document.body.className = theme; updateChart(JSON.parse(localStorage.getItem(DB_KEY) || '[]')); }
         function toggleFocus() { document.body.classList.toggle('focus-mode'); }
+        function saveNotes() { localStorage.setItem('vault_notes', document.getElementById('notes').value); }
         function showQR(url) {
             const container = document.getElementById('qr-container');
             container.innerHTML = "";
@@ -155,9 +254,8 @@
             document.getElementById('qr-modal').style.display = 'flex';
         }
         function del(id) {
-            if(confirm("Eliminar?")) {
-                let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-                db = db.filter(l => l.id !== id);
+            if(confirm("Confirmar exclusão?")) {
+                let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(l => l.id !== id);
                 localStorage.setItem(DB_KEY, JSON.stringify(db));
                 load();
             }
@@ -165,7 +263,8 @@
         function filterBy(cat) { currentFilter = cat; load(); }
         function renderFilters(data) {
             const categories = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('filters').innerHTML = categories.map(c => `
+            document.getElementById('cat-list').innerHTML = categories.filter(c=>c!=='all').map(c=>`<option value="${c}">`).join('');
+            document.getElementById('filters').innerHTML = '<span>FILTRAR:</span>' + categories.map(c => `
                 <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="filterBy('${c}')">
                     ${c.toUpperCase()}
                 </button>
@@ -174,13 +273,14 @@
         function exportData() {
             const a = document.createElement('a');
             a.href = URL.createObjectURL(new Blob([localStorage.getItem(DB_KEY)], {type: 'application/json'}));
-            a.download = `backup_vault.json`; a.click();
+            a.download = `vault_omega_backup.json`; a.click();
         }
         function importData(e) {
             const reader = new FileReader();
             reader.onload = (event) => { localStorage.setItem(DB_KEY, event.target.result); load(); };
             reader.readAsText(e.target.files[0]);
         }
+
         load();
     </script>
 </body>
