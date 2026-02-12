@@ -3,103 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD DEV | VAULT SUPREMO V16 - NEBULA</title>
+    <title>GOD DEV | VAULT SUPREMO V17 - THE TITAN ARCHITECT</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* ---------------------------------------------------------
-           1. TEMAS E CORES ORIGINAIS
-        ------------------------------------------------------------ */
-        :root { --bg: #050505; --acc: #00ff41; --surf: rgba(17, 17, 17, 0.85); --txt: #fff; --border: #333; }
-        .theme-oficial { --bg: #eef2f7; --acc: #74b9ff; --surf: rgba(255, 255, 255, 0.85); --txt: #2d3436; --border: #dcdde1; } 
-        .theme-cyberpunk { --bg: #0d0221; --acc: #ff007f; --surf: rgba(25, 14, 58, 0.85); --txt: #00f0ff; --border: #5a189a; }
-        .theme-gold { --bg: #1a1a1a; --acc: #d4af37; --surf: rgba(42, 42, 42, 0.85); --txt: #f1f1f1; --border: #aa841e; }
+        /* -----------------------------------------------------------------------------
+           1. SISTEMA DE CORES E TEMAS EXPANDIDO (VARIÁVEIS DE AMBIENTE)
+        -------------------------------------------------------------------------------- */
+        :root { 
+            --bg: #050505; 
+            --acc: #00ff41; 
+            --surf: rgba(15, 15, 15, 0.9); 
+            --txt: #ffffff; 
+            --border: #333333; 
+            --grad: linear-gradient(45deg, #00ff41, #008f11);
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        /* ---------------------------------------------------------
-           2. LAYOUT BASE (SIDEBAR ORGANIZADA)
-        ------------------------------------------------------------ */
+        .theme-oficial { 
+            --bg: #f0f2f5; 
+            --acc: #1a73e8; 
+            --surf: rgba(255, 255, 255, 0.9); 
+            --txt: #202124; 
+            --border: #dadce0; 
+            --grad: linear-gradient(45deg, #1a73e8, #8ab4f8);
+        } 
+
+        .theme-gold { 
+            --bg: #0f0f0f; 
+            --acc: #d4af37; 
+            --surf: rgba(30, 30, 30, 0.9); 
+            --txt: #f1f1f1; 
+            --border: #aa841e; 
+            --grad: linear-gradient(45deg, #d4af37, #f9e29c);
+        }
+
+        .theme-cyberpunk { 
+            --bg: #0d0221; 
+            --acc: #ff007f; 
+            --surf: rgba(25, 14, 58, 0.9); 
+            --txt: #00f0ff; 
+            --border: #5a189a; 
+            --grad: linear-gradient(45deg, #ff007f, #00f0ff);
+        }
+
+        .theme-ruby { 
+            --bg: #1a0505; 
+            --acc: #e63946; 
+            --surf: rgba(45, 10, 10, 0.9); 
+            --txt: #f1faee; 
+            --border: #a8222e; 
+            --grad: linear-gradient(45deg, #e63946, #457b9d);
+        }
+
+        /* -----------------------------------------------------------------------------
+           2. RESET E LAYOUT ESTRUTURAL (SIDEBAR + MAIN)
+        -------------------------------------------------------------------------------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
             background: var(--bg); 
             color: var(--txt); 
-            font-family: 'JetBrains Mono', monospace; 
-            margin: 0; 
+            font-family: 'JetBrains Mono', 'Fira Code', monospace; 
             display: flex; 
-            transition: 0.5s; 
             height: 100vh; 
+            width: 100vw;
             overflow: hidden; 
-            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* CANVAS DE FUNDO (SEMPRE ATIVO) */
+        /* CANVAS DE FUNDO - NEBULOSA DINÂMICA */
         #nebula-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none; opacity: 0.5;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 2s ease;
         }
-        
+
+        /* SIDEBAR DE NOTAS (SCRAPBOOK) */
         #scrapbook { 
-            width: 280px; 
+            width: 320px; 
             background: var(--surf); 
             border-right: 1px solid var(--border); 
-            padding: 20px; 
+            padding: 25px; 
             display: flex; 
             flex-direction: column; 
-            z-index: 10;
-            backdrop-filter: blur(10px);
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        #scrapbook h3 { 
+            color: var(--acc); 
+            font-size: 0.8rem; 
+            letter-spacing: 3px; 
+            margin-bottom: 20px; 
+            text-transform: uppercase;
+            border-left: 3px solid var(--acc);
+            padding-left: 10px;
         }
 
         #scrapbook textarea { 
             flex: 1; 
-            background: rgba(0,0,0,0.3); 
+            background: rgba(0,0,0,0.4); 
             color: var(--txt); 
             border: 1px solid var(--border); 
-            padding: 10px; 
+            padding: 20px; 
             font-family: inherit; 
             resize: none; 
             outline: none; 
-            border-radius: 4px; 
-            font-size: 0.85rem; 
+            border-radius: 8px; 
+            font-size: 0.9rem; 
+            line-height: 1.6;
+            transition: border 0.3s;
         }
 
+        #scrapbook textarea:focus { border-color: var(--acc); }
+
+        /* ÁREA DE CONTEÚDO PRINCIPAL */
         main { 
             flex: 1; 
-            padding: 25px; 
+            padding: 40px; 
             overflow-y: auto; 
             position: relative; 
             z-index: 10;
+            scroll-behavior: smooth;
         }
 
+        /* -----------------------------------------------------------------------------
+           3. CABEÇALHO E CONTROLES DE COMANDO
+        -------------------------------------------------------------------------------- */
         header { 
             border-bottom: 2px solid var(--acc); 
-            padding-bottom: 15px; 
-            margin-bottom: 25px; 
+            padding-bottom: 25px; 
+            margin-bottom: 40px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
 
-        /* DASHBOARD */
-        .dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .stat-card { background: var(--surf); padding: 15px; border-radius: 8px; border: 1px solid var(--border); backdrop-filter: blur(5px); }
-
-        /* BUSCA E APPS */
-        .search-container { margin-bottom: 20px; position: relative; }
-        #search-input { 
-            width: 100%; background: var(--surf); border: 1px solid var(--acc); 
-            padding: 12px 45px; color: var(--txt); border-radius: 30px; outline: none; 
+        header h1 { 
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .apps-container { display: none; margin-bottom: 25px; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .controls { display: flex; gap: 10px; align-items: center; }
+
+        /* -----------------------------------------------------------------------------
+           4. DASHBOARD ANALYTICS
+        -------------------------------------------------------------------------------- */
+        .dashboard-grid { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr; 
+            gap: 30px; 
+            margin-bottom: 40px; 
+        }
+
+        .stat-card { 
+            background: var(--surf); 
+            padding: 25px; 
+            border-radius: 15px; 
+            border: 1px solid var(--border); 
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--grad);
+        }
+
+        #totalCounter { 
+            font-size: 5rem; 
+            font-weight: 900; 
+            margin: 0; 
+            color: var(--acc);
+            text-shadow: 0 0 20px rgba(0,255,65,0.3);
+        }
+
+        /* -----------------------------------------------------------------------------
+           5. SISTEMA DE APLICATIVOS (APPS GRID)
+        -------------------------------------------------------------------------------- */
+        .apps-container { 
+            display: none; 
+            margin-bottom: 40px; 
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .apps-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 20px; 
+        }
+
         .app-card { 
-            background: var(--surf); border: 1px solid var(--border); border-radius: 12px; 
-            height: 110px; display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; cursor: pointer; transition: 0.2s; 
+            background: var(--surf); 
+            border: 1px solid var(--border); 
+            border-radius: 15px; 
+            padding: 30px 20px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            cursor: pointer; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            text-decoration: none;
+            color: inherit;
         }
-        .app-card:hover { border-color: var(--acc); background: rgba(255,255,255,0.1); }
 
-        /* MODO ZEN ATIVO */
+        .app-card:hover { 
+            border-color: var(--acc); 
+            transform: scale(1.05); 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .app-card i { font-size: 3.5rem; margin-bottom: 15px; }
+        .app-card.insta i { color: #E1306C; }
+        .app-card.tele i { color: #0088cc; }
+        .app-card.whats i { color: #25D366; }
+        .app-card.github i { color: #fff; }
+        .app-card span { font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; }
+
+        /* -----------------------------------------------------------------------------
+           6. SEARCH E FILTROS
+        -------------------------------------------------------------------------------- */
+        .search-container { margin-bottom: 30px; position: relative; }
+
+        #search-input { 
+            width: 100%; 
+            background: var(--surf); 
+            border: 2px solid var(--border); 
+            padding: 20px 60px; 
+            color: var(--txt); 
+            border-radius: 50px; 
+            outline: none; 
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        #search-input:focus { border-color: var(--acc); box-shadow: 0 0 20px rgba(0,255,65,0.2); }
+
+        .search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; opacity: 0.5; }
+
+        /* -----------------------------------------------------------------------------
+           7. MODO FOCO ZEN (SENSORIAL)
+        -------------------------------------------------------------------------------- */
         .focus-mode #scrapbook, 
         .focus-mode .input-box, 
         .focus-mode .dashboard-grid, 
@@ -107,195 +275,538 @@
         .focus-mode .controls, 
         .focus-mode .search-container, 
         .focus-mode .apps-container,
-        .focus-mode #filters { display: none !important; }
-        
+        .focus-mode #filters { 
+            display: none !important; 
+        }
+
+        .focus-mode main { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh;
+        }
+
         .focus-mode #nebula-canvas { opacity: 1; }
-        .focus-mode main { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .focus-mode #list { width: 80%; max-width: 800px; }
+        .focus-mode #list { width: 90%; max-width: 1000px; max-height: 70vh; overflow-y: auto; }
 
         #exit-focus { 
-            display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.8); border: 2px solid var(--acc); color: var(--acc);
-            padding: 15px 40px; border-radius: 50px; cursor: pointer; z-index: 10001; font-weight: bold;
+            display: none; 
+            position: fixed; 
+            bottom: 50px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); 
+            border: 2px solid var(--acc); 
+            color: var(--acc);
+            padding: 20px 60px; 
+            border-radius: 100px; 
+            cursor: pointer; 
+            z-index: 10001; 
+            font-weight: 900;
+            backdrop-filter: blur(15px);
+            letter-spacing: 5px;
+            transition: 0.3s;
         }
+
+        #exit-focus:hover { background: var(--acc); color: #000; }
         .focus-mode #exit-focus { display: block; }
 
-        /* UI ELEMENTS */
-        .input-box { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
-        input, select { background: rgba(0,0,0,0.1); border: 1px solid var(--border); padding: 10px; color: var(--txt); border-radius: 4px; outline: none; }
-        .btn-add { background: var(--acc); color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; }
-        .grid { display: grid; gap: 10px; }
-        .item { background: var(--surf); padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); backdrop-filter: blur(5px); }
-        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 5px; }
+        /* -----------------------------------------------------------------------------
+           8. INPUTS E BOTÕES TÉCNICOS
+        -------------------------------------------------------------------------------- */
+        .input-box { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr auto; 
+            gap: 15px; 
+            background: var(--surf); 
+            padding: 30px; 
+            border-radius: 15px; 
+            border: 1px solid var(--border); 
+            margin-bottom: 30px; 
+            backdrop-filter: blur(10px);
+        }
 
-        #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:10000; }
+        input, select { 
+            background: rgba(0,0,0,0.5); 
+            border: 1px solid var(--border); 
+            padding: 15px; 
+            color: var(--txt); 
+            border-radius: 8px; 
+            outline: none; 
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        input:focus { border-color: var(--acc); }
+
+        .btn-add { 
+            background: var(--acc); 
+            color: #000; 
+            border: none; 
+            padding: 15px 35px; 
+            font-weight: 900; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-add:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,65,0.4); }
+
+        .btn-tool { 
+            background: transparent; 
+            color: var(--acc); 
+            border: 1px solid var(--acc); 
+            padding: 10px 18px; 
+            cursor: pointer; 
+            border-radius: 6px; 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn-tool:hover { background: var(--acc); color: #000; }
+
+        /* -----------------------------------------------------------------------------
+           9. LISTAGEM DE REGISTROS (GRID)
+        -------------------------------------------------------------------------------- */
+        .grid { display: grid; gap: 15px; }
+
+        .item { 
+            background: var(--surf); 
+            padding: 25px; 
+            border-radius: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-left: 6px solid var(--acc); 
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .item:hover { transform: translateX(10px); background: rgba(255,255,255,0.05); }
+
+        .item-info h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--acc); }
+        .item-info p { font-size: 0.8rem; opacity: 0.6; word-break: break-all; }
+        .item-cat { font-size: 0.7rem; background: var(--border); padding: 4px 10px; border-radius: 4px; margin-left: 10px; font-weight: bold; }
+
+        /* -----------------------------------------------------------------------------
+           10. MODAIS E UTILITÁRIOS
+        -------------------------------------------------------------------------------- */
+        #qr-modal { 
+            display:none; 
+            position:fixed; 
+            top:0; left:0; width:100%; height:100%; 
+            background:rgba(0,0,0,0.9); 
+            justify-content:center; 
+            align-items:center; 
+            z-index:10000; 
+        }
+
+        .video-section { 
+            background: var(--surf); 
+            border: 1px solid var(--border); 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin-bottom: 30px; 
+            display: none; 
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body id="app-body">
 
     <canvas id="nebula-canvas"></canvas>
-    <button id="exit-focus" onclick="toggleFocus()">RETORNAR DO MODO ZEN</button>
+
+    <button id="exit-focus" onclick="toggleFocus()">DESATIVAR MODO ZEN</button>
 
     <div id="qr-modal" onclick="this.style.display='none'">
-        <div id="qr-container" style="background:white; padding:20px; border-radius:10px;"></div>
+        <div id="qr-container" style="background:white; padding:30px; border-radius:20px; box-shadow: 0 0 50px var(--acc);"></div>
+        <p style="margin-top:20px; color:var(--acc); font-weight:bold;">CLIQUE PARA FECHAR</p>
     </div>
 
     <aside id="scrapbook">
-        <h3 style="color: var(--acc); font-size: 0.7rem;">> SCRAPBOOK_V16</h3>
-        <textarea id="notes" placeholder="Notas de sistema..." oninput="saveNotes()"></textarea>
+        <h3>> SCRAPBOOK_NOTAS</h3>
+        <textarea id="notes" placeholder="Digite comandos, rascunhos ou notas técnicas aqui..." oninput="saveNotes()"></textarea>
+        
+        <div style="margin-top:20px; border-top: 1px solid var(--border); padding-top:20px;">
+            <p style="font-size:0.6rem; opacity:0.5; margin-bottom:10px;">LOG DE ACESSO:</p>
+            <div id="access-log" style="font-size:0.6rem; color:var(--acc); overflow:hidden;"></div>
+        </div>
     </aside>
 
     <main>
         <header>
-            <div style="display:flex; align-items:center; gap:15px;">
-                <button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; border:none; padding:8px 15px;">INÍCIO</button>
-                <h1 style="font-size: 1.4rem;">VAULT_SUPREMO_V16</h1>
+            <div style="display:flex; align-items:center;">
+                <button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; border:none; margin-right:20px; padding: 10px 25px;">INÍCIO</button>
+                <h1 id="main-title">VAULT_TITAN_ARCHITECT_V17</h1>
             </div>
             <div class="controls">
-                <select onchange="changeTheme(this.value)" class="btn-tool">
-                    <option value="">MATRIX</option>
-                    <option value="theme-oficial">OFICIAL</option>
-                    <option value="theme-gold">GOLD</option>
-                    <option value="theme-cyberpunk">CYBERPUNK</option>
+                <select onchange="changeTheme(this.value)" class="btn-tool" style="background:var(--surf)">
+                    <option value="">MATRIX PRO</option>
+                    <option value="theme-oficial">CLEAN GOOGLE</option>
+                    <option value="theme-gold">ROYAL GOLD</option>
+                    <option value="theme-cyberpunk">CYBER VIBE</option>
+                    <option value="theme-ruby">RUBY DARK</option>
                 </select>
-                <button class="btn-tool" onclick="toggleSection('apps-container')">APPS</button>
-                <button class="btn-tool" onclick="toggleSection('video-section')">VÍDEO</button>
-                <button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 10px var(--acc);">MODO ZEN</button>
-                <button class="btn-tool" onclick="exportData()">BACKUP</button>
+                <button class="btn-tool" onclick="toggleSection('apps-container')">APLICATIVOS</button>
+                <button class="btn-tool" onclick="toggleSection('video-section')">MULTIMÍDIA</button>
+                <button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 15px var(--acc);">MODO ZEN</button>
+                <button class="btn-tool" onclick="exportData()"><i class="fas fa-download"></i> BACKUP</button>
+                <button class="btn-tool" onclick="document.getElementById('file-input').click()"><i class="fas fa-upload"></i> IMPORT</button>
+                <input type="file" id="file-input" style="display:none" onchange="importData(event)">
             </div>
         </header>
 
         <div class="dashboard-grid">
-            <div class="stat-card"><canvas id="categoryChart" height="110"></canvas></div>
-            <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
-                <h2 id="totalCounter" style="font-size: 3.5rem; margin: 0; color: var(--acc);">0</h2>
-                <p style="font-size: 0.7rem; opacity:0.6; font-weight:bold;">REGISTROS NO VAULT</p>
+            <div class="stat-card">
+                <h4 style="margin-bottom:15px; font-size:0.8rem; opacity:0.7;">DISTRIBUIÇÃO DE CATEGORIAS</h4>
+                <div style="height: 180px;">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+            <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h2 id="totalCounter">0</h2>
+                <p style="font-weight: bold; letter-spacing: 2px; opacity:0.6;">ENTRADAS NO DATABASE</p>
+                <div style="margin-top:15px; width: 100%; height: 5px; background: #222; border-radius: 10px;">
+                    <div id="storage-bar" style="height:100%; width:0%; background:var(--acc); border-radius:10px; transition:1s;"></div>
+                </div>
             </div>
         </div>
 
         <div class="apps-container" id="apps-container">
-            <div class="app-card" onclick="window.open('https://instagram.com','_blank')"><i class="fab fa-instagram" style="color:#E1306C; font-size:2rem;"></i><span>INSTA</span></div>
-            <div class="app-card" onclick="window.open('https://web.telegram.org','_blank')"><i class="fab fa-telegram" style="color:#0088cc; font-size:2rem;"></i><span>TELE</span></div>
-            <div class="app-card" onclick="window.open('https://web.whatsapp.com','_blank')"><i class="fab fa-whatsapp" style="color:#25D366; font-size:2rem;"></i><span>WHATS</span></div>
+            <div class="apps-grid">
+                <a href="https://instagram.com" target="_blank" class="app-card insta"><i class="fab fa-instagram"></i><span>INSTAGRAM</span></a>
+                <a href="https://web.telegram.org" target="_blank" class="app-card tele"><i class="fab fa-telegram"></i><span>TELEGRAM</span></a>
+                <a href="https://web.whatsapp.com" target="_blank" class="app-card whats"><i class="fab fa-whatsapp"></i><span>WHATSAPP</span></a>
+                <a href="https://github.com" target="_blank" class="app-card github"><i class="fab fa-github"></i><span>GITHUB</span></a>
+                <a href="https://youtube.com" target="_blank" class="app-card" style="color:#ff0000"><i class="fab fa-youtube"></i><span>YOUTUBE</span></a>
+                <a href="https://chat.openai.com" target="_blank" class="app-card" style="color:#10a37f"><i class="fas fa-robot"></i><span>CHATGPT</span></a>
+            </div>
         </div>
 
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Pesquisar registros..." oninput="load()">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" placeholder="Pesquisar por título, link ou categoria..." oninput="load()">
         </div>
 
-        <div class="video-section" id="video-section" style="display:none; margin-bottom:20px; background:var(--surf); padding:20px; border-radius:8px;">
-            <div style="display:flex; gap:10px;"><input type="text" id="v-url" style="flex:1" placeholder="YouTube Link"><button class="btn-add" onclick="playVideo()">PLAY</button></div>
-            <div id="player" style="display:none; margin-top:15px;"><iframe id="video-frame" width="100%" height="350" frameborder="0" allowfullscreen></iframe></div>
+        <div class="video-section" id="video-section">
+            <div style="display:flex; gap:15px; margin-bottom:20px;">
+                <input type="text" id="v-url" placeholder="Cole a URL do vídeo do YouTube aqui..." style="flex:1">
+                <button class="btn-add" onclick="playVideo()">CARREGAR PLAYER</button>
+            </div>
+            <div id="player-container" style="display:none; border-radius:10px; overflow:hidden; border:2px solid var(--border);">
+                <iframe id="video-frame" width="100%" height="450" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
         </div>
 
         <div class="input-box">
-            <input type="text" id="t" placeholder="Título">
-            <input type="text" id="u" placeholder="URL">
-            <input type="text" id="c" placeholder="Categoria">
-            <button class="btn-add" onclick="add()">ARMAZENAR</button>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label style="font-size:0.6rem; font-weight:bold; opacity:0.5;">TÍTULO</label>
+                <input type="text" id="t" placeholder="Ex: Documentação API">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label style="font-size:0.6rem; font-weight:bold; opacity:0.5;">ENDEREÇO URL</label>
+                <input type="text" id="u" placeholder="https://...">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label style="font-size:0.6rem; font-weight:bold; opacity:0.5;">CATEGORIA</label>
+                <input type="text" id="c" placeholder="Geral" list="cat-suggestions">
+                <datalist id="cat-suggestions"></datalist>
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+                <button class="btn-add" onclick="add()">ARMAZENAR NO VAULT</button>
+            </div>
         </div>
 
-        <div id="filters" style="margin-bottom:20px; display:flex; gap:8px; flex-wrap:wrap;"></div>
+        <div id="filters" style="margin-bottom:30px; display:flex; gap:10px; flex-wrap:wrap;"></div>
+
         <div class="grid" id="list"></div>
     </main>
 
     <script>
-        const DB_KEY = 'vault_v16_master';
+        const DB_KEY = 'vault_titan_v17_db';
         let myChart = null;
         let currentFilter = 'all';
-        let audioCtx = null, noiseNode = null;
+        let audioCtx = null;
+        let noiseNode = null;
+        let nebulaParticles = [];
 
-        // --- ANIMAÇÃO NEBULOSA (PAGINA INTEIRA) ---
-        const canvas = document.getElementById('nebula-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function initNebula() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = [];
-            for (let i = 0; i < 150; i++) {
-                particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2+0.2, spd: Math.random()*0.3+0.05, op: Math.random() });
+        // --- MOTOR DE ÁUDIO BINAURAL ---
+        function toggleAmbientSound(active) {
+            if (active) {
+                try {
+                    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const bufferSize = 2 * audioCtx.sampleRate;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+
+                    noiseNode = audioCtx.createBufferSource();
+                    noiseNode.buffer = buffer;
+                    noiseNode.loop = true;
+                    
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 300; 
+
+                    const gain = audioCtx.createGain();
+                    gain.gain.value = 0.05; 
+
+                    noiseNode.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    noiseNode.start();
+                } catch(e) { console.error("Audio engine failed to start."); }
+            } else {
+                if (noiseNode) { noiseNode.stop(); noiseNode = null; }
             }
         }
-        function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--acc') || '#00ff41';
-            particles.forEach(p => {
-                p.y -= p.spd; if(p.y < 0) p.y = canvas.height;
-                ctx.globalAlpha = p.op;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-            });
-            requestAnimationFrame(animate);
+
+        // --- MOTOR GRÁFICO NEBULOSA ---
+        const canvas = document.getElementById('nebula-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function initNebula() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            nebulaParticles = [];
+            const count = 200; // Densidade aumentada
+            for (let i = 0; i < count; i++) {
+                nebulaParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 0.5,
+                    speed: Math.random() * 0.5 + 0.1,
+                    opacity: Math.random(),
+                    drift: Math.random() * 2 - 1
+                });
+            }
         }
 
-        // --- CORE FUNCTIONS ---
+        function animateNebula() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const accent = getComputedStyle(document.body).getPropertyValue('--acc').trim();
+            ctx.fillStyle = accent;
+            
+            nebulaParticles.forEach(p => {
+                p.y -= p.speed;
+                p.x += Math.sin(p.y / 50) * 0.5; // Efeito de flutuação lateral
+                
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+                
+                ctx.globalAlpha = p.opacity;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animateNebula);
+        }
+
+        // --- CORE DATABASE FUNCTIONS ---
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             const term = document.getElementById('search-input').value.toLowerCase();
-            document.getElementById('totalCounter').innerText = data.length;
-            const filtered = data.filter(l => (l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term)) && (currentFilter === 'all' || l.cat === currentFilter));
             
-            document.getElementById('list').innerHTML = filtered.map(l => `
+            // Log de acesso
+            const log = document.getElementById('access-log');
+            const now = new Date();
+            log.innerHTML = `> LAST_SYNC: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}<br>` + log.innerHTML;
+            if(log.innerHTML.length > 500) log.innerHTML = log.innerHTML.substring(0, 500);
+
+            // Contador e Barra
+            document.getElementById('totalCounter').innerText = data.length;
+            document.getElementById('storage-bar').style.width = Math.min(data.length * 2, 100) + '%';
+
+            const filtered = data.filter(l => {
+                const matchSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term) || l.cat.toLowerCase().includes(term);
+                const matchCat = currentFilter === 'all' || l.cat === currentFilter;
+                return matchSearch && matchCat;
+            });
+
+            const listEl = document.getElementById('list');
+            listEl.innerHTML = filtered.map(l => `
                 <div class="item">
-                    <div><strong>${l.title}</strong><span style="font-size:0.7rem; opacity:0.5; margin-left:10px;">${l.cat}</span><br><small>${l.url}</small></div>
-                    <div style="display:flex; gap:10px;">
-                        <button onclick="showQR('${l.url}')" class="btn-tool">QR</button>
-                        <button onclick="del('${l.id}')" class="btn-tool" style="color:#ff7675; border-color:#ff7675;">DEL</button>
+                    <div class="item-info">
+                        <h4>${l.title} <span class="item-cat">${l.cat}</span></h4>
+                        <p>${l.url}</p>
+                    </div>
+                    <div style="display:flex; gap:15px; align-items:center;">
+                        <i class="fas fa-external-link-alt" style="cursor:pointer; opacity:0.7;" onclick="window.open('${l.url}', '_blank')"></i>
+                        <i class="fas fa-qrcode" style="cursor:pointer; opacity:0.7;" onclick="showQR('${l.url}')"></i>
+                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; cursor:pointer; border-radius:4px; font-size:0.6rem; padding:5px 10px;">DELETAR</button>
                     </div>
                 </div>
             `).reverse().join('');
-            updateChart(data); renderFilters(data);
-            document.getElementById('notes').value = localStorage.getItem('vault_v16_notes') || '';
+
+            updateChart(data);
+            renderFilters(data);
+            document.getElementById('notes').value = localStorage.getItem('vault_titan_notes') || '';
         }
 
         function add() {
-            const t = document.getElementById('t').value || 'S/T'; const u = document.getElementById('u').value; if(!u) return;
+            const t = document.getElementById('t').value;
+            const u = document.getElementById('u').value;
+            const c = document.getElementById('c').value || 'Geral';
+            if(!u) return alert("URL é obrigatória!");
+
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db.push({ id: Date.now().toString(), title: t, url: u, cat: document.getElementById('c').value || 'Geral' });
-            localStorage.setItem(DB_KEY, JSON.stringify(db)); load();
-            document.getElementById('t').value=''; document.getElementById('u').value='';
+            db.push({
+                id: Date.now().toString(),
+                title: t || 'Sem Título',
+                url: u.startsWith('http') ? u : 'https://' + u,
+                cat: c,
+                date: new Date().toISOString()
+            });
+
+            localStorage.setItem(DB_KEY, JSON.stringify(db));
+            document.getElementById('t').value = '';
+            document.getElementById('u').value = '';
+            load();
         }
 
-        function del(id) { if(confirm("Remover?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(l=>l.id!==id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
+        function del(id) {
+            if(confirm("Confirmar exclusão definitiva do registro?")) {
+                let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+                db = db.filter(item => item.id !== id);
+                localStorage.setItem(DB_KEY, JSON.stringify(db));
+                load();
+            }
+        }
 
+        // --- UI E INTERATIVIDADE ---
         function toggleFocus() {
-            const isFocus = document.body.classList.toggle('focus-mode');
-            if(isFocus) toggleAudio(true); else toggleAudio(false);
+            const body = document.body;
+            const isZen = body.classList.toggle('focus-mode');
+            
+            if (isZen) {
+                toggleAmbientSound(true);
+                document.getElementById('main-title').innerText = "ZEN_MODE_PROTOCOL_ACTIVE";
+            } else {
+                toggleAmbientSound(false);
+                document.getElementById('main-title').innerText = "VAULT_TITAN_ARCHITECT_V17";
+            }
         }
 
-        function toggleAudio(on) {
-            if(on) {
-                if(!audioCtx) audioCtx = new AudioContext();
-                const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 2, audioCtx.sampleRate);
-                const out = buffer.getChannelData(0); for(let i=0; i<buffer.length; i++) out[i] = Math.random() * 2 - 1;
-                noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer; noiseNode.loop = true;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 400;
-                const gain = audioCtx.createGain(); gain.gain.value = 0.05;
-                noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseNode.start();
-            } else if(noiseNode) { noiseNode.stop(); }
+        function goHome() {
+            currentFilter = 'all';
+            document.getElementById('search-input').value = '';
+            document.getElementById('apps-container').style.display = 'none';
+            document.getElementById('video-section').style.display = 'none';
+            if(document.body.classList.contains('focus-mode')) toggleFocus();
+            load();
         }
 
-        function goHome() { currentFilter = 'all'; document.getElementById('search-input').value=''; load(); }
-        function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display==='none'||s.style.display==='') ? (id==='apps-container'?'grid':'block') : 'none'; }
-        function changeTheme(t) { document.body.className = t; load(); }
-        function saveNotes() { localStorage.setItem('vault_v16_notes', document.getElementById('notes').value); }
-        function showQR(u) { document.getElementById('qr-container').innerHTML=""; new QRCode(document.getElementById('qr-container'), {text:u, width:150, height:150}); document.getElementById('qr-modal').style.display='flex'; }
-        function playVideo() { const url = document.getElementById('v-url').value; const id = url.split('v=')[1]?.split('&')[0] || url.split('be/')[1]; if(id) { document.getElementById('video-frame').src=`https://www.youtube.com/embed/${id}`; document.getElementById('player').style.display='block'; } }
-        
+        function toggleSection(id) {
+            const el = document.getElementById(id);
+            const display = window.getComputedStyle(el).display;
+            el.style.display = (display === 'none') ? (id === 'apps-container' ? 'block' : 'block') : 'none';
+        }
+
+        function changeTheme(theme) {
+            document.body.className = theme;
+            load();
+        }
+
+        function saveNotes() {
+            localStorage.setItem('vault_titan_notes', document.getElementById('notes').value);
+        }
+
+        function showQR(url) {
+            const container = document.getElementById('qr-container');
+            container.innerHTML = "";
+            new QRCode(container, { text: url, width: 200, height: 200 });
+            document.getElementById('qr-modal').style.display = 'flex';
+        }
+
+        function playVideo() {
+            const url = document.getElementById('v-url').value;
+            let videoId = "";
+            if (url.includes("v=")) videoId = url.split("v=")[1].split("&")[0];
+            else if (url.includes("be/")) videoId = url.split("be/")[1];
+
+            if (videoId) {
+                document.getElementById('video-frame').src = `https://www.youtube.com/embed/${videoId}`;
+                document.getElementById('player-container').style.display = 'block';
+            }
+        }
+
         function updateChart(data) {
-            const cats = {}; data.forEach(l => cats[l.cat] = (cats[l.cat] || 0) + 1);
+            const cats = {};
+            data.forEach(item => cats[item.cat] = (cats[item.cat] || 0) + 1);
+            
             const ctx = document.getElementById('categoryChart').getContext('2d');
             if(myChart) myChart.destroy();
-            myChart = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            
+            const accentColor = getComputedStyle(document.body).getPropertyValue('--acc').trim();
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(cats),
+                    datasets: [{
+                        label: 'Registros',
+                        data: Object.values(cats),
+                        backgroundColor: accentColor,
+                        borderColor: accentColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#888' }, grid: { color: '#222' } },
+                        x: { ticks: { color: '#888' }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
         }
 
         function renderFilters(data) {
             const cats = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c.toUpperCase()}</button>`).join('');
+            document.getElementById('cat-suggestions').innerHTML = cats.filter(c => c !== 'all').map(c => `<option value="${c}">`).join('');
+            
+            document.getElementById('filters').innerHTML = cats.map(c => `
+                <button onclick="currentFilter='${c}';load()" class="btn-tool" style="
+                    background: ${currentFilter === c ? 'var(--acc)' : 'transparent'};
+                    color: ${currentFilter === c ? '#000' : 'var(--acc)'};
+                ">${c}</button>
+            `).join('');
         }
 
-        function exportData() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([localStorage.getItem(DB_KEY)], {type:'application/json'})); a.download = `vault_v16.json`; a.click(); }
+        function exportData() {
+            const data = localStorage.getItem(DB_KEY);
+            const blob = new Blob([data], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `VAULT_TITAN_BACKUP_${new Date().getTime()}.json`;
+            a.click();
+        }
 
-        window.onload = () => { initNebula(); animate(); load(); };
+        function importData(e) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                localStorage.setItem(DB_KEY, event.target.result);
+                load();
+                alert("DATABASE SINCRONIZADA COM SUCESSO!");
+            };
+            reader.readAsText(e.target.files[0]);
+        }
+
+        // --- STARTUP ---
+        window.onload = () => {
+            initNebula();
+            animateNebula();
+            load();
+        };
         window.onresize = initNebula;
     </script>
 </body>
