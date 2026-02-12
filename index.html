@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD DEV | VAULT SUPREMO V9 - INTEGRALIDADE TOTAL</title>
+    <title>GOD DEV | VAULT SUPREMO V11 - O CODEX</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* CONFIGURAÇÃO DE TEMAS - TODOS PRESERVADOS */
+        /* ---------------------------------------------------------
+           SEÇÃO DE TEMAS E VARIÁVEIS (PRESERVAÇÃO TOTAL)
+        ------------------------------------------------------------ */
         :root { 
             --bg: #050505; 
             --acc: #00ff41; 
@@ -82,6 +85,9 @@
             --border: #a8222e; 
         }
 
+        /* ---------------------------------------------------------
+           ESTRUTURA BASE DA INTERFACE
+        ------------------------------------------------------------ */
         body { 
             background: var(--bg); 
             color: var(--txt); 
@@ -89,80 +95,93 @@
             margin: 0; 
             padding: 0;
             display: flex; 
-            transition: background 0.5s, color 0.5s; 
+            transition: background 0.5s ease, color 0.5s ease; 
             height: 100vh; 
             overflow: hidden; 
         }
         
-        /* SIDEBAR SCRAPBOOK - ESTRUTURA EXPANDIDA */
+        /* SIDEBAR SCRAPBOOK - EXPANDIDA */
         #scrapbook { 
-            width: 300px; 
+            width: 320px; 
             background: var(--surf); 
-            border-right: 1px solid var(--border); 
-            padding: 25px; 
+            border-right: 2px solid var(--border); 
+            padding: 30px; 
             display: flex; 
             flex-direction: column; 
-            box-sizing: border-box;
+            box-sizing: border-box; 
+            transition: 0.3s;
         }
-        
+
         #scrapbook h3 {
-            font-size: 0.8rem;
-            margin-bottom: 15px;
+            font-size: 0.9rem;
             color: var(--acc);
-            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
         #scrapbook textarea { 
             flex: 1; 
-            background: rgba(0,0,0,0.2); 
+            background: rgba(0,0,0,0.3); 
             color: var(--txt); 
             border: 1px solid var(--border); 
-            padding: 15px; 
-            font-family: inherit; 
+            padding: 20px; 
+            font-family: 'JetBrains Mono', monospace; 
             resize: none; 
             outline: none; 
-            border-radius: 6px; 
-            font-size: 0.9rem; 
-            line-height: 1.5;
+            border-radius: 8px; 
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        /* ÁREA PRINCIPAL */
+        /* CONTEÚDO PRINCIPAL */
         main { 
             flex: 1; 
-            padding: 30px; 
+            padding: 40px; 
             overflow-y: auto; 
             position: relative; 
-            box-sizing: border-box;
+            box-sizing: border-box; 
         }
 
         header { 
-            border-bottom: 3px solid var(--acc); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
+            border-bottom: 4px solid var(--acc); 
+            padding-bottom: 25px; 
+            margin-bottom: 40px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
 
-        /* DASHBOARD - ESTATÍSTICAS */
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            color: var(--acc);
+        }
+
+        /* ---------------------------------------------------------
+           ESTILO DOS CARDS E DASHBOARD
+        ------------------------------------------------------------ */
         .dashboard-grid { 
             display: grid; 
-            grid-template-columns: 1.5fr 1fr; 
-            gap: 25px; 
-            margin-bottom: 30px; 
+            grid-template-columns: 1.6fr 1fr; 
+            gap: 30px; 
+            margin-bottom: 40px; 
         }
 
         .stat-card { 
             background: var(--surf); 
-            padding: 20px; 
-            border-radius: 12px; 
+            padding: 25px; 
+            border-radius: 15px; 
             border: 1px solid var(--border); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        /* BUSCA EM TEMPO REAL */
+        /* ---------------------------------------------------------
+           SISTEMA DE BUSCA E INPUTS
+        ------------------------------------------------------------ */
         .search-container { 
-            margin-bottom: 25px; 
+            margin-bottom: 30px; 
             position: relative; 
         }
 
@@ -170,40 +189,229 @@
             width: 100%; 
             background: var(--surf); 
             border: 2px solid var(--border); 
-            padding: 15px 50px; 
+            padding: 18px 60px; 
             color: var(--txt); 
-            border-radius: 50px; 
+            border-radius: 60px; 
             outline: none; 
-            font-size: 1rem;
+            font-size: 1.1rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #search-input:focus { 
+            border-color: var(--acc); 
+            box-shadow: 0 0 20px rgba(0,255,65,0.2);
+        }
+
+        .search-icon-fixed {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.5;
+        }
+
+        .input-box { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr auto; 
+            gap: 20px; 
+            background: var(--surf); 
+            padding: 30px; 
+            border-radius: 15px; 
+            border: 1px solid var(--border); 
+            margin-bottom: 30px; 
+        }
+
+        .input-box input { 
+            background: rgba(0,0,0,0.4); 
+            border: 1px solid var(--border); 
+            padding: 15px; 
+            color: var(--txt); 
+            outline: none; 
+            border-radius: 8px; 
+            font-family: inherit;
+        }
+
+        .btn-add-main { 
+            background: var(--acc); 
+            color: #000; 
+            border: none; 
+            padding: 0 40px; 
+            font-weight: 900; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        /* ---------------------------------------------------------
+           NOVA ABA: APPS (FORMATO DE CARTAS)
+        ------------------------------------------------------------ */
+        .apps-section { 
+            display: none; 
+            margin-bottom: 40px; 
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .apps-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 25px; 
+        }
+
+        .app-card { 
+            background: var(--surf); 
+            border: 2px solid var(--border); 
+            border-radius: 20px; 
+            height: 180px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        .app-card:hover { 
+            border-color: var(--acc); 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4); 
+        }
+
+        .app-card i { 
+            font-size: 3.5rem; 
+            margin-bottom: 15px; 
+        }
+
+        /* CORES ORIGINAIS DOS APPS */
+        .app-card.insta i { color: #E1306C; }
+        .app-card.tele i { color: #0088cc; }
+        .app-card.whats i { color: #25D366; }
+
+        .app-card span { 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            letter-spacing: 2px; 
+        }
+
+        /* ---------------------------------------------------------
+           SISTEMA DE OVERLAY PARA APPS (WEB VIEW)
+        ------------------------------------------------------------ */
+        #app-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.98); 
+            z-index: 99999; 
+            flex-direction: column; 
+        }
+
+        .app-header-bar { 
+            background: #111; 
+            padding: 20px 40px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid var(--acc);
+        }
+
+        .app-iframe-container { 
+            flex: 1; 
+            width: 100%; 
+            height: 100%; 
+            background: #fff; 
+        }
+
+        .app-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ---------------------------------------------------------
+           LISTA DE LINKS E ITENS
+        ------------------------------------------------------------ */
+        .grid-links { 
+            display: grid; 
+            gap: 15px; 
+        }
+
+        .link-item { 
+            background: var(--surf); 
+            padding: 22px; 
+            border-radius: 10px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-left: 6px solid var(--acc); 
             transition: 0.3s;
         }
 
-        #search-input:focus {
-            border-color: var(--acc);
-            box-shadow: 0 0 15px rgba(0,255,65,0.1);
+        .link-item:hover {
+            transform: scale(1.01);
+            background: rgba(255,255,255,0.03);
         }
 
-        /* CENTRAL DE VÍDEO MANTIDA */
+        .status-dot { 
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            display: inline-block; 
+            margin-right: 15px; 
+            background: #555; 
+            transition: 0.3s;
+        }
+
+        .status-online { 
+            background: #00ff41; 
+            box-shadow: 0 0 10px #00ff41; 
+        }
+
+        .category-tag { 
+            background: rgba(0,0,0,0.4); 
+            color: var(--acc); 
+            font-size: 0.75rem; 
+            padding: 5px 12px; 
+            border-radius: 5px; 
+            margin-left: 15px; 
+            border: 1px solid var(--border); 
+            font-weight: bold;
+        }
+
+        /* ---------------------------------------------------------
+           VÍDEO PLAYER E CONTROLES MANTIDOS
+        ------------------------------------------------------------ */
         .video-section { 
             background: var(--surf); 
             border: 1px solid var(--border); 
-            padding: 25px; 
-            border-radius: 10px; 
-            margin-bottom: 25px; 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin-bottom: 30px; 
             display: none; 
         }
 
-        .video-container { 
+        .video-wrapper { 
             position: relative; 
             padding-bottom: 56.25%; 
             height: 0; 
             overflow: hidden; 
-            margin-top: 20px; 
-            border-radius: 8px; 
+            margin-top: 25px; 
+            border-radius: 12px; 
             background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .video-container iframe { 
+        .video-wrapper iframe { 
             position: absolute; 
             top: 0; 
             left: 0; 
@@ -212,192 +420,120 @@
             border: 0; 
         }
 
-        /* FORMULÁRIO DE ENTRADA */
-        .input-box { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr 1fr auto; 
-            gap: 15px; 
-            background: var(--surf); 
-            padding: 25px; 
-            border-radius: 10px; 
-            border: 1px solid var(--border); 
-            margin-bottom: 25px; 
-        }
-
-        .input-box input { 
-            background: rgba(0,0,0,0.2); 
-            border: 1px solid var(--border); 
-            padding: 12px; 
-            color: var(--txt); 
-            outline: none; 
-            border-radius: 6px; 
-        }
-
-        .btn-add { 
-            background: var(--acc); 
-            color: #000; 
-            border: none; 
-            padding: 0 30px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            border-radius: 6px; 
-            transition: 0.3s;
-        }
-
-        /* GRID DE RESULTADOS */
-        .grid { 
-            display: grid; 
-            gap: 15px; 
-        }
-
-        .item { 
-            background: var(--surf); 
-            padding: 20px; 
-            border-radius: 8px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-left: 5px solid var(--acc); 
-            transition: 0.3s;
-        }
-
-        .item:hover {
-            transform: scale(1.01);
-            background: rgba(255,255,255,0.02);
-        }
-
-        /* STATUS E TAGS */
-        .status-dot { 
-            width: 10px; 
-            height: 10px; 
-            border-radius: 50%; 
-            display: inline-block; 
-            margin-right: 10px; 
-            background: #666; 
-        }
-
-        .status-online { 
-            background: #00ff41; 
-            box-shadow: 0 0 8px #00ff41; 
-        }
-
-        .tag { 
-            background: rgba(0,0,0,0.3); 
-            color: var(--acc); 
-            font-size: 0.7rem; 
-            padding: 4px 10px; 
-            border-radius: 4px; 
-            margin-left: 10px; 
-            border: 1px solid var(--border);
-        }
-
-        /* AÇÕES INTERATIVAS */
-        .actions { 
-            display: flex; 
-            gap: 15px; 
-            align-items: center; 
-        }
-
-        .qr-icon { 
-            cursor: pointer; 
-            font-size: 1.4rem; 
-            transition: 0.3s;
-        }
-
-        .del-btn { 
-            color: #ff4757; 
+        /* ---------------------------------------------------------
+           BOTÕES E FERRAMENTAS
+        ------------------------------------------------------------ */
+        .btn-tool { 
+            padding: 10px 18px; 
             background: transparent; 
-            border: 1px solid #ff4757; 
-            padding: 6px 12px; 
+            color: var(--acc); 
+            border: 1px solid var(--acc); 
             cursor: pointer; 
             border-radius: 6px; 
-            font-weight: bold;
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-left: 8px;
         }
 
-        .del-btn:hover {
-            background: #ff4757;
-            color: white;
+        .btn-tool:hover {
+            background: var(--acc);
+            color: #000;
         }
 
-        /* MODAIS E OVERLAYS */
-        #qr-modal { 
-            display:none; 
-            position:fixed; 
-            top:0; 
-            left:0; 
-            width:100%; 
-            height:100%; 
-            background:rgba(0,0,0,0.9); 
-            justify-content:center; 
-            align-items:center; 
-            z-index:9999; 
-            flex-direction:column; 
-        }
-
-        #qr-container { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-        }
-
-        #exit-focus { 
+        #btn-emergency-focus { 
             display: none; 
             position: fixed; 
-            bottom: 30px; 
-            right: 30px; 
+            bottom: 40px; 
+            right: 40px; 
             background: #ff4757; 
             color: white; 
             border: none; 
-            padding: 20px 40px; 
-            border-radius: 50px; 
+            padding: 25px 50px; 
+            border-radius: 60px; 
+            z-index: 100000; 
+            font-weight: 900; 
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.5); 
             cursor: pointer; 
-            z-index: 10000; 
-            font-weight: bold;
-            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.4);
+            text-transform: uppercase;
         }
 
-        /* REGRAS DO MODO FOCO */
+        /* MODO FOCO */
         .focus-mode #scrapbook, 
         .focus-mode .input-box, 
         .focus-mode .dashboard-grid, 
         .focus-mode .filter-section, 
         .focus-mode .video-section, 
         .focus-mode .controls, 
-        .focus-mode .search-container { 
+        .focus-mode .search-container, 
+        .focus-mode .apps-section { 
             display: none !important; 
         }
 
-        .focus-mode #exit-focus { 
+        .focus-mode #btn-emergency-focus { 
             display: block; 
         }
-        
-        .focus-mode header {
-            justify-content: center;
-            border-color: transparent;
+
+        .focus-mode header { 
+            justify-content: center; 
+            border-color: transparent; 
         }
+
+        /* QR CODE MODAL */
+        #qr-modal-overlay { 
+            display:none; 
+            position:fixed; 
+            top:0; 
+            left:0; 
+            width:100%; 
+            height:100%; 
+            background:rgba(0,0,0,0.95); 
+            justify-content:center; 
+            align-items:center; 
+            z-index:999999; 
+            flex-direction:column; 
+        }
+
+        #qr-box { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+        }
+
     </style>
 </head>
-<body id="app-body">
+<body id="main-vault-body">
 
-    <button id="exit-focus" onclick="toggleFocus()">DESATIVAR MODO FOCO</button>
+    <button id="btn-emergency-focus" onclick="toggleFocusMode()">DESATIVAR MODO FOCO</button>
 
-    <div id="qr-modal" onclick="this.style.display='none'">
-        <div id="qr-container"></div>
-        <p style="margin-top:20px; color:white; font-weight: bold;">CLIQUE EM QUALQUER LUGAR PARA SAIR</p>
+    <div id="app-overlay">
+        <div class="app-header-bar">
+            <span id="active-app-name" style="font-weight:900; color:var(--acc); letter-spacing: 2px;">VAULT_SUBSYSTEM_APP</span>
+            <button onclick="closeAppSubsystem()" style="background:#ff4757; border:none; color:white; padding:10px 25px; border-radius:8px; cursor:pointer; font-weight:bold; text-transform:uppercase;">Encerrar App [X]</button>
+        </div>
+        <div class="app-iframe-container">
+            <iframe id="app-subsystem-iframe" src=""></iframe>
+        </div>
+    </div>
+
+    <div id="qr-modal-overlay" onclick="this.style.display='none'">
+        <div id="qr-box"></div>
+        <p style="margin-top:25px; color:white; font-weight: 900; letter-spacing: 1px;">CLIQUE EM QUALQUER LUGAR PARA VOLTAR</p>
     </div>
 
     <aside id="scrapbook">
         <h3>> SCRAPBOOK_NOTAS</h3>
-        <textarea id="notes" placeholder="Digite aqui comandos, lembretes ou rascunhos importantes..." oninput="saveNotes()"></textarea>
+        <textarea id="notes-area" placeholder="Escreva aqui seus códigos, comandos e rascunhos mentais..." oninput="persistNotes()"></textarea>
     </aside>
 
     <main>
         <header>
-            <h1>VAULT_TERMINAL_V9</h1>
+            <h1>VAULT_TITAN_V11</h1>
             <div class="controls">
-                <select onchange="changeTheme(this.value)" style="padding: 8px; background: var(--surf); color: var(--acc); border: 1px solid var(--acc); border-radius: 4px; cursor: pointer;">
+                <select onchange="updateSystemTheme(this.value)" class="btn-tool" style="background: var(--surf);">
                     <option value="">TEMA: MATRIX (PADRÃO)</option>
-                    <option value="theme-oficial">TEMA: OFICIAL (AZUL SUAVE)</option>
+                    <option value="theme-oficial">TEMA: OFICIAL (SUAVE)</option>
                     <option value="theme-gold">TEMA: GOLD EDITION</option>
                     <option value="theme-ruby">TEMA: RUBY RED</option>
                     <option value="theme-cyberpunk">TEMA: CYBERPUNK 2077</option>
@@ -406,294 +542,346 @@
                     <option value="theme-forest">TEMA: FOREST GREEN</option>
                     <option value="theme-minimal">TEMA: MINIMAL WHITE</option>
                 </select>
-                <button onclick="toggleVideoSection()" style="margin-left:10px; padding: 8px 15px; background: transparent; color: var(--acc); border: 1px solid var(--acc); cursor: pointer; border-radius: 4px;">VÍDEO PLAYER</button>
-                <button onclick="toggleFocus()" style="margin-left:10px; padding: 8px 15px; background: transparent; color: var(--acc); border: 1px solid var(--acc); cursor: pointer; border-radius: 4px;">MODO FOCO</button>
-                <button onclick="exportData()" style="margin-left:10px; padding: 8px 15px; background: transparent; color: var(--acc); border: 1px solid var(--acc); cursor: pointer; border-radius: 4px;">EXPORTAR BACKUP</button>
-                <button onclick="document.getElementById('fileInput').click()" style="margin-left:10px; padding: 8px 15px; background: transparent; color: var(--acc); border: 1px solid var(--acc); cursor: pointer; border-radius: 4px;">IMPORTAR</button>
-                <input type="file" id="fileInput" onchange="importData(event)" accept=".json" style="display:none">
+                <button class="btn-tool" onclick="toggleInterfaceSection('apps-section')">Apps</button>
+                <button class="btn-tool" onclick="toggleInterfaceSection('video-section')">Vídeo</button>
+                <button class="btn-tool" onclick="toggleFocusMode()">Foco</button>
+                <button class="btn-tool" onclick="initBackupExport()">Backup</button>
+                <button class="btn-tool" onclick="document.getElementById('importFile').click()">Importar</button>
+                <input type="file" id="importFile" onchange="initBackupImport(event)" style="display:none">
             </div>
         </header>
 
         <div class="dashboard-grid">
             <div class="stat-card">
-                <canvas id="categoryChart" height="120"></canvas>
+                <canvas id="vaultChart" height="140"></canvas>
             </div>
             <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h2 id="totalCounter" style="font-size: 4rem; margin: 0; color: var(--acc);">0</h2>
-                <p style="margin-bottom: 20px; font-weight: bold; opacity: 0.7;">TOTAL DE LINKS NO BANCO</p>
-                <button onclick="checkAllStatus()" style="padding: 10px 20px; background: var(--acc); color: #000; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">SINCRONIZAR STATUS (CHECK-UP)</button>
+                <h2 id="totalCounterDisplay" style="font-size: 5rem; margin: 0; color: var(--acc);">0</h2>
+                <span style="font-weight: 800; opacity: 0.6; letter-spacing: 2px;">RECORDS ENCONTRADOS</span>
+                <button onclick="executeGlobalStatusCheck()" style="margin-top:20px; padding: 12px 25px; background: var(--acc); color: #000; border: none; border-radius: 8px; font-weight: 900; cursor: pointer;">REVALIDAR CONEXÕES</button>
+            </div>
+        </div>
+
+        <div class="apps-section" id="apps-section">
+            <h3 style="margin-bottom:25px; color:var(--acc); text-transform: uppercase;">Aplicações Integradas</h3>
+            <div class="apps-grid">
+                <div class="app-card insta" onclick="launchAppSubsystem('Instagram', 'https://www.instagram.com')">
+                    <i class="fab fa-instagram"></i>
+                    <span>INSTAGRAM</span>
+                </div>
+                <div class="app-card tele" onclick="launchAppSubsystem('Telegram', 'https://web.telegram.org')">
+                    <i class="fab fa-telegram"></i>
+                    <span>TELEGRAM WEB</span>
+                </div>
+                <div class="app-card whats" onclick="launchAppSubsystem('WhatsApp', 'https://web.whatsapp.com')">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WHATSAPP WEB</span>
+                </div>
             </div>
         </div>
 
         <div class="search-container">
-            <span style="position: absolute; left: 20px; top: 15px; font-size: 1.2rem;">🔍</span>
-            <input type="text" id="search-input" placeholder="Pesquisar por título, palavra-chave ou URL..." oninput="load()">
+            <span class="search-icon-fixed">🔍</span>
+            <input type="text" id="global-search" placeholder="Filtrar por nome, categoria ou endereço URL..." oninput="refreshVaultDisplay()">
         </div>
 
         <div class="video-section" id="video-section">
-            <div style="display:flex; gap:15px">
-                <input type="text" id="v-url" placeholder="Cole aqui o link do YouTube para assistir..." style="flex:1; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: var(--txt); border-radius: 4px;">
-                <button onclick="playVideo()" style="padding: 0 25px; background: var(--acc); color: #000; border: none; font-weight: bold; border-radius: 4px; cursor: pointer;">CARREGAR PLAYER</button>
+            <div style="display:flex; gap:20px">
+                <input type="text" id="youtube-url-input" placeholder="Insira a URL do YouTube aqui..." style="flex:1; padding: 15px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--txt); border-radius: 8px;">
+                <button onclick="loadYoutubePlayer()" style="padding: 0 35px; background: var(--acc); border: none; font-weight: 900; cursor: pointer; border-radius: 8px;">PLAY</button>
             </div>
-            <div id="player" class="video-container" style="display:none">
-                <iframe id="video-frame" src="" allowfullscreen></iframe>
+            <div id="video-player-box" class="video-wrapper" style="display:none">
+                <iframe id="video-iframe-element" src="" allowfullscreen></iframe>
             </div>
         </div>
 
         <div class="input-box">
-            <input type="text" id="t" placeholder="Título do Site">
-            <input type="text" id="u" placeholder="URL (ex: github.com)">
-            <input type="text" id="c" placeholder="Categoria (ex: Dev, Lazer)" list="cat-list">
-            <datalist id="cat-list"></datalist>
-            <button class="btn-add" onclick="add()">ARMAZENAR NO VAULT</button>
+            <input type="text" id="input-title" placeholder="Nome do Registro">
+            <input type="text" id="input-url" placeholder="Endereço URL (http/https)">
+            <input type="text" id="input-cat" placeholder="Categoria" list="cat-suggestions">
+            <datalist id="cat-suggestions"></datalist>
+            <button class="btn-add-main" onclick="addNewVaultRecord()">ADICIONAR</button>
         </div>
 
-        <div id="filters" style="margin-bottom:25px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-            <span style="font-size: 0.8rem; font-weight: bold; opacity: 0.6;">FILTRAR:</span>
-        </div>
-
-        <div class="grid" id="list"></div>
+        <div id="category-filters-box" style="margin-bottom:30px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;"></div>
+        <div class="grid-links" id="vault-list-container"></div>
     </main>
 
     <script>
-        // CONFIGURAÇÕES GLOBAIS
-        const DATABASE_KEY = 'god_dev_vault_v9_master';
-        let myChartInstance = null;
-        let currentActiveFilter = 'all';
+        // CONFIGURAÇÕES DE NÚCLEO
+        const MASTER_DB_KEY = 'god_dev_titan_v11_db';
+        let mainChartObject = null;
+        let globalFilterState = 'all';
 
-        // CARREGAMENTO DO SISTEMA
-        function load() {
-            const rawData = localStorage.getItem(DATABASE_KEY);
-            const data = JSON.parse(rawData || '[]');
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+        /**
+         * FUNÇÃO DE CARREGAMENTO PRINCIPAL
+         * Responsável por ler o banco e renderizar a interface
+         */
+        function refreshVaultDisplay() {
+            const rawData = localStorage.getItem(MASTER_DB_KEY);
+            const dataSet = JSON.parse(rawData || '[]');
+            const searchKeyword = document.getElementById('global-search').value.toLowerCase();
             
-            document.getElementById('totalCounter').innerText = data.length;
-            renderCategoryFilters(data);
+            // Atualiza o contador gigante
+            document.getElementById('totalCounterDisplay').innerText = dataSet.length;
+            
+            // Renderiza botões de filtro
+            generateCategoryFilterButtons(dataSet);
 
-            const filteredList = data.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.url.toLowerCase().includes(searchTerm);
-                const matchesCategory = currentActiveFilter === 'all' || item.cat === currentActiveFilter;
-                return matchesSearch && matchesCategory;
+            // Algoritmo de Filtragem (Busca + Categoria)
+            const filteredResults = dataSet.filter(item => {
+                const matchSearch = item.title.toLowerCase().includes(searchKeyword) || 
+                                    item.url.toLowerCase().includes(searchKeyword);
+                const matchCategory = globalFilterState === 'all' || item.cat === globalFilterState;
+                return matchSearch && matchCategory;
             });
 
-            const listElement = document.getElementById('list');
-            listElement.innerHTML = filteredList.map(item => `
-                <div class="item">
-                    <div class="item-info">
-                        <span id="status-${item.id}" class="status-dot"></span>
-                        <strong>${item.title}</strong>
-                        <a href="${item.url}" target="_blank" style="color:var(--txt); font-size:0.8rem; opacity:0.6; text-decoration:none; margin-left: 10px;">${item.url}</a>
-                        <span class="tag">${item.cat}</span>
+            // Injeção de HTML na Lista
+            const container = document.getElementById('vault-list-container');
+            container.innerHTML = filteredResults.map(item => `
+                <div class="link-item">
+                    <div class="info-block">
+                        <span id="stat-indicator-${item.id}" class="status-dot"></span>
+                        <strong style="font-size: 1.1rem;">${item.title}</strong>
+                        <a href="${item.url}" target="_blank" style="color:var(--txt); font-size:0.85rem; opacity:0.5; text-decoration:none; margin-left:15px;">${item.url}</a>
+                        <span class="category-tag">${item.cat}</span>
                     </div>
                     <div class="actions">
-                        <span class="qr-icon" onclick="generateQR('${item.url}')" title="Gerar QR Code">📱</span>
-                        <button class="del-btn" onclick="removeItem('${item.id}')">DELETAR</button>
+                        <span style="cursor:pointer; font-size:1.5rem;" onclick="spawnQRCode('${item.url}')" title="Gerar QR">📱</span>
+                        <button class="btn-tool" style="color:#ff4757; border-color:#ff4757;" onclick="deleteVaultRecord('${item.id}')">APAGAR</button>
                     </div>
                 </div>
             `).reverse().join('');
             
-            refreshChart(data);
-            document.getElementById('notes').value = localStorage.getItem('vault_notes_v9') || '';
+            // Atualiza Gráficos e Notas
+            rebuildAnalyticsChart(dataSet);
+            document.getElementById('notes-area').value = localStorage.getItem('titan_notes_persist') || '';
         }
 
-        // ADIÇÃO DE NOVOS DADOS
-        function add() {
-            const titleInput = document.getElementById('t').value || 'Novo Link';
-            const urlInput = document.getElementById('u').value;
-            const catInput = document.getElementById('c').value || 'Geral';
+        /**
+         * ADIÇÃO DE REGISTROS
+         */
+        function addNewVaultRecord() {
+            const title = document.getElementById('input-title').value;
+            const url = document.getElementById('input-url').value;
+            const cat = document.getElementById('input-cat').value || 'Geral';
 
-            if (!urlInput) {
-                alert("ERRO: A URL é obrigatória para o armazenamento.");
+            if (!url) {
+                alert("COMANDO INVÁLIDO: URL é um parâmetro obrigatório.");
                 return;
             }
 
-            const db = JSON.parse(localStorage.getItem(DATABASE_KEY) || '[]');
+            const currentDB = JSON.parse(localStorage.getItem(MASTER_DB_KEY) || '[]');
             const newEntry = {
-                id: Date.now().toString(),
-                title: titleInput,
-                url: urlInput.startsWith('http') ? urlInput : 'https://' + urlInput,
-                cat: catInput,
-                date: new Date().toLocaleString()
+                id: "REC_" + Date.now(),
+                title: title || "Sem Título",
+                url: url.startsWith('http') ? url : 'https://' + url,
+                cat: cat,
+                timestamp: new Date().toISOString()
             };
 
-            db.push(newEntry);
-            localStorage.setItem(DATABASE_KEY, JSON.stringify(db));
+            currentDB.push(newEntry);
+            localStorage.setItem(MASTER_DB_KEY, JSON.stringify(currentDB));
             
-            // Limpa campos
-            document.getElementById('t').value = '';
-            document.getElementById('u').value = '';
-            document.getElementById('c').value = '';
+            // Reset de Campos
+            document.getElementById('input-title').value = '';
+            document.getElementById('input-url').value = '';
+            document.getElementById('input-cat').value = '';
             
-            load();
+            refreshVaultDisplay();
         }
 
-        // PLAYER DE VÍDEO
-        function toggleVideoSection() {
-            const section = document.getElementById('video-section');
-            if (section.style.display === 'block') {
-                section.style.display = 'none';
+        /**
+         * SUBSISTEMA DE APPS (LAUNCHER)
+         */
+        function launchAppSubsystem(appName, appUrl) {
+            document.getElementById('active-app-name').innerText = "SUBSISTEMA_ATIVO: " + appName.toUpperCase();
+            document.getElementById('app-subsystem-iframe').src = appUrl;
+            document.getElementById('app-overlay').style.display = 'flex';
+        }
+
+        function closeAppSubsystem() {
+            document.getElementById('app-overlay').style.display = 'none';
+            document.getElementById('app-subsystem-iframe').src = "";
+        }
+
+        /**
+         * CONTROLE DE SEÇÕES DA INTERFACE
+         */
+        function toggleInterfaceSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element.style.display === 'block') {
+                element.style.display = 'none';
             } else {
-                section.style.display = 'block';
+                element.style.display = 'block';
             }
         }
 
-        function playVideo() {
-            const url = document.getElementById('v-url').value;
-            let videoId = "";
+        /**
+         * PLAYER DE VÍDEO
+         */
+        function loadYoutubePlayer() {
+            const rawUrl = document.getElementById('youtube-url-input').value;
+            let vId = "";
             
-            if (url.includes('v=')) {
-                videoId = url.split('v=')[1].split('&')[0];
-            } else if (url.includes('be/')) {
-                videoId = url.split('be/')[1];
+            if (rawUrl.includes('v=')) {
+                vId = rawUrl.split('v=')[1].split('&')[0];
+            } else if (rawUrl.includes('be/')) {
+                vId = rawUrl.split('be/')[1];
             }
             
-            if (videoId) {
-                document.getElementById('video-frame').src = "https://www.youtube.com/embed/" + videoId;
-                document.getElementById('player').style.display = 'block';
+            if (vId) {
+                document.getElementById('video-iframe-element').src = "https://www.youtube.com/embed/" + vId;
+                document.getElementById('video-player-box').style.display = 'block';
             } else {
-                alert("URL INVÁLIDA: Certifique-se de usar um link do YouTube.");
+                alert("ERRO DE PROTOCOLO: Link do YouTube não reconhecido.");
             }
         }
 
-        // GRÁFICOS
-        function refreshChart(data) {
-            const categoriesMap = {};
+        /**
+         * ANALYTICS (CHART.JS)
+         */
+        function rebuildAnalyticsChart(data) {
+            const categoryMap = {};
             data.forEach(item => {
-                categoriesMap[item.cat] = (categoriesMap[item.cat] || 0) + 1;
+                categoryMap[item.cat] = (categoryMap[item.cat] || 0) + 1;
             });
 
-            const ctx = document.getElementById('categoryChart').getContext('2d');
+            const canvasContext = document.getElementById('vaultChart').getContext('2d');
             
-            if (myChartInstance) {
-                myChartInstance.destroy();
+            if (mainChartObject) {
+                mainChartObject.destroy();
             }
 
-            const accentColor = getComputedStyle(document.body).getPropertyValue('--acc').trim();
+            const systemAccent = getComputedStyle(document.body).getPropertyValue('--acc').trim();
 
-            myChartInstance = new Chart(ctx, {
+            mainChartObject = new Chart(canvasContext, {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(categoriesMap),
+                    labels: Object.keys(categoryMap),
                     datasets: [{
-                        label: 'Links por Categoria',
-                        data: Object.values(categoriesMap),
-                        backgroundColor: accentColor,
-                        borderWidth: 0
+                        label: 'Volume por Categoria',
+                        data: Object.values(categoryMap),
+                        backgroundColor: systemAccent,
+                        borderRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
-                        x: { grid: { display: false } }
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: systemAccent } },
+                        x: { grid: { display: false }, ticks: { color: systemAccent } }
                     },
-                    plugins: {
-                        legend: { display: false }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        // UTILITÁRIOS MANTIDOS
-        function changeTheme(themeName) {
-            document.body.className = themeName;
-            load(); // Recarrega para aplicar cores no gráfico
+        /**
+         * UTILITÁRIOS TÉCNICOS
+         */
+        function updateSystemTheme(newTheme) {
+            document.body.className = newTheme;
+            refreshVaultDisplay();
         }
 
-        function toggleFocus() {
+        function toggleFocusMode() {
             document.body.classList.toggle('focus-mode');
         }
 
-        function saveNotes() {
-            const text = document.getElementById('notes').value;
-            localStorage.setItem('vault_notes_v9', text);
+        function persistNotes() {
+            const content = document.getElementById('notes-area').value;
+            localStorage.setItem('titan_notes_persist', content);
         }
 
-        function generateQR(linkUrl) {
-            const qrBox = document.getElementById('qr-container');
-            qrBox.innerHTML = "";
-            new QRCode(qrBox, {
-                text: linkUrl,
-                width: 200,
-                height: 200
+        function spawnQRCode(targetLink) {
+            const box = document.getElementById('qr-box');
+            box.innerHTML = "";
+            new QRCode(box, {
+                text: targetLink,
+                width: 250,
+                height: 250,
+                colorDark : "#000000",
+                colorLight : "#ffffff"
             });
-            document.getElementById('qr-modal').style.display = 'flex';
+            document.getElementById('qr-modal-overlay').style.display = 'flex';
         }
 
-        function removeItem(itemId) {
-            if (confirm("Soberano, confirma a exclusão definitiva deste registro?")) {
-                let db = JSON.parse(localStorage.getItem(DATABASE_KEY) || '[]');
-                db = db.filter(item => item.id !== itemId);
-                localStorage.setItem(DATABASE_KEY, JSON.stringify(db));
-                load();
+        function deleteVaultRecord(recordId) {
+            if (confirm("ATENÇÃO: Deseja expurgar este registro permanentemente?")) {
+                let db = JSON.parse(localStorage.getItem(MASTER_DB_KEY) || '[]');
+                db = db.filter(item => item.id !== recordId);
+                localStorage.setItem(MASTER_DB_KEY, JSON.stringify(db));
+                refreshVaultDisplay();
             }
         }
 
-        function exportData() {
-            const data = localStorage.getItem(DATABASE_KEY);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
+        function initBackupExport() {
+            const dataStr = localStorage.getItem(MASTER_DB_KEY);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const downloadUrl = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.href = url;
-            link.download = "backup_vault_master.json";
+            link.href = downloadUrl;
+            link.download = "TITAN_VAULT_BACKUP_" + Date.now() + ".json";
             link.click();
         }
 
-        function importData(event) {
+        function initBackupImport(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
-                localStorage.setItem(DATABASE_KEY, e.target.result);
-                load();
-                alert("SISTEMA RESTAURADO: Dados importados com sucesso.");
+                localStorage.setItem(MASTER_DB_KEY, e.target.result);
+                refreshVaultDisplay();
+                alert("SISTEMA RESTAURADO: Sincronização de banco de dados concluída.");
             };
             reader.readAsText(file);
         }
 
-        function renderCategoryFilters(data) {
-            const uniqueCategories = ['all', ...new Set(data.map(item => item.cat))];
-            const filterDiv = document.getElementById('filters');
-            
-            // Datalist para o input
-            document.getElementById('cat-list').innerHTML = uniqueCategories
-                .filter(c => c !== 'all')
-                .map(c => `<option value="${c}">`).join('');
+        function generateCategoryFilterButtons(data) {
+            const categories = ['all', ...new Set(data.map(item => item.cat))];
+            const filterContainer = document.getElementById('category-filters-box');
+            const dataList = document.getElementById('cat-suggestions');
 
-            // Botões de filtro
-            filterDiv.innerHTML = '<span style="font-size: 0.8rem; font-weight: bold; opacity: 0.6;">FILTRAR:</span>' + uniqueCategories.map(cat => `
-                <button onclick="setFilter('${cat}')" style="
-                    padding: 5px 15px; 
-                    background: ${currentActiveFilter === cat ? 'var(--acc)' : 'var(--surf)'}; 
-                    color: ${currentActiveFilter === cat ? '#000' : 'var(--txt)'}; 
+            dataList.innerHTML = categories.filter(c => c !== 'all').map(c => `<option value="${c}">`).join('');
+
+            filterContainer.innerHTML = '<span style="font-size: 0.7rem; font-weight: 900; opacity: 0.5;">FILTROS_ATIVOS:</span>' + categories.map(cat => `
+                <button onclick="setGlobalFilter('${cat}')" style="
+                    padding: 8px 18px; 
+                    background: ${globalFilterState === cat ? 'var(--acc)' : 'var(--surf)'}; 
+                    color: ${globalFilterState === cat ? '#000' : 'var(--txt)'}; 
                     border: 1px solid var(--border); 
-                    border-radius: 20px; 
+                    border-radius: 30px; 
                     cursor: pointer; 
-                    font-size: 0.7rem;
-                    font-weight: bold;
+                    font-size: 0.65rem;
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    transition: 0.2s;
                 ">
-                    ${cat.toUpperCase()}
+                    ${cat}
                 </button>
             `).join('');
         }
 
-        function setFilter(category) {
-            currentActiveFilter = category;
-            load();
+        function setGlobalFilter(category) {
+            globalFilterState = category;
+            refreshVaultDisplay();
         }
 
-        function checkAllStatus() {
-            const data = JSON.parse(localStorage.getItem(DATABASE_KEY) || '[]');
-            data.forEach(item => {
-                const indicator = document.getElementById("status-" + item.id);
-                fetch(item.url, { mode: 'no-cors' })
-                    .then(() => indicator.classList.add('status-online'))
-                    .catch(() => indicator.style.background = '#ff4757');
+        function executeGlobalStatusCheck() {
+            const db = JSON.parse(localStorage.getItem(MASTER_DB_KEY) || '[]');
+            db.forEach(item => {
+                const dot = document.getElementById("stat-indicator-" + item.id);
+                if (dot) {
+                    fetch(item.url, { mode: 'no-cors' })
+                        .then(() => dot.classList.add('status-online'))
+                        .catch(() => dot.style.background = '#ff4757');
+                }
             });
         }
 
-        // INICIALIZAÇÃO AUTOMÁTICA
-        window.onload = load;
+        // INICIALIZAÇÃO DO NÚCLEO
+        window.onload = refreshVaultDisplay;
 
     </script>
 </body>
