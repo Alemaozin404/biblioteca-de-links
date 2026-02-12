@@ -13,15 +13,16 @@
         /* -----------------------------------------------------------------------------
            1. SISTEMA DE CORES E VARIÁVEIS DE AMBIENTE (CORE V17)
         -------------------------------------------------------------------------------- */
-        :root { 
-            --bg: #050505; 
-            --acc: #00ff41; 
-            --surf: rgba(15, 15, 15, 0.95); 
-            --txt: #ffffff; 
-            --border: #333333; 
-            --grad: linear-gradient(45deg, #00ff41, #008f11);
-            --shadow: 0 10px 40px rgba(0,0,0,0.7);
-            --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+:root { 
+            --bg: #000814; 
+            --acc: #00b4d8; 
+            --surf: rgba(0, 29, 61, 0.98); 
+            --txt: #caf0f8; 
+            --border: #003566; 
+            --grad: linear-gradient(135deg, #0077b6, #00b4d8);
+            --danger: #ff4d6d;
+            --shadow-glow: 0 0 40px rgba(0, 180, 216, 0.15);
+            --drawer-width: 420px;
         }
 
         .theme-oficial { 
@@ -42,6 +43,14 @@
         .theme-ruby { 
             --bg: #1a0505; --acc: #e63946; --surf: rgba(45, 10, 10, 0.95); 
             --txt: #f1faee; --border: #a8222e; --grad: linear-gradient(45deg, #e63946, #457b9d);
+        }
+        .theme-navy-stealth { 
+            --bg: #000814;                      /* Azul Marinho Profundo (Quase preto) */
+            --acc: #00b4d8;                     /* Azul Ciano (Acento Tecnológico) */
+            --surf: rgba(0, 29, 61, 0.95);       /* Azul Oceano para superfícies */
+            --txt: #caf0f8;                     /* Azul Gelo para leitura clara */
+            --border: #003566;                  /* Azul Cobalto para divisões */
+            --grad: linear-gradient(45deg, #0077b6, #00b4d8); /* Gradiente Aquático */
         }
 
         /* -----------------------------------------------------------------------------
@@ -610,6 +619,11 @@
             const data = { links: localStorage.getItem(DB_KEY), docs: localStorage.getItem(TXT_KEY), notes: localStorage.getItem('titan_notes_v18') };
             const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `TITAN_MASTER_BACKUP.json`; a.click();
+        }
+        function drawNebula() {
+            ctxt.clearRect(0,0,canv.width,canv.height); 
+            ctxt.fillStyle = '#00b4d8'; // MUDADO PARA AZUL CIANO
+            // ... resto do código igual
         }
 
         // --- INICIALIZAÇÃO ---
