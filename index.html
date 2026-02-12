@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>GOD DEV | Vault</title>
+    <style>
+        :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; }
+        body { background: var(--bg); color: var(--txt); font-family: 'Consolas', monospace; padding: 40px; }
+        .container { max-width: 900px; margin: auto; }
+        header { border-bottom: 2px solid var(--acc); padding-bottom: 10px; margin-bottom: 30px; }
+        .input-box { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 4px; }
+        input { background: #000; border: 1px solid #333; padding: 12px; color: var(--acc); outline: none; border-radius: 4px; }
+        button { background: var(--acc); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 4px; }
+        button:hover { box-shadow: 0 0 15px var(--acc); }
+        .grid { display: grid; gap: 10px; margin-top: 30px; }
+        .item { background: var(--surf); padding: 20px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); border-radius: 4px; }
+        .item a { color: var(--txt); text-decoration: none; font-size: 1.1rem; }
+        .item a:hover { color: var(--acc); }
+        .del { color: #ff4444; cursor: pointer; background: none; border: 1px solid #ff4444; padding: 5px 10px; font-size: 1rem; border-radius: 4px; }
+        .del:hover { background: #ff4444; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header><h1>SYSTEM: LINK_VAULT</h1></header>
+        <div class="input-box">
+            <input type="text" id="t" placeholder="Identificador">
+            <input type="text" id="u" placeholder="URL (https://...)">
+            <button onclick="add()">ARMAZENAR</button>
+        </div>
+        <div id="list" class="grid"></div>
+    </div>
+    <script>
+        // Substituindo o Python por LocalStorage (Persistência no Navegador)
+        const DB_KEY = 'vault_links_db';
+
+        function load() {
+            const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            document.getElementById('list').innerHTML = data.map(l => `
+                <div class="item">
+                    <a href="${l.url}" target="_blank"><strong>${l.title}</strong> - <small>${l.url}</small></a>
+                    <button class="del" onclick="del('${l.id}')">APAGAR</button>
+                </div>
+            `).reverse().join('');
+        }
+
+        function add() {
+            const t = document.getElementById('t').value;
+            const u = document.getElementById('u').value;
+            if(!u) return;
+
+            const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const newItem = {
+                id: Date.now().toString(),
+                title: t || 'Link',
+                url: u.startsWith('http') ? u : 'https://' + u
+            };
+
+            db.push(newItem);
+            localStorage.setItem(DB_KEY, JSON.stringify(db));
+            document.getElementById('t').value = '';
+            document.getElementById('u').value = '';
+            load();
+        }
+
+        function del(id) {
+            let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            db = db.filter(l => l.id !== id);
+            localStorage.setItem(DB_KEY, JSON.stringify(db));
+            load();
+        }
+
+        load();
+    </script>
+</body>
+</html>
