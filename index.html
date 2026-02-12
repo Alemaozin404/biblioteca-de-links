@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD DEV | VAULT SUPREMO V15 - NAVIGATION</title>
+    <title>GOD DEV | VAULT SUPREMO V16 - NEBULA</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -11,16 +11,15 @@
     
     <style>
         /* ---------------------------------------------------------
-           1. TEMAS E SISTEMA DE CORES
+           1. TEMAS E CORES ORIGINAIS
         ------------------------------------------------------------ */
-        :root { --bg: #050505; --acc: #00ff41; --surf: #111; --txt: #fff; --border: #333; }
-        .theme-oficial { --bg: #eef2f7; --acc: #74b9ff; --surf: #ffffff; --txt: #2d3436; --border: #dcdde1; } 
-        .theme-cyberpunk { --bg: #0d0221; --acc: #ff007f; --surf: #190e3a; --txt: #00f0ff; --border: #5a189a; }
-        .theme-gold { --bg: #1a1a1a; --acc: #d4af37; --surf: #2a2a2a; --txt: #f1f1f1; --border: #aa841e; }
-        .theme-ruby { --bg: #1a0505; --acc: #e63946; --surf: #2d0a0a; --txt: #f1faee; --border: #a8222e; }
+        :root { --bg: #050505; --acc: #00ff41; --surf: rgba(17, 17, 17, 0.85); --txt: #fff; --border: #333; }
+        .theme-oficial { --bg: #eef2f7; --acc: #74b9ff; --surf: rgba(255, 255, 255, 0.85); --txt: #2d3436; --border: #dcdde1; } 
+        .theme-cyberpunk { --bg: #0d0221; --acc: #ff007f; --surf: rgba(25, 14, 58, 0.85); --txt: #00f0ff; --border: #5a189a; }
+        .theme-gold { --bg: #1a1a1a; --acc: #d4af37; --surf: rgba(42, 42, 42, 0.85); --txt: #f1f1f1; --border: #aa841e; }
 
         /* ---------------------------------------------------------
-           2. ESTRUTURA E LAYOUT
+           2. LAYOUT BASE (SIDEBAR ORGANIZADA)
         ------------------------------------------------------------ */
         body { 
             background: var(--bg); 
@@ -31,6 +30,13 @@
             transition: 0.5s; 
             height: 100vh; 
             overflow: hidden; 
+            position: relative;
+        }
+
+        /* CANVAS DE FUNDO (SEMPRE ATIVO) */
+        #nebula-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none; opacity: 0.5;
         }
         
         #scrapbook { 
@@ -40,90 +46,113 @@
             padding: 20px; 
             display: flex; 
             flex-direction: column; 
-            z-index: 100;
+            z-index: 10;
+            backdrop-filter: blur(10px);
         }
 
-        #scrapbook h3 { color: var(--acc); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 15px; }
-        #scrapbook textarea { flex: 1; background: rgba(0,0,0,0.2); color: var(--txt); border: 1px solid var(--border); padding: 15px; font-family: inherit; resize: none; outline: none; border-radius: 4px; font-size: 0.85rem; }
+        #scrapbook textarea { 
+            flex: 1; 
+            background: rgba(0,0,0,0.3); 
+            color: var(--txt); 
+            border: 1px solid var(--border); 
+            padding: 10px; 
+            font-family: inherit; 
+            resize: none; 
+            outline: none; 
+            border-radius: 4px; 
+            font-size: 0.85rem; 
+        }
 
-        main { flex: 1; padding: 30px; overflow-y: auto; position: relative; z-index: 10; }
+        main { 
+            flex: 1; 
+            padding: 25px; 
+            overflow-y: auto; 
+            position: relative; 
+            z-index: 10;
+        }
 
         header { 
             border-bottom: 2px solid var(--acc); 
-            padding-bottom: 20px; 
-            margin-bottom: 30px; 
+            padding-bottom: 15px; 
+            margin-bottom: 25px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
 
         /* DASHBOARD */
-        .dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 25px; margin-bottom: 30px; }
-        .stat-card { background: var(--surf); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
+        .dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; margin-bottom: 25px; }
+        .stat-card { background: var(--surf); padding: 15px; border-radius: 8px; border: 1px solid var(--border); backdrop-filter: blur(5px); }
 
-        /* MODO ZEN (ANIMAÇÃO + SOM) */
-        #focus-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 1; pointer-events: none; opacity: 0.7; }
-        .focus-mode #scrapbook, .focus-mode .input-box, .focus-mode .dashboard-grid, .focus-mode .video-section, .focus-mode .controls, .focus-mode .search-container, .focus-mode .apps-container, .focus-mode #filters { display: none !important; }
-        .focus-mode #focus-canvas { display: block; }
-        .focus-mode main { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        /* BUSCA E APPS */
+        .search-container { margin-bottom: 20px; position: relative; }
+        #search-input { 
+            width: 100%; background: var(--surf); border: 1px solid var(--acc); 
+            padding: 12px 45px; color: var(--txt); border-radius: 30px; outline: none; 
+        }
 
-        /* BOTOES E INTERFACE */
-        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 8px 15px; cursor: pointer; border-radius: 5px; font-size: 0.75rem; font-weight: bold; margin-left: 8px; transition: 0.2s; text-transform: uppercase; }
-        .btn-tool:hover { background: var(--acc); color: #000; }
-        .btn-home { background: var(--acc); color: #000; border: none; padding: 8px 20px; border-radius: 5px; font-weight: 900; cursor: pointer; margin-right: 15px; display: flex; align-items: center; gap: 8px; }
+        .apps-container { display: none; margin-bottom: 25px; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .app-card { 
+            background: var(--surf); border: 1px solid var(--border); border-radius: 12px; 
+            height: 110px; display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; cursor: pointer; transition: 0.2s; 
+        }
+        .app-card:hover { border-color: var(--acc); background: rgba(255,255,255,0.1); }
+
+        /* MODO ZEN ATIVO */
+        .focus-mode #scrapbook, 
+        .focus-mode .input-box, 
+        .focus-mode .dashboard-grid, 
+        .focus-mode .video-section, 
+        .focus-mode .controls, 
+        .focus-mode .search-container, 
+        .focus-mode .apps-container,
+        .focus-mode #filters { display: none !important; }
         
-        .search-container { margin-bottom: 25px; position: relative; }
-        #search-input { width: 100%; background: var(--surf); border: 2px solid var(--acc); padding: 15px 50px; color: var(--txt); border-radius: 40px; outline: none; font-size: 1rem; }
+        .focus-mode #nebula-canvas { opacity: 1; }
+        .focus-mode main { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .focus-mode #list { width: 80%; max-width: 800px; }
 
-        /* APPS */
-        .apps-container { display: none; margin-bottom: 30px; }
-        .apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .app-card { background: var(--surf); border: 1px solid var(--border); border-radius: 15px; height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; }
-        .app-card:hover { border-color: var(--acc); transform: translateY(-5px); }
-        .app-card i { font-size: 2.8rem; margin-bottom: 10px; }
-
-        /* LISTA */
-        .grid { display: grid; gap: 12px; }
-        .item { background: var(--surf); padding: 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--acc); }
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 12px; background: #666; }
-        .status-online { background: #00ff41; box-shadow: 0 0 8px #00ff41; }
-
-        #exit-focus { display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); border: 2px solid var(--acc); color: var(--acc); padding: 18px 50px; border-radius: 50px; cursor: pointer; z-index: 10001; font-weight: bold; backdrop-filter: blur(15px); }
+        #exit-focus { 
+            display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.8); border: 2px solid var(--acc); color: var(--acc);
+            padding: 15px 40px; border-radius: 50px; cursor: pointer; z-index: 10001; font-weight: bold;
+        }
         .focus-mode #exit-focus { display: block; }
 
-        .input-box { display: grid; grid-template-columns: 1.5fr 2fr 1.2fr auto; gap: 15px; background: var(--surf); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
-        input, select { background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; color: var(--txt); outline: none; border-radius: 6px; font-family: inherit; }
-        .btn-add { background: var(--acc); color: #000; border: none; padding: 12px 25px; font-weight: bold; cursor: pointer; border-radius: 6px; }
+        /* UI ELEMENTS */
+        .input-box { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; background: var(--surf); padding: 20px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
+        input, select { background: rgba(0,0,0,0.1); border: 1px solid var(--border); padding: 10px; color: var(--txt); border-radius: 4px; outline: none; }
+        .btn-add { background: var(--acc); color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .grid { display: grid; gap: 10px; }
+        .item { background: var(--surf); padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--acc); backdrop-filter: blur(5px); }
+        .btn-tool { background: transparent; color: var(--acc); border: 1px solid var(--acc); padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 5px; }
 
-        #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:100000; flex-direction:column; }
-        #qr-container { background: white; padding: 25px; border-radius: 15px; }
+        #qr-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:10000; }
     </style>
 </head>
 <body id="app-body">
 
-    <canvas id="focus-canvas"></canvas>
-    <button id="exit-focus" onclick="toggleFocus()">DESATIVAR MODO ZEN</button>
+    <canvas id="nebula-canvas"></canvas>
+    <button id="exit-focus" onclick="toggleFocus()">RETORNAR DO MODO ZEN</button>
 
     <div id="qr-modal" onclick="this.style.display='none'">
-        <div id="qr-container"></div>
-        <p style="margin-top:20px; color:white; font-weight:bold;">CLIQUE PARA VOLTAR</p>
+        <div id="qr-container" style="background:white; padding:20px; border-radius:10px;"></div>
     </div>
 
     <aside id="scrapbook">
-        <h3>> SCRAPBOOK_NOTAS</h3>
-        <textarea id="notes" placeholder="Rascunhos mentais..." oninput="saveNotes()"></textarea>
+        <h3 style="color: var(--acc); font-size: 0.7rem;">> SCRAPBOOK_V16</h3>
+        <textarea id="notes" placeholder="Notas de sistema..." oninput="saveNotes()"></textarea>
     </aside>
 
     <main>
         <header>
-            <div style="display: flex; align-items: center;">
-                <button class="btn-home" onclick="goHome()">
-                    <i class="fas fa-home"></i> INÍCIO
-                </button>
-                <h1 id="main-header-title" style="margin:0; font-size: 1.5rem;">VAULT_SUPREMO_V15</h1>
+            <div style="display:flex; align-items:center; gap:15px;">
+                <button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; border:none; padding:8px 15px;">INÍCIO</button>
+                <h1 style="font-size: 1.4rem;">VAULT_SUPREMO_V16</h1>
             </div>
             <div class="controls">
-                <select onchange="changeTheme(this.value)" class="btn-tool" style="background:var(--surf)">
+                <select onchange="changeTheme(this.value)" class="btn-tool">
                     <option value="">MATRIX</option>
                     <option value="theme-oficial">OFICIAL</option>
                     <option value="theme-gold">GOLD</option>
@@ -131,168 +160,143 @@
                 </select>
                 <button class="btn-tool" onclick="toggleSection('apps-container')">APPS</button>
                 <button class="btn-tool" onclick="toggleSection('video-section')">VÍDEO</button>
-                <button class="btn-tool" onclick="toggleFocus()">MODO ZEN</button>
+                <button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 10px var(--acc);">MODO ZEN</button>
                 <button class="btn-tool" onclick="exportData()">BACKUP</button>
             </div>
         </header>
 
         <div class="dashboard-grid">
-            <div class="stat-card"><canvas id="categoryChart" height="120"></canvas></div>
-            <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <h2 id="totalCounter" style="font-size: 4rem; margin: 0; color: var(--acc);">0</h2>
-                <p style="font-weight: bold; opacity: 0.6;">REGISTROS ATIVOS</p>
-                <button class="btn-tool" onclick="checkAllStatus()">VALIDAR LINKS</button>
+            <div class="stat-card"><canvas id="categoryChart" height="110"></canvas></div>
+            <div class="stat-card" style="text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                <h2 id="totalCounter" style="font-size: 3.5rem; margin: 0; color: var(--acc);">0</h2>
+                <p style="font-size: 0.7rem; opacity:0.6; font-weight:bold;">REGISTROS NO VAULT</p>
             </div>
         </div>
 
         <div class="apps-container" id="apps-container">
-            <div class="apps-grid">
-                <div class="app-card" onclick="alert('Instagram Web Aberto')"><i class="fab fa-instagram" style="color:#E1306C"></i><span>INSTAGRAM</span></div>
-                <div class="app-card" onclick="alert('Telegram Web Aberto')"><i class="fab fa-telegram" style="color:#0088cc"></i><span>TELEGRAM</span></div>
-                <div class="app-card" onclick="alert('WhatsApp Web Aberto')"><i class="fab fa-whatsapp" style="color:#25D366"></i><span>WHATSAPP</span></div>
-            </div>
+            <div class="app-card" onclick="window.open('https://instagram.com','_blank')"><i class="fab fa-instagram" style="color:#E1306C; font-size:2rem;"></i><span>INSTA</span></div>
+            <div class="app-card" onclick="window.open('https://web.telegram.org','_blank')"><i class="fab fa-telegram" style="color:#0088cc; font-size:2rem;"></i><span>TELE</span></div>
+            <div class="app-card" onclick="window.open('https://web.whatsapp.com','_blank')"><i class="fab fa-whatsapp" style="color:#25D366; font-size:2rem;"></i><span>WHATS</span></div>
         </div>
 
         <div class="search-container">
-            <span style="position: absolute; left: 20px; top: 14px; opacity: 0.5;">🔍</span>
-            <input type="text" id="search-input" placeholder="Pesquisar..." oninput="load()">
+            <input type="text" id="search-input" placeholder="Pesquisar registros..." oninput="load()">
         </div>
 
-        <div id="video-section" style="display:none; margin-bottom:25px; background:var(--surf); padding:20px; border-radius:10px;">
-            <input type="text" id="v-url" placeholder="YouTube URL" style="width:70%">
-            <button class="btn-add" onclick="playVideo()">PLAY</button>
-            <div id="player" style="margin-top:15px; display:none;">
-                <iframe id="video-frame" width="100%" height="400" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
+        <div class="video-section" id="video-section" style="display:none; margin-bottom:20px; background:var(--surf); padding:20px; border-radius:8px;">
+            <div style="display:flex; gap:10px;"><input type="text" id="v-url" style="flex:1" placeholder="YouTube Link"><button class="btn-add" onclick="playVideo()">PLAY</button></div>
+            <div id="player" style="display:none; margin-top:15px;"><iframe id="video-frame" width="100%" height="350" frameborder="0" allowfullscreen></iframe></div>
         </div>
 
         <div class="input-box">
             <input type="text" id="t" placeholder="Título">
             <input type="text" id="u" placeholder="URL">
-            <input type="text" id="c" placeholder="Categoria" list="cat-suggestions">
-            <datalist id="cat-suggestions"></datalist>
-            <button class="btn-add" onclick="add()">ADICIONAR</button>
+            <input type="text" id="c" placeholder="Categoria">
+            <button class="btn-add" onclick="add()">ARMAZENAR</button>
         </div>
 
-        <div id="filters" style="margin-bottom:25px; display:flex; gap:10px;"></div>
+        <div id="filters" style="margin-bottom:20px; display:flex; gap:8px; flex-wrap:wrap;"></div>
         <div class="grid" id="list"></div>
     </main>
 
     <script>
-        const DB_KEY = 'vault_v15_db';
+        const DB_KEY = 'vault_v16_master';
         let myChart = null;
         let currentFilter = 'all';
-        let audioCtx = null;
-        let noiseNode = null;
+        let audioCtx = null, noiseNode = null;
 
-        // VOLTAR AO INÍCIO
-        function goHome() {
-            currentFilter = 'all';
-            document.getElementById('search-input').value = '';
-            document.getElementById('apps-container').style.display = 'none';
-            document.getElementById('video-section').style.display = 'none';
-            if(document.body.classList.contains('focus-mode')) toggleFocus();
-            load();
-        }
-
-        // ÁUDIO ZEN
-        function toggleAmbientSound(active) {
-            if (active) {
-                try {
-                    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const bufferSize = 2 * audioCtx.sampleRate, buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = buffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-                    noiseNode = audioCtx.createBufferSource();
-                    noiseNode.buffer = buffer; noiseNode.loop = true;
-                    const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 350; 
-                    const gain = audioCtx.createGain(); gain.gain.value = 0.04; 
-                    noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-                    noiseNode.start();
-                } catch(e) {}
-            } else if (noiseNode) { noiseNode.stop(); noiseNode = null; }
-        }
-
-        // ANIMAÇÃO ZEN
-        const canvas = document.getElementById('focus-canvas');
+        // --- ANIMAÇÃO NEBULOSA (PAGINA INTEIRA) ---
+        const canvas = document.getElementById('nebula-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        function initCanvas() {
+        function initNebula() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = []; for (let i = 0; i < 100; i++) particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 0.5, speed: Math.random() * 0.4 + 0.1, opacity: Math.random() });
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2+0.2, spd: Math.random()*0.3+0.05, op: Math.random() });
+            }
         }
-        function animateZen() {
-            if (!document.body.classList.contains('focus-mode')) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--acc');
-            particles.forEach(p => { p.y -= p.speed; if (p.y < 0) p.y = canvas.height; ctx.globalAlpha = p.opacity; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); });
-            requestAnimationFrame(animateZen);
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--acc') || '#00ff41';
+            particles.forEach(p => {
+                p.y -= p.spd; if(p.y < 0) p.y = canvas.height;
+                ctx.globalAlpha = p.op;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(animate);
         }
 
-        // CORE FUNCTIONS
+        // --- CORE FUNCTIONS ---
         function load() {
             const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
             const term = document.getElementById('search-input').value.toLowerCase();
             document.getElementById('totalCounter').innerText = data.length;
-            const filtered = data.filter(l => {
-                const matchSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term);
-                const matchCat = currentFilter === 'all' || l.cat === currentFilter;
-                return matchSearch && matchCat;
-            });
+            const filtered = data.filter(l => (l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term)) && (currentFilter === 'all' || l.cat === currentFilter));
+            
             document.getElementById('list').innerHTML = filtered.map(l => `
                 <div class="item">
-                    <div><span id="status-${l.id}" class="status-dot"></span><strong>${l.title}</strong><a href="${l.url}" target="_blank" style="color:var(--txt); font-size:0.8rem; opacity:0.5; margin-left:15px; text-decoration:none;">${l.url}</a></div>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <i class="fas fa-qrcode" style="cursor:pointer" onclick="showQR('${l.url}')"></i>
-                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; cursor:pointer; border-radius:4px; font-size:0.7rem;">DELETAR</button>
+                    <div><strong>${l.title}</strong><span style="font-size:0.7rem; opacity:0.5; margin-left:10px;">${l.cat}</span><br><small>${l.url}</small></div>
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="showQR('${l.url}')" class="btn-tool">QR</button>
+                        <button onclick="del('${l.id}')" class="btn-tool" style="color:#ff7675; border-color:#ff7675;">DEL</button>
                     </div>
                 </div>
             `).reverse().join('');
             updateChart(data); renderFilters(data);
-            document.getElementById('notes').value = localStorage.getItem('vault_notes_v15') || '';
+            document.getElementById('notes').value = localStorage.getItem('vault_v16_notes') || '';
         }
 
         function add() {
-            const u = document.getElementById('u').value; if(!u) return;
+            const t = document.getElementById('t').value || 'S/T'; const u = document.getElementById('u').value; if(!u) return;
             const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db.push({ id: Date.now().toString(), title: document.getElementById('t').value || 'Link', url: u.startsWith('http') ? u : 'https://'+u, cat: document.getElementById('c').value || 'Geral' });
-            localStorage.setItem(DB_KEY, JSON.stringify(db));
-            document.getElementById('t').value = ''; document.getElementById('u').value = ''; load();
+            db.push({ id: Date.now().toString(), title: t, url: u, cat: document.getElementById('c').value || 'Geral' });
+            localStorage.setItem(DB_KEY, JSON.stringify(db)); load();
+            document.getElementById('t').value=''; document.getElementById('u').value='';
         }
 
-        function del(id) { if(confirm("Deletar?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(l => l.id !== id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
+        function del(id) { if(confirm("Remover?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]').filter(l=>l.id!==id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
 
         function toggleFocus() {
-            const isZen = document.body.classList.toggle('focus-mode');
-            if (isZen) { initCanvas(); animateZen(); toggleAmbientSound(true); } else { toggleAmbientSound(false); }
+            const isFocus = document.body.classList.toggle('focus-mode');
+            if(isFocus) toggleAudio(true); else toggleAudio(false);
         }
 
-        function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display === 'none' || s.style.display === '') ? (id === 'apps-container' ? 'grid' : 'block') : 'none'; }
-        function changeTheme(theme) { document.body.className = theme; load(); }
-        function saveNotes() { localStorage.setItem('vault_notes_v15', document.getElementById('notes').value); }
-        function showQR(url) { const container = document.getElementById('qr-container'); container.innerHTML = ""; new QRCode(container, { text: url, width: 200, height: 200 }); document.getElementById('qr-modal').style.display = 'flex'; }
-        function playVideo() { let url = document.getElementById('v-url').value; let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('be/')[1]; if(id) { document.getElementById('video-frame').src = `https://www.youtube.com/embed/${id}`; document.getElementById('player').style.display = 'block'; } }
+        function toggleAudio(on) {
+            if(on) {
+                if(!audioCtx) audioCtx = new AudioContext();
+                const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 2, audioCtx.sampleRate);
+                const out = buffer.getChannelData(0); for(let i=0; i<buffer.length; i++) out[i] = Math.random() * 2 - 1;
+                noiseNode = audioCtx.createBufferSource(); noiseNode.buffer = buffer; noiseNode.loop = true;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 400;
+                const gain = audioCtx.createGain(); gain.gain.value = 0.05;
+                noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseNode.start();
+            } else if(noiseNode) { noiseNode.stop(); }
+        }
 
+        function goHome() { currentFilter = 'all'; document.getElementById('search-input').value=''; load(); }
+        function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display==='none'||s.style.display==='') ? (id==='apps-container'?'grid':'block') : 'none'; }
+        function changeTheme(t) { document.body.className = t; load(); }
+        function saveNotes() { localStorage.setItem('vault_v16_notes', document.getElementById('notes').value); }
+        function showQR(u) { document.getElementById('qr-container').innerHTML=""; new QRCode(document.getElementById('qr-container'), {text:u, width:150, height:150}); document.getElementById('qr-modal').style.display='flex'; }
+        function playVideo() { const url = document.getElementById('v-url').value; const id = url.split('v=')[1]?.split('&')[0] || url.split('be/')[1]; if(id) { document.getElementById('video-frame').src=`https://www.youtube.com/embed/${id}`; document.getElementById('player').style.display='block'; } }
+        
         function updateChart(data) {
             const cats = {}; data.forEach(l => cats[l.cat] = (cats[l.cat] || 0) + 1);
             const ctx = document.getElementById('categoryChart').getContext('2d');
             if(myChart) myChart.destroy();
-            myChart = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(cats), datasets: [{ label: 'Records', data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            myChart = new Chart(ctx, { type: 'bar', data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
         }
 
         function renderFilters(data) {
             const cats = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c}</button>`).join('');
+            document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c.toUpperCase()}</button>`).join('');
         }
 
-        function checkAllStatus() {
-            const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            data.forEach(l => { const dot = document.getElementById(`status-${l.id}`); fetch(l.url, { mode: 'no-cors' }).then(() => dot.classList.add('status-online')).catch(() => dot.style.background = '#ff4757'); });
-        }
+        function exportData() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([localStorage.getItem(DB_KEY)], {type:'application/json'})); a.download = `vault_v16.json`; a.click(); }
 
-        function exportData() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([localStorage.getItem(DB_KEY)], {type:'application/json'})); a.download = `vault_backup.json`; a.click(); }
-
-        window.onload = load;
-        window.onresize = initCanvas;
+        window.onload = () => { initNebula(); animate(); load(); };
+        window.onresize = initNebula;
     </script>
 </body>
 </html>
