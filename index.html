@@ -44,22 +44,14 @@
 --bg: #1a0505; --acc: #e63946; --surf: rgba(45, 10, 10, 0.95); 
 --txt: #f1faee; --border: #a8222e; --grad: linear-gradient(45deg, #e63946, #457b9d);
 }
-.theme-navy-stealth { 
---bg: #000814;                      /* Azul Marinho Profundo (Quase preto) */
---acc: #00b4d8;                     /* Azul Ciano (Acento Tecnológico) */
---surf: rgba(0, 29, 61, 0.95);       /* Azul Oceano para superfícies */
---txt: #caf0f8;                     /* Azul Gelo para leitura clara */
---border: #003566;                  /* Azul Cobalto para divisões */
---grad: linear-gradient(45deg, #0077b6, #00b4d8); /* Gradiente Aquático */
-}
-        .theme-valentine {
-            --bg: #1a0105;                      /* Vinho Profundo */
-            --acc: #ff2d55;                     /* Rosa Shocking / Cereja */
-            --surf: rgba(45, 5, 15, 0.95);       /* Superfície Carmesim Escura */
-            --txt: #ffe5ec;                     /* Rosa Bebê para leitura */
-            --border: #800f2f;                  /* Bordô para divisões */
-            --grad: linear-gradient(45deg, #ff2d55, #fb6f92); /* Gradiente Romântico */
-}
+        .theme-navy-stealth { 
+            --bg: #000814;                      /* Azul Marinho Profundo (Quase preto) */
+            --acc: #00b4d8;                     /* Azul Ciano (Acento Tecnológico) */
+            --surf: rgba(0, 29, 61, 0.95);       /* Azul Oceano para superfícies */
+            --txt: #caf0f8;                     /* Azul Gelo para leitura clara */
+            --border: #003566;                  /* Azul Cobalto para divisões */
+            --grad: linear-gradient(45deg, #0077b6, #00b4d8); /* Gradiente Aquático */
+        }
 
 /* -----------------------------------------------------------------------------
           2. RESET E ESTRUTURA TITÂNICA
@@ -382,69 +374,24 @@ let noiseNode = null;
 let openTxtId = null;
 
 // --- MOTOR GRÁFICO (NEBULOSA V17 EXPANDIDA) ---
-        const canvas = document.getElementById('nebula-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+const canvas = document.getElementById('nebula-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
 
-// --- MOTOR DE PÉTALAS (VALENTINE EDITION) ---
 function initNebula() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = [];
-            for(let i=0; i<250; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2.5 + 0.2,
-                    speed: Math.random() * 0.4 + 0.1,
-                    opacity: Math.random(),
-                    drift: Math.random() * 2 - 1
-            canv.width = window.innerWidth; 
-            canv.height = window.innerHeight;
-            parts = []; 
-            // Quantidade de pétalas (menos no mobile para performance)
-            const count = window.innerWidth < 768 ? 25 : 60;
-            for(let i=0; i<count; i++) {
-                parts.push({ 
-                    x: Math.random() * canv.width, 
-                    y: Math.random() * canv.height, 
-                    s: Math.random() * 6 + 4,      // Tamanho
-                    v: Math.random() * 1.2 + 0.5,  // Velocidade de queda
-                    r: Math.random() * 360,        // Rotação
-                    rs: Math.random() * 2 - 1      // Velocidade de rotação
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+particles = [];
+for(let i=0; i<250; i++) {
+particles.push({
+x: Math.random() * canvas.width,
+y: Math.random() * canvas.height,
+size: Math.random() * 2.5 + 0.2,
+speed: Math.random() * 0.4 + 0.1,
+opacity: Math.random(),
+drift: Math.random() * 2 - 1
 });
 }
 }
-
-        function drawNebula() {
-            ctxt.clearRect(0,0,canv.width,canv.height); 
-            
-            // Cor das pétalas (Vermelho Paixão)
-            ctxt.fillStyle = '#ff2d55'; 
-
-            parts.forEach(p => { 
-                p.y += p.v;                         // Movimento para baixo
-                p.x += Math.sin(p.y / 40) * 0.5;    // Balanço de folha caindo
-                p.r += p.rs;                        // Rotação
-
-                if(p.y > canv.height) p.y = -20; 
-                if(p.x > canv.width) p.x = 0;
-                if(p.x < 0) p.x = canv.width;
-
-                ctxt.save();
-                ctxt.translate(p.x, p.y);
-                ctxt.rotate(p.r * Math.PI / 180);
-                ctxt.globalAlpha = 0.5;             // Transparência suave
-                
-                // Desenha o formato de uma pétala de rosa
-                ctxt.beginPath();
-                ctxt.moveTo(0, 0);
-                ctxt.bezierCurveTo(p.s, -p.s, p.s*1.5, p.s, 0, p.s*1.8);
-                ctxt.bezierCurveTo(-p.s*1.5, p.s, -p.s, -p.s, 0, 0);
-                ctxt.fill();
-                ctxt.restore();
-            });
-            requestAnimationFrame(drawNebula);
-        }
 
 function animate() {
 ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -673,11 +620,11 @@ const data = { links: localStorage.getItem(DB_KEY), docs: localStorage.getItem(T
 const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
 const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `TITAN_MASTER_BACKUP.json`; a.click();
 }
-function drawNebula() {
-ctxt.clearRect(0,0,canv.width,canv.height); 
-ctxt.fillStyle = '#00b4d8'; // MUDADO PARA AZUL CIANO
-// ... resto do código igual
-}
+        function drawNebula() {
+            ctxt.clearRect(0,0,canv.width,canv.height); 
+            ctxt.fillStyle = '#00b4d8'; // MUDADO PARA AZUL CIANO
+            // ... resto do código igual
+        }
 
 // --- INICIALIZAÇÃO ---
 window.onload = () => {
