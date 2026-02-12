@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOD DEV | VAULT SUPREMO V18 - THE ARCHITECT TITAN</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* -----------------------------------------------------------------------------
-           1. SISTEMA DE CORES E VARIÁVEIS DE AMBIENTE (CORE V17)
-        -------------------------------------------------------------------------------- */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOD DEV | VAULT SUPREMO V18 - THE ARCHITECT TITAN</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+/* -----------------------------------------------------------------------------
+          1. SISTEMA DE CORES E VARIÁVEIS DE AMBIENTE (CORE V17)
+       -------------------------------------------------------------------------------- */
+        :root { 
+            --bg: #050505; 
+            --acc: #00ff41; 
+            --surf: rgba(15, 15, 15, 0.95); 
+            --txt: #ffffff; 
+            --border: #333333; 
+            --grad: linear-gradient(45deg, #00ff41, #008f11);
+            --shadow: 0 10px 40px rgba(0,0,0,0.7);
+            --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 :root { 
             --bg: #000814; 
             --acc: #00b4d8; 
@@ -23,27 +32,27 @@
             --danger: #ff4d6d;
             --shadow-glow: 0 0 40px rgba(0, 180, 216, 0.15);
             --drawer-width: 420px;
-        }
+}
 
-        .theme-oficial { 
-            --bg: #f0f2f5; --acc: #1a73e8; --surf: rgba(255, 255, 255, 0.95); 
-            --txt: #202124; --border: #dadce0; --grad: linear-gradient(45deg, #1a73e8, #8ab4f8);
-        } 
+.theme-oficial { 
+--bg: #f0f2f5; --acc: #1a73e8; --surf: rgba(255, 255, 255, 0.95); 
+--txt: #202124; --border: #dadce0; --grad: linear-gradient(45deg, #1a73e8, #8ab4f8);
+} 
 
-        .theme-gold { 
-            --bg: #0f0f0f; --acc: #d4af37; --surf: rgba(30, 30, 30, 0.95); 
-            --txt: #f1f1f1; --border: #aa841e; --grad: linear-gradient(45deg, #d4af37, #f9e29c);
-        }
+.theme-gold { 
+--bg: #0f0f0f; --acc: #d4af37; --surf: rgba(30, 30, 30, 0.95); 
+--txt: #f1f1f1; --border: #aa841e; --grad: linear-gradient(45deg, #d4af37, #f9e29c);
+}
 
-        .theme-cyberpunk { 
-            --bg: #0d0221; --acc: #ff007f; --surf: rgba(25, 14, 58, 0.95); 
-            --txt: #00f0ff; --border: #5a189a; --grad: linear-gradient(45deg, #ff007f, #00f0ff);
-        }
+.theme-cyberpunk { 
+--bg: #0d0221; --acc: #ff007f; --surf: rgba(25, 14, 58, 0.95); 
+--txt: #00f0ff; --border: #5a189a; --grad: linear-gradient(45deg, #ff007f, #00f0ff);
+}
 
-        .theme-ruby { 
-            --bg: #1a0505; --acc: #e63946; --surf: rgba(45, 10, 10, 0.95); 
-            --txt: #f1faee; --border: #a8222e; --grad: linear-gradient(45deg, #e63946, #457b9d);
-        }
+.theme-ruby { 
+--bg: #1a0505; --acc: #e63946; --surf: rgba(45, 10, 10, 0.95); 
+--txt: #f1faee; --border: #a8222e; --grad: linear-gradient(45deg, #e63946, #457b9d);
+}
         .theme-navy-stealth { 
             --bg: #000814;                      /* Azul Marinho Profundo (Quase preto) */
             --acc: #00b4d8;                     /* Azul Ciano (Acento Tecnológico) */
@@ -52,619 +61,588 @@
             --border: #003566;                  /* Azul Cobalto para divisões */
             --grad: linear-gradient(45deg, #0077b6, #00b4d8); /* Gradiente Aquático */
         }
-        .theme-valentine {
-            --bg: #1a0105;                      /* Vinho Profundo */
-            --acc: #ff2d55;                     /* Rosa Shocking / Cereja */
-            --surf: rgba(45, 5, 15, 0.95);       /* Superfície Carmesim Escura */
-            --txt: #ffe5ec;                     /* Rosa Bebê para leitura */
-            --border: #800f2f;                  /* Bordô para divisões */
-            --grad: linear-gradient(45deg, #ff2d55, #fb6f92); /* Gradiente Romântico */
+
+/* -----------------------------------------------------------------------------
+          2. RESET E ESTRUTURA TITÂNICA
+       -------------------------------------------------------------------------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+background: var(--bg); 
+color: var(--txt); 
+font-family: 'JetBrains Mono', 'Fira Code', monospace; 
+display: flex; 
+height: 100vh; 
+width: 100vw;
+overflow: hidden; 
+transition: background 0.5s ease;
 }
-        .theme-valentine {
-    --bg: #1a0105;                      /* Vinho Profundo */
-    --acc: #ff2d55;                     /* Rosa Paixão */
-    --surf: rgba(45, 5, 15, 0.95);      /* Superfície Carmesim */
-    --txt: #ffe5ec;                     /* Rosa Bebê para leitura */
-    --border: #800f2f;                  /* Bordô para divisões */
-    --grad: linear-gradient(45deg, #ff2d55, #fb6f92); /* Gradiente de Amor */
+
+#nebula-canvas {
+position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+z-index: 1; pointer-events: none; opacity: 0.7;
 }
 
-        /* -----------------------------------------------------------------------------
-           2. RESET E ESTRUTURA TITÂNICA
-        -------------------------------------------------------------------------------- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            background: var(--bg); 
-            color: var(--txt); 
-            font-family: 'JetBrains Mono', 'Fira Code', monospace; 
-            display: flex; 
-            height: 100vh; 
-            width: 100vw;
-            overflow: hidden; 
-            transition: background 0.5s ease;
-        }
+/* -----------------------------------------------------------------------------
+          3. SIDEBAR (SCRAPBOOK & ACCESS LOG)
+       -------------------------------------------------------------------------------- */
+#scrapbook { 
+width: 350px; 
+background: var(--surf); 
+border-right: 1px solid var(--border); 
+padding: 30px; 
+display: flex; 
+flex-direction: column; 
+z-index: 100;
+backdrop-filter: blur(30px);
+box-shadow: 15px 0 50px rgba(0,0,0,0.6);
+}
 
-        #nebula-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none; opacity: 0.7;
-        }
+#scrapbook h3 { 
+color: var(--acc); font-size: 0.8rem; letter-spacing: 4px; 
+margin-bottom: 25px; border-left: 4px solid var(--acc); padding-left: 15px;
+}
 
-        /* -----------------------------------------------------------------------------
-           3. SIDEBAR (SCRAPBOOK & ACCESS LOG)
-        -------------------------------------------------------------------------------- */
-        #scrapbook { 
-            width: 350px; 
-            background: var(--surf); 
-            border-right: 1px solid var(--border); 
-            padding: 30px; 
-            display: flex; 
-            flex-direction: column; 
-            z-index: 100;
-            backdrop-filter: blur(30px);
-            box-shadow: 15px 0 50px rgba(0,0,0,0.6);
-        }
+#notes { 
+flex: 1; background: rgba(0,0,0,0.5); color: var(--txt); 
+border: 1px solid var(--border); padding: 25px; font-family: inherit; 
+resize: none; outline: none; border-radius: 12px; font-size: 0.95rem; 
+line-height: 1.8; transition: 0.3s;
+}
+#notes:focus { border-color: var(--acc); box-shadow: inset 0 0 10px rgba(0,255,65,0.1); }
 
-        #scrapbook h3 { 
-            color: var(--acc); font-size: 0.8rem; letter-spacing: 4px; 
-            margin-bottom: 25px; border-left: 4px solid var(--acc); padding-left: 15px;
-        }
+#access-log {
+margin-top: 25px; height: 120px; font-size: 0.65rem; color: var(--acc);
+overflow-y: auto; background: rgba(0,0,0,0.3); padding: 10px;
+border-radius: 8px; border: 1px solid var(--border); opacity: 0.7;
+}
 
-        #notes { 
-            flex: 1; background: rgba(0,0,0,0.5); color: var(--txt); 
-            border: 1px solid var(--border); padding: 25px; font-family: inherit; 
-            resize: none; outline: none; border-radius: 12px; font-size: 0.95rem; 
-            line-height: 1.8; transition: 0.3s;
-        }
-        #notes:focus { border-color: var(--acc); box-shadow: inset 0 0 10px rgba(0,255,65,0.1); }
+/* -----------------------------------------------------------------------------
+          4. MAIN CONTENT & HEADER
+       -------------------------------------------------------------------------------- */
+main { 
+flex: 1; padding: 50px; overflow-y: auto; position: relative; 
+z-index: 10; scroll-behavior: smooth;
+}
 
-        #access-log {
-            margin-top: 25px; height: 120px; font-size: 0.65rem; color: var(--acc);
-            overflow-y: auto; background: rgba(0,0,0,0.3); padding: 10px;
-            border-radius: 8px; border: 1px solid var(--border); opacity: 0.7;
-        }
+header { 
+border-bottom: 3px solid var(--acc); padding-bottom: 30px; 
+margin-bottom: 50px; display: flex; justify-content: space-between; align-items: center;
+}
 
-        /* -----------------------------------------------------------------------------
-           4. MAIN CONTENT & HEADER
-        -------------------------------------------------------------------------------- */
-        main { 
-            flex: 1; padding: 50px; overflow-y: auto; position: relative; 
-            z-index: 10; scroll-behavior: smooth;
-        }
+.main-title-container { display: flex; align-items: center; gap: 20px; }
+#main-title { 
+font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;
+background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
 
-        header { 
-            border-bottom: 3px solid var(--acc); padding-bottom: 30px; 
-            margin-bottom: 50px; display: flex; justify-content: space-between; align-items: center;
-        }
+/* -----------------------------------------------------------------------------
+          5. DASHBOARD ANALYTICS & STORAGE BAR
+       -------------------------------------------------------------------------------- */
+.dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 50px; }
 
-        .main-title-container { display: flex; align-items: center; gap: 20px; }
-        #main-title { 
-            font-size: 2rem; font-weight: 900; letter-spacing: -1.5px;
-            background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+.stat-card { 
+background: var(--surf); padding: 35px; border-radius: 20px; 
+border: 1px solid var(--border); backdrop-filter: blur(15px);
+box-shadow: var(--shadow); position: relative;
+}
 
-        /* -----------------------------------------------------------------------------
-           5. DASHBOARD ANALYTICS & STORAGE BAR
-        -------------------------------------------------------------------------------- */
-        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 50px; }
-        
-        .stat-card { 
-            background: var(--surf); padding: 35px; border-radius: 20px; 
-            border: 1px solid var(--border); backdrop-filter: blur(15px);
-            box-shadow: var(--shadow); position: relative;
-        }
+.stat-card::after {
+content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: var(--grad);
+}
 
-        .stat-card::after {
-            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: var(--grad);
-        }
+#totalCounter { font-size: 6rem; font-weight: 900; color: var(--acc); text-shadow: 0 0 30px rgba(0,255,65,0.4); }
 
-        #totalCounter { font-size: 6rem; font-weight: 900; color: var(--acc); text-shadow: 0 0 30px rgba(0,255,65,0.4); }
+.storage-container { width: 100%; height: 10px; background: #1a1a1a; border-radius: 20px; margin-top: 20px; overflow: hidden; }
+#storage-bar { height: 100%; width: 0%; background: var(--grad); transition: 1.5s ease-in-out; }
 
-        .storage-container { width: 100%; height: 10px; background: #1a1a1a; border-radius: 20px; margin-top: 20px; overflow: hidden; }
-        #storage-bar { height: 100%; width: 0%; background: var(--grad); transition: 1.5s ease-in-out; }
+/* -----------------------------------------------------------------------------
+          6. SISTEMA DE ABAS (PÁGINA INICIAL / DOCUMENTOS)
+       -------------------------------------------------------------------------------- */
+.tab-content { display: none; animation: slideUp 0.6s ease-out; }
+.tab-content.active { display: block; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* -----------------------------------------------------------------------------
-           6. SISTEMA DE ABAS (PÁGINA INICIAL / DOCUMENTOS)
-        -------------------------------------------------------------------------------- */
-        .tab-content { display: none; animation: slideUp 0.6s ease-out; }
-        .tab-content.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.tab-nav { display: flex; gap: 15px; margin-bottom: 30px; }
+.tab-btn { 
+padding: 12px 30px; background: transparent; border: 2px solid var(--acc);
+color: var(--acc); border-radius: 50px; cursor: pointer; font-weight: 900;
+transition: 0.3s; letter-spacing: 2px;
+}
+.tab-btn.active { background: var(--acc); color: #000; box-shadow: 0 0 20px rgba(0,255,65,0.3); }
 
-        .tab-nav { display: flex; gap: 15px; margin-bottom: 30px; }
-        .tab-btn { 
-            padding: 12px 30px; background: transparent; border: 2px solid var(--acc);
-            color: var(--acc); border-radius: 50px; cursor: pointer; font-weight: 900;
-            transition: 0.3s; letter-spacing: 2px;
-        }
-        .tab-btn.active { background: var(--acc); color: #000; box-shadow: 0 0 20px rgba(0,255,65,0.3); }
+/* -----------------------------------------------------------------------------
+          7. SISTEMA DE ARQUIVOS TXT (GRID & VIEWER)
+       -------------------------------------------------------------------------------- */
+.txt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
 
-        /* -----------------------------------------------------------------------------
-           7. SISTEMA DE ARQUIVOS TXT (GRID & VIEWER)
-        -------------------------------------------------------------------------------- */
-        .txt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
-        
-        .txt-card { 
-            background: var(--surf); border: 2px solid var(--border); padding: 30px 20px;
-            border-radius: 18px; text-align: center; cursor: pointer; transition: var(--transition);
-            position: relative; overflow: hidden;
-        }
-        .txt-card:hover { border-color: var(--acc); transform: translateY(-10px); background: rgba(255,255,255,0.05); }
-        .txt-card i { font-size: 3.5rem; color: var(--acc); margin-bottom: 15px; display: block; }
-        .txt-card h5 { font-size: 1rem; color: var(--txt); font-weight: bold; margin-bottom: 10px; }
-        .txt-card .txt-meta { font-size: 0.6rem; opacity: 0.5; font-family: sans-serif; }
+.txt-card { 
+background: var(--surf); border: 2px solid var(--border); padding: 30px 20px;
+border-radius: 18px; text-align: center; cursor: pointer; transition: var(--transition);
+position: relative; overflow: hidden;
+}
+.txt-card:hover { border-color: var(--acc); transform: translateY(-10px); background: rgba(255,255,255,0.05); }
+.txt-card i { font-size: 3.5rem; color: var(--acc); margin-bottom: 15px; display: block; }
+.txt-card h5 { font-size: 1rem; color: var(--txt); font-weight: bold; margin-bottom: 10px; }
+.txt-card .txt-meta { font-size: 0.6rem; opacity: 0.5; font-family: sans-serif; }
 
-        #txt-viewer-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 5000; flex-direction: column; padding: 60px;
-            animation: fadeIn 0.3s ease;
-        }
-        #txt-editor-area {
-            flex: 1; background: transparent; color: #00ff41; border: 2px solid #222;
-            padding: 40px; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
-            line-height: 1.8; resize: none; outline: none; border-radius: 15px;
-        }
+#txt-viewer-overlay {
+display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+background: rgba(0,0,0,0.98); z-index: 5000; flex-direction: column; padding: 60px;
+animation: fadeIn 0.3s ease;
+}
+#txt-editor-area {
+flex: 1; background: transparent; color: #00ff41; border: 2px solid #222;
+padding: 40px; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;
+line-height: 1.8; resize: none; outline: none; border-radius: 15px;
+}
 
-        /* -----------------------------------------------------------------------------
-           8. INPUT BOX E REGISTROS DE LINKS
-        -------------------------------------------------------------------------------- */
-        .input-box { 
-            display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 20px;
-            background: var(--surf); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
-            margin-bottom: 40px; backdrop-filter: blur(15px); box-shadow: var(--shadow);
-        }
+/* -----------------------------------------------------------------------------
+          8. INPUT BOX E REGISTROS DE LINKS
+       -------------------------------------------------------------------------------- */
+.input-box { 
+display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 20px;
+background: var(--surf); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
+margin-bottom: 40px; backdrop-filter: blur(15px); box-shadow: var(--shadow);
+}
 
-        .input-field { display: flex; flex-direction: column; gap: 10px; }
-        .input-field label { font-size: 0.7rem; font-weight: bold; color: var(--acc); opacity: 0.8; letter-spacing: 2px; }
-        
-        input, select { 
-            background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 18px;
-            color: var(--txt); border-radius: 10px; outline: none; font-family: inherit;
-        }
-        input:focus { border-color: var(--acc); box-shadow: 0 0 15px rgba(0,255,65,0.1); }
+.input-field { display: flex; flex-direction: column; gap: 10px; }
+.input-field label { font-size: 0.7rem; font-weight: bold; color: var(--acc); opacity: 0.8; letter-spacing: 2px; }
 
-        .btn-add { 
-            background: var(--acc); color: #000; border: none; padding: 18px 40px;
-            font-weight: 900; cursor: pointer; border-radius: 10px; text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .btn-add:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,255,65,0.4); }
+input, select { 
+background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 18px;
+color: var(--txt); border-radius: 10px; outline: none; font-family: inherit;
+}
+input:focus { border-color: var(--acc); box-shadow: 0 0 15px rgba(0,255,65,0.1); }
 
-        .item { 
-            background: var(--surf); padding: 30px; border-radius: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-left: 8px solid var(--acc); margin-bottom: 20px; transition: 0.4s;
-            backdrop-filter: blur(10px); box-shadow: var(--shadow);
-        }
-        .item:hover { transform: translateX(15px); background: rgba(255,255,255,0.05); }
+.btn-add { 
+background: var(--acc); color: #000; border: none; padding: 18px 40px;
+font-weight: 900; cursor: pointer; border-radius: 10px; text-transform: uppercase;
+transition: 0.3s;
+}
+.btn-add:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,255,65,0.4); }
 
-        /* -----------------------------------------------------------------------------
-           9. MULTIMÍDIA E MODO ZEN
-        -------------------------------------------------------------------------------- */
-        .video-section { 
-            background: var(--surf); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
-            margin-bottom: 40px; display: none; animation: fadeIn 0.5s;
-        }
-        
-        .focus-mode #scrapbook, .focus-mode header, .focus-mode .dashboard-grid, 
-        .focus-mode .input-box, .focus-mode .search-container, .focus-mode .tab-nav {
-            display: none !important;
-        }
-        .focus-mode main { display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .focus-mode #nebula-canvas { opacity: 1; }
+.item { 
+background: var(--surf); padding: 30px; border-radius: 15px;
+display: flex; justify-content: space-between; align-items: center;
+border-left: 8px solid var(--acc); margin-bottom: 20px; transition: 0.4s;
+backdrop-filter: blur(10px); box-shadow: var(--shadow);
+}
+.item:hover { transform: translateX(15px); background: rgba(255,255,255,0.05); }
 
-        #exit-focus {
-            display: none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.8); border: 2px solid var(--acc); color: var(--acc);
-            padding: 25px 80px; border-radius: 100px; cursor: pointer; z-index: 10000;
-            font-weight: 900; letter-spacing: 8px; text-transform: uppercase;
-        }
-        .focus-mode #exit-focus { display: block; }
+/* -----------------------------------------------------------------------------
+          9. MULTIMÍDIA E MODO ZEN
+       -------------------------------------------------------------------------------- */
+.video-section { 
+background: var(--surf); padding: 40px; border-radius: 20px; border: 1px solid var(--border);
+margin-bottom: 40px; display: none; animation: fadeIn 0.5s;
+}
 
-        /* -----------------------------------------------------------------------------
-           10. UTILITÁRIOS E BOTOES FERRAMENTA
-        -------------------------------------------------------------------------------- */
-        .btn-tool { 
-            background: transparent; color: var(--acc); border: 1px solid var(--acc);
-            padding: 12px 20px; cursor: pointer; border-radius: 8px; font-size: 0.75rem;
-            font-weight: bold; transition: 0.2s; text-transform: uppercase; margin-left: 10px;
-        }
-        .btn-tool:hover { background: var(--acc); color: #000; }
+.focus-mode #scrapbook, .focus-mode header, .focus-mode .dashboard-grid, 
+.focus-mode .input-box, .focus-mode .search-container, .focus-mode .tab-nav {
+display: none !important;
+}
+.focus-mode main { display: flex; align-items: center; justify-content: center; height: 100vh; }
+.focus-mode #nebula-canvas { opacity: 1; }
 
-        #qr-modal { 
-            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:6000;
-        }
+#exit-focus {
+display: none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+background: rgba(0,0,0,0.8); border: 2px solid var(--acc); color: var(--acc);
+padding: 25px 80px; border-radius: 100px; cursor: pointer; z-index: 10000;
+font-weight: 900; letter-spacing: 8px; text-transform: uppercase;
+}
+.focus-mode #exit-focus { display: block; }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--acc); }
-    </style>
+/* -----------------------------------------------------------------------------
+          10. UTILITÁRIOS E BOTOES FERRAMENTA
+       -------------------------------------------------------------------------------- */
+.btn-tool { 
+background: transparent; color: var(--acc); border: 1px solid var(--acc);
+padding: 12px 20px; cursor: pointer; border-radius: 8px; font-size: 0.75rem;
+font-weight: bold; transition: 0.2s; text-transform: uppercase; margin-left: 10px;
+}
+.btn-tool:hover { background: var(--acc); color: #000; }
+
+#qr-modal { 
+display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:6000;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--acc); }
+</style>
 </head>
 <body id="app-body">
 
-    <canvas id="nebula-canvas"></canvas>
-    
-    <button id="exit-focus" onclick="toggleFocus()">DESATIVAR ZEN</button>
+<canvas id="nebula-canvas"></canvas>
 
-    <div id="txt-viewer-overlay">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h2 id="current-txt-name" style="color:var(--acc); font-size:1.5rem;">ARQUIVO_TITAN.TXT</h2>
-            <div style="display:flex; gap:15px;">
-                <button class="btn-add" onclick="saveAndDownloadTxt()">BAIXAR TXT</button>
-                <button class="btn-tool" onclick="closeTxtViewer()" style="color:#ff4757; border-color:#ff4757">FECHAR PROTOCOLO [X]</button>
-            </div>
-        </div>
-        <textarea id="txt-editor-area" spellcheck="false"></textarea>
-    </div>
+<button id="exit-focus" onclick="toggleFocus()">DESATIVAR ZEN</button>
 
-    <div id="qr-modal" onclick="this.style.display='none'">
-        <div id="qr-container" style="background:white; padding:40px; border-radius:25px;"></div>
-    </div>
+<div id="txt-viewer-overlay">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+<h2 id="current-txt-name" style="color:var(--acc); font-size:1.5rem;">ARQUIVO_TITAN.TXT</h2>
+<div style="display:flex; gap:15px;">
+<button class="btn-add" onclick="saveAndDownloadTxt()">BAIXAR TXT</button>
+<button class="btn-tool" onclick="closeTxtViewer()" style="color:#ff4757; border-color:#ff4757">FECHAR PROTOCOLO [X]</button>
+</div>
+</div>
+<textarea id="txt-editor-area" spellcheck="false"></textarea>
+</div>
 
-    <aside id="scrapbook">
-        <h3>> SCRAPBOOK_NOTAS</h3>
-        <textarea id="notes" placeholder="Rascunhos mentais e comandos..." oninput="saveNotes()"></textarea>
-        <div id="access-log"></div>
-    </aside>
+<div id="qr-modal" onclick="this.style.display='none'">
+<div id="qr-container" style="background:white; padding:40px; border-radius:25px;"></div>
+</div>
 
-    <main>
-        <header>
-            <div class="main-title-container">
-                <button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; font-size:1rem; padding:15px 30px;">INÍCIO</button>
-                <h1 id="main-title">VAULT_TITAN_V18</h1>
-            </div>
-            <div class="controls">
-                <select onchange="changeTheme(this.value)" class="btn-tool" style="background:var(--surf)">
-                    <option value="">MATRIX PRO</option>
-                    <option value="theme-oficial">CLEAN DARK</option>
-                    <option value="theme-gold">ROYAL GOLD</option>
-                    <option value="theme-cyberpunk">CYBERPUNK 2077</option>
-                    <option value="theme-ruby">RUBY BLOOD</option>
-                </select>
-                <button class="btn-tool" onclick="toggleSection('video-section')">MULTIMÍDIA</button>
-                <button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 20px var(--acc);">MODO ZEN</button>
-                <button class="btn-tool" onclick="exportData()">BACKUP DB</button>
-                <button class="btn-tool" onclick="document.getElementById('file-txt-input').click()">IMPORTAR TXT</button>
-                <input type="file" id="file-txt-input" style="display:none" accept=".txt" onchange="processTxtImport(event)">
-            </div>
-        </header>
+<aside id="scrapbook">
+<h3>> SCRAPBOOK_NOTAS</h3>
+<textarea id="notes" placeholder="Rascunhos mentais e comandos..." oninput="saveNotes()"></textarea>
+<div id="access-log"></div>
+</aside>
 
-        <div class="tab-nav">
-            <button class="tab-btn active" id="btn-vault" onclick="switchTab('tab-vault')">COFRE DE LINKS</button>
-            <button class="tab-btn" id="btn-docs" onclick="switchTab('tab-docs')">DOCUMENTOS TXT</button>
-        </div>
+<main>
+<header>
+<div class="main-title-container">
+<button class="btn-tool" onclick="goHome()" style="background:var(--acc); color:#000; font-size:1rem; padding:15px 30px;">INÍCIO</button>
+<h1 id="main-title">VAULT_TITAN_V18</h1>
+</div>
+<div class="controls">
+<select onchange="changeTheme(this.value)" class="btn-tool" style="background:var(--surf)">
+<option value="">MATRIX PRO</option>
+<option value="theme-oficial">CLEAN DARK</option>
+<option value="theme-gold">ROYAL GOLD</option>
+<option value="theme-cyberpunk">CYBERPUNK 2077</option>
+<option value="theme-ruby">RUBY BLOOD</option>
+</select>
+<button class="btn-tool" onclick="toggleSection('video-section')">MULTIMÍDIA</button>
+<button class="btn-tool" onclick="toggleFocus()" style="box-shadow: 0 0 20px var(--acc);">MODO ZEN</button>
+<button class="btn-tool" onclick="exportData()">BACKUP DB</button>
+<button class="btn-tool" onclick="document.getElementById('file-txt-input').click()">IMPORTAR TXT</button>
+<input type="file" id="file-txt-input" style="display:none" accept=".txt" onchange="processTxtImport(event)">
+</div>
+</header>
 
-        <div id="tab-vault" class="tab-content active">
-            <div class="dashboard-grid">
-                <div class="stat-card">
-                    <h4 style="font-size:0.7rem; opacity:0.6; margin-bottom:15px;">DISTRUIBUIÇÃO ANALÍTICA</h4>
-                    <div style="height:200px;"><canvas id="mainChart"></canvas></div>
-                </div>
-                <div class="stat-card" style="text-align:center;">
-                    <h2 id="totalCounter">0</h2>
-                    <p style="font-weight:bold; opacity:0.6;">ENTRADAS TOTAIS</p>
-                    <div class="storage-container"><div id="storage-bar"></div></div>
-                </div>
-            </div>
+<div class="tab-nav">
+<button class="tab-btn active" id="btn-vault" onclick="switchTab('tab-vault')">COFRE DE LINKS</button>
+<button class="tab-btn" id="btn-docs" onclick="switchTab('tab-docs')">DOCUMENTOS TXT</button>
+</div>
 
-            <div class="search-container" style="margin-bottom:40px; position:relative;">
-                <i class="fas fa-search" style="position:absolute; left:25px; top:50%; transform:translateY(-50%); opacity:0.5;"></i>
-                <input type="text" id="search-input" placeholder="Pesquisar no Vault..." oninput="load()" style="width:100%; padding-left:60px; border-radius:50px; background:var(--surf);">
-            </div>
+<div id="tab-vault" class="tab-content active">
+<div class="dashboard-grid">
+<div class="stat-card">
+<h4 style="font-size:0.7rem; opacity:0.6; margin-bottom:15px;">DISTRUIBUIÇÃO ANALÍTICA</h4>
+<div style="height:200px;"><canvas id="mainChart"></canvas></div>
+</div>
+<div class="stat-card" style="text-align:center;">
+<h2 id="totalCounter">0</h2>
+<p style="font-weight:bold; opacity:0.6;">ENTRADAS TOTAIS</p>
+<div class="storage-container"><div id="storage-bar"></div></div>
+</div>
+</div>
 
-            <div class="video-section" id="video-section">
-                <div style="display:flex; gap:20px; margin-bottom:20px;">
-                    <input type="text" id="v-url" placeholder="URL do YouTube..." style="flex:1">
-                    <button class="btn-add" onclick="playVideo()">CARREGAR</button>
-                </div>
-                <div id="player-wrap" style="display:none; border-radius:15px; overflow:hidden;"><iframe id="v-frame" width="100%" height="450" frameborder="0" allowfullscreen></iframe></div>
-            </div>
+<div class="search-container" style="margin-bottom:40px; position:relative;">
+<i class="fas fa-search" style="position:absolute; left:25px; top:50%; transform:translateY(-50%); opacity:0.5;"></i>
+<input type="text" id="search-input" placeholder="Pesquisar no Vault..." oninput="load()" style="width:100%; padding-left:60px; border-radius:50px; background:var(--surf);">
+</div>
 
-            <div class="input-box">
-                <div class="input-field"><label>TÍTULO</label><input type="text" id="t" placeholder="..."></div>
-                <div class="input-field"><label>URL</label><input type="text" id="u" placeholder="https://..."></div>
-                <div class="input-field"><label>CATEGORIA</label><input type="text" id="c" placeholder="Geral" list="cat-list"><datalist id="cat-list"></datalist></div>
-                <div class="input-field" style="justify-content:flex-end;"><button class="btn-add" onclick="add()">ARMAZENAR</button></div>
-            </div>
+<div class="video-section" id="video-section">
+<div style="display:flex; gap:20px; margin-bottom:20px;">
+<input type="text" id="v-url" placeholder="URL do YouTube..." style="flex:1">
+<button class="btn-add" onclick="playVideo()">CARREGAR</button>
+</div>
+<div id="player-wrap" style="display:none; border-radius:15px; overflow:hidden;"><iframe id="v-frame" width="100%" height="450" frameborder="0" allowfullscreen></iframe></div>
+</div>
 
-            <div id="filters" style="margin-bottom:30px; display:flex; gap:12px; flex-wrap:wrap;"></div>
-            <div class="grid" id="list"></div>
-        </div>
+<div class="input-box">
+<div class="input-field"><label>TÍTULO</label><input type="text" id="t" placeholder="..."></div>
+<div class="input-field"><label>URL</label><input type="text" id="u" placeholder="https://..."></div>
+<div class="input-field"><label>CATEGORIA</label><input type="text" id="c" placeholder="Geral" list="cat-list"><datalist id="cat-list"></datalist></div>
+<div class="input-field" style="justify-content:flex-end;"><button class="btn-add" onclick="add()">ARMAZENAR</button></div>
+</div>
 
-        <div id="tab-docs" class="tab-content">
-            <h2 style="margin-bottom:30px; border-left:6px solid var(--acc); padding-left:20px;">BIBLIOTECA DE DOCUMENTOS</h2>
-            <div class="txt-grid" id="txt-list-container">
-                </div>
-        </div>
-    </main>
+<div id="filters" style="margin-bottom:30px; display:flex; gap:12px; flex-wrap:wrap;"></div>
+<div class="grid" id="list"></div>
+</div>
 
-    <script>
-        const DB_KEY = 'titan_vault_db_v18';
-        const TXT_KEY = 'titan_txt_db_v18';
-        let myChart = null;
-        let currentFilter = 'all';
-        let currentTab = 'tab-vault';
-        let audioCtx = null;
-        let noiseNode = null;
-        let openTxtId = null;
+<div id="tab-docs" class="tab-content">
+<h2 style="margin-bottom:30px; border-left:6px solid var(--acc); padding-left:20px;">BIBLIOTECA DE DOCUMENTOS</h2>
+<div class="txt-grid" id="txt-list-container">
+</div>
+</div>
+</main>
 
-        // --- MOTOR GRÁFICO (NEBULOSA V17 EXPANDIDA) ---
-// --- MOTOR DE NEBULA ORIGINAL (RESTAURADO) ---
-        function initNebula() {
-            canv.width = window.innerWidth; 
-            canv.height = window.innerHeight;
-            parts = []; 
-            const count = window.innerWidth < 768 ? 40 : 120;
-            for(let i=0; i<count; i++) {
-                parts.push({ 
-                    x: Math.random() * canv.width, 
-                    y: Math.random() * canv.height, 
-                    s: Math.random() * 1.5, 
-                    v: Math.random() * 0.2 + 0.1 
-                });
-            }
-        }
+<script>
+const DB_KEY = 'titan_vault_db_v18';
+const TXT_KEY = 'titan_txt_db_v18';
+let myChart = null;
+let currentFilter = 'all';
+let currentTab = 'tab-vault';
+let audioCtx = null;
+let noiseNode = null;
+let openTxtId = null;
 
-        function drawNebula() {
-            ctxt.clearRect(0,0,canv.width,canv.height); 
-            
-            // Pega a cor de destaque (accent) do tema que estiver ativo no momento
-            const accentColor = getComputedStyle(document.body).getPropertyValue('--acc').trim();
-            ctxt.fillStyle = accentColor || '#00ff41'; // Usa a cor do tema ou verde como fallback
+// --- MOTOR GRÁFICO (NEBULOSA V17 EXPANDIDA) ---
+const canvas = document.getElementById('nebula-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
 
-            parts.forEach(p => { 
-                p.y -= p.v; 
-                if(p.y < 0) p.y = canv.height; 
-                ctxt.globalAlpha = 0.2; 
-                ctxt.beginPath(); 
-                ctxt.arc(p.x, p.y, p.s, 0, Math.PI * 2); 
-                ctxt.fill(); 
-            });
-            requestAnimationFrame(drawNebula);
-        }
+function initNebula() {
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+particles = [];
+for(let i=0; i<250; i++) {
+particles.push({
+x: Math.random() * canvas.width,
+y: Math.random() * canvas.height,
+size: Math.random() * 2.5 + 0.2,
+speed: Math.random() * 0.4 + 0.1,
+opacity: Math.random(),
+drift: Math.random() * 2 - 1
+});
+}
+}
 
-        function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            const accent = getComputedStyle(document.body).getPropertyValue('--acc').trim();
-            ctx.fillStyle = accent;
-            particles.forEach(p => {
-                p.y -= p.speed;
-                p.x += Math.sin(p.y / 60) * 0.3;
-                if(p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
-                ctx.globalAlpha = p.opacity;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-            });
-            requestAnimationFrame(animate);
-        }
+function animate() {
+ctx.clearRect(0,0,canvas.width, canvas.height);
+const accent = getComputedStyle(document.body).getPropertyValue('--acc').trim();
+ctx.fillStyle = accent;
+particles.forEach(p => {
+p.y -= p.speed;
+p.x += Math.sin(p.y / 60) * 0.3;
+if(p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+ctx.globalAlpha = p.opacity;
+ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+});
+requestAnimationFrame(animate);
+}
 
-        // --- SISTEMA DE ABAS ---
-        function switchTab(id) {
-            currentTab = id;
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            document.getElementById('btn-vault').classList.toggle('active', id === 'tab-vault');
-            document.getElementById('btn-docs').classList.toggle('active', id === 'tab-docs');
+// --- SISTEMA DE ABAS ---
+function switchTab(id) {
+currentTab = id;
+document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 
-            if(id === 'tab-docs') loadTxtLibrary();
-            else load();
-        }
+document.getElementById('btn-vault').classList.toggle('active', id === 'tab-vault');
+document.getElementById('btn-docs').classList.toggle('active', id === 'tab-docs');
 
-        // --- GESTÃO DE DOCUMENTOS TXT ---
-        function processTxtImport(e) {
-            const file = e.target.files[0];
-            if(!file) return;
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
-                db.push({
-                    id: Date.now().toString(),
-                    name: file.name,
-                    content: ev.target.result,
-                    date: new Date().toLocaleString()
-                });
-                localStorage.setItem(TXT_KEY, JSON.stringify(db));
-                addLog(`DOCUMENTO IMPORTADO: ${file.name}`);
-                switchTab('tab-docs');
-            };
-            reader.readAsText(file);
-        }
+if(id === 'tab-docs') loadTxtLibrary();
+else load();
+}
 
-        function loadTxtLibrary() {
-            const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
-            const container = document.getElementById('txt-list-container');
-            container.innerHTML = db.map(f => `
-                <div class="txt-card" onclick="openTxtViewer('${f.id}')">
-                    <i class="fas fa-file-code"></i>
-                    <h5>${f.name}</h5>
-                    <p class="txt-meta">MODIFICADO EM: ${f.date}</p>
-                    <button onclick="event.stopPropagation(); deleteTxt('${f.id}')" style="margin-top:15px; background:none; border:none; color:#ff4757; cursor:pointer; font-weight:bold; font-size:0.7rem;">[ELIMINAR]</button>
-                </div>
-            `).join('');
-        }
+// --- GESTÃO DE DOCUMENTOS TXT ---
+function processTxtImport(e) {
+const file = e.target.files[0];
+if(!file) return;
+const reader = new FileReader();
+reader.onload = (ev) => {
+const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+db.push({
+id: Date.now().toString(),
+name: file.name,
+content: ev.target.result,
+date: new Date().toLocaleString()
+});
+localStorage.setItem(TXT_KEY, JSON.stringify(db));
+addLog(`DOCUMENTO IMPORTADO: ${file.name}`);
+switchTab('tab-docs');
+};
+reader.readAsText(file);
+}
 
-        function openTxtViewer(id) {
-            const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
-            const file = db.find(f => f.id === id);
-            if(file) {
-                openTxtId = id;
-                document.getElementById('current-txt-name').innerText = file.name;
-                document.getElementById('txt-editor-area').value = file.content;
-                document.getElementById('txt-viewer-overlay').style.display = 'flex';
-                addLog(`VISUALIZANDO: ${file.name}`);
-            }
-        }
+function loadTxtLibrary() {
+const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+const container = document.getElementById('txt-list-container');
+container.innerHTML = db.map(f => `
+               <div class="txt-card" onclick="openTxtViewer('${f.id}')">
+                   <i class="fas fa-file-code"></i>
+                   <h5>${f.name}</h5>
+                   <p class="txt-meta">MODIFICADO EM: ${f.date}</p>
+                   <button onclick="event.stopPropagation(); deleteTxt('${f.id}')" style="margin-top:15px; background:none; border:none; color:#ff4757; cursor:pointer; font-weight:bold; font-size:0.7rem;">[ELIMINAR]</button>
+               </div>
+           `).join('');
+}
 
-        function closeTxtViewer() {
-            // Auto-save ao fechar
-            const content = document.getElementById('txt-editor-area').value;
-            const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
-            const idx = db.findIndex(f => f.id === openTxtId);
-            if(idx !== -1) {
-                db[idx].content = content;
-                db[idx].date = new Date().toLocaleString();
-                localStorage.setItem(TXT_KEY, JSON.stringify(db));
-            }
-            document.getElementById('txt-viewer-overlay').style.display = 'none';
-            loadTxtLibrary();
-        }
+function openTxtViewer(id) {
+const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+const file = db.find(f => f.id === id);
+if(file) {
+openTxtId = id;
+document.getElementById('current-txt-name').innerText = file.name;
+document.getElementById('txt-editor-area').value = file.content;
+document.getElementById('txt-viewer-overlay').style.display = 'flex';
+addLog(`VISUALIZANDO: ${file.name}`);
+}
+}
 
-        function saveAndDownloadTxt() {
-            const content = document.getElementById('txt-editor-area').value;
-            const name = document.getElementById('current-txt-name').innerText;
-            const blob = new Blob([content], {type: 'text/plain'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = name;
-            a.click();
-        }
+function closeTxtViewer() {
+// Auto-save ao fechar
+const content = document.getElementById('txt-editor-area').value;
+const db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+const idx = db.findIndex(f => f.id === openTxtId);
+if(idx !== -1) {
+db[idx].content = content;
+db[idx].date = new Date().toLocaleString();
+localStorage.setItem(TXT_KEY, JSON.stringify(db));
+}
+document.getElementById('txt-viewer-overlay').style.display = 'none';
+loadTxtLibrary();
+}
 
-        function deleteTxt(id) {
-            if(confirm("DELETAR ESTE DOCUMENTO DO TITAN?")) {
-                let db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
-                db = db.filter(f => f.id !== id);
-                localStorage.setItem(TXT_KEY, JSON.stringify(db));
-                loadTxtLibrary();
-            }
-        }
+function saveAndDownloadTxt() {
+const content = document.getElementById('txt-editor-area').value;
+const name = document.getElementById('current-txt-name').innerText;
+const blob = new Blob([content], {type: 'text/plain'});
+const a = document.createElement('a');
+a.href = URL.createObjectURL(blob);
+a.download = name;
+a.click();
+}
 
-        // --- CORE VAULT ENGINE (LINKS) ---
-        function load() {
-            const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            const term = document.getElementById('search-input').value.toLowerCase();
-            
-            document.getElementById('totalCounter').innerText = data.length;
-            document.getElementById('storage-bar').style.width = Math.min(data.length * 2, 100) + '%';
+function deleteTxt(id) {
+if(confirm("DELETAR ESTE DOCUMENTO DO TITAN?")) {
+let db = JSON.parse(localStorage.getItem(TXT_KEY) || '[]');
+db = db.filter(f => f.id !== id);
+localStorage.setItem(TXT_KEY, JSON.stringify(db));
+loadTxtLibrary();
+}
+}
 
-            const filtered = data.filter(l => {
-                const mSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term);
-                const mCat = currentFilter === 'all' || l.cat === currentFilter;
-                return mSearch && mCat;
-            });
+// --- CORE VAULT ENGINE (LINKS) ---
+function load() {
+const data = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+const term = document.getElementById('search-input').value.toLowerCase();
 
-            document.getElementById('list').innerHTML = filtered.map(l => `
-                <div class="item">
-                    <div class="item-info">
-                        <h4 style="color:var(--acc); margin-bottom:5px;">${l.title} <span style="font-size:0.6rem; background:#222; padding:3px 8px; border-radius:3px; margin-left:10px; color:#fff;">${l.cat}</span></h4>
-                        <p style="font-size:0.8rem; opacity:0.5;">${l.url}</p>
-                    </div>
-                    <div style="display:flex; gap:20px; align-items:center;">
-                        <i class="fas fa-external-link-alt" style="cursor:pointer; font-size:1.2rem;" onclick="window.open('${l.url}','_blank')"></i>
-                        <i class="fas fa-qrcode" style="cursor:pointer; font-size:1.2rem;" onclick="showQR('${l.url}')"></i>
-                        <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.7rem;">DELETAR</button>
-                    </div>
-                </div>
-            `).reverse().join('');
+document.getElementById('totalCounter').innerText = data.length;
+document.getElementById('storage-bar').style.width = Math.min(data.length * 2, 100) + '%';
 
-            updateChart(data);
-            renderFilters(data);
-            document.getElementById('notes').value = localStorage.getItem('titan_notes_v18') || '';
-        }
+const filtered = data.filter(l => {
+const mSearch = l.title.toLowerCase().includes(term) || l.url.toLowerCase().includes(term);
+const mCat = currentFilter === 'all' || l.cat === currentFilter;
+return mSearch && mCat;
+});
 
-        function add() {
-            const u = document.getElementById('u').value; if(!u) return alert("URL NECESSÁRIA");
-            const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            db.push({
-                id: Date.now().toString(),
-                title: document.getElementById('t').value || 'Link s/ Título',
-                url: u.startsWith('http') ? u : 'https://' + u,
-                cat: document.getElementById('c').value || 'Geral'
-            });
-            localStorage.setItem(DB_KEY, JSON.stringify(db));
-            document.getElementById('t').value=''; document.getElementById('u').value='';
-            addLog("REGISTRO ADICIONADO AO VAULT");
-            load();
-        }
+document.getElementById('list').innerHTML = filtered.map(l => `
+               <div class="item">
+                   <div class="item-info">
+                       <h4 style="color:var(--acc); margin-bottom:5px;">${l.title} <span style="font-size:0.6rem; background:#222; padding:3px 8px; border-radius:3px; margin-left:10px; color:#fff;">${l.cat}</span></h4>
+                       <p style="font-size:0.8rem; opacity:0.5;">${l.url}</p>
+                   </div>
+                   <div style="display:flex; gap:20px; align-items:center;">
+                       <i class="fas fa-external-link-alt" style="cursor:pointer; font-size:1.2rem;" onclick="window.open('${l.url}','_blank')"></i>
+                       <i class="fas fa-qrcode" style="cursor:pointer; font-size:1.2rem;" onclick="showQR('${l.url}')"></i>
+                       <button onclick="del('${l.id}')" style="background:none; border:1px solid #ff4757; color:#ff4757; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.7rem;">DELETAR</button>
+                   </div>
+               </div>
+           `).reverse().join('');
 
-        function del(id) { if(confirm("ELIMINAR REGISTRO?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]'); db = db.filter(i=>i.id!==id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
+updateChart(data);
+renderFilters(data);
+document.getElementById('notes').value = localStorage.getItem('titan_notes_v18') || '';
+}
 
-        // --- MOTOR SENSORIAL (ÁUDIO E FOCO) ---
-        function toggleAmbientSound(active) {
-            if (active) {
-                try {
-                    if (!audioCtx) audioCtx = new AudioContext();
-                    const bufferSize = 2 * audioCtx.sampleRate, buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = buffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-                    noiseNode = audioCtx.createBufferSource();
-                    noiseNode.buffer = buffer; noiseNode.loop = true;
-                    const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 350;
-                    const gain = audioCtx.createGain(); gain.gain.value = 0.04;
-                    noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-                    noiseNode.start();
-                } catch(e) {}
-            } else if (noiseNode) { noiseNode.stop(); noiseNode = null; }
-        }
+function add() {
+const u = document.getElementById('u').value; if(!u) return alert("URL NECESSÁRIA");
+const db = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+db.push({
+id: Date.now().toString(),
+title: document.getElementById('t').value || 'Link s/ Título',
+url: u.startsWith('http') ? u : 'https://' + u,
+cat: document.getElementById('c').value || 'Geral'
+});
+localStorage.setItem(DB_KEY, JSON.stringify(db));
+document.getElementById('t').value=''; document.getElementById('u').value='';
+addLog("REGISTRO ADICIONADO AO VAULT");
+load();
+}
 
-        function toggleFocus() {
-            const isZen = document.body.classList.toggle('focus-mode');
-            toggleAmbientSound(isZen);
-            document.getElementById('main-title').innerText = isZen ? "TITAN_ZEN_PROTOCOL" : "VAULT_TITAN_V18";
-        }
+function del(id) { if(confirm("ELIMINAR REGISTRO?")) { let db = JSON.parse(localStorage.getItem(DB_KEY) || '[]'); db = db.filter(i=>i.id!==id); localStorage.setItem(DB_KEY, JSON.stringify(db)); load(); } }
 
-        // --- UTILITÁRIOS ---
-        function addLog(msg) {
-            const log = document.getElementById('access-log');
-            log.innerHTML = `> [${new Date().toLocaleTimeString()}] ${msg}<br>` + log.innerHTML;
-        }
+// --- MOTOR SENSORIAL (ÁUDIO E FOCO) ---
+function toggleAmbientSound(active) {
+if (active) {
+try {
+if (!audioCtx) audioCtx = new AudioContext();
+const bufferSize = 2 * audioCtx.sampleRate, buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = buffer.getChannelData(0);
+for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+noiseNode = audioCtx.createBufferSource();
+noiseNode.buffer = buffer; noiseNode.loop = true;
+const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 350;
+const gain = audioCtx.createGain(); gain.gain.value = 0.04;
+noiseNode.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+noiseNode.start();
+} catch(e) {}
+} else if (noiseNode) { noiseNode.stop(); noiseNode = null; }
+}
 
-        function goHome() {
-            currentFilter = 'all';
-            document.getElementById('search-input').value = '';
-            if(document.body.classList.contains('focus-mode')) toggleFocus();
-            switchTab('tab-vault');
-        }
+function toggleFocus() {
+const isZen = document.body.classList.toggle('focus-mode');
+toggleAmbientSound(isZen);
+document.getElementById('main-title').innerText = isZen ? "TITAN_ZEN_PROTOCOL" : "VAULT_TITAN_V18";
+}
 
-        function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display==='none'||s.style.display==='')?'block':'none'; }
-        
-        function changeTheme(t) { document.body.className = t; load(); }
-        
-        function saveNotes() { localStorage.setItem('titan_notes_v18', document.getElementById('notes').value); }
-        
-        function showQR(u) { const c = document.getElementById('qr-container'); c.innerHTML=""; new QRCode(c, {text:u, width:250, height:250}); document.getElementById('qr-modal').style.display='flex'; }
-        
-        function playVideo() {
-            const u = document.getElementById('v-url').value;
-            const id = u.includes('v=') ? u.split('v=')[1].split('&')[0] : u.split('be/')[1];
-            if(id) { document.getElementById('v-frame').src=`https://www.youtube.com/embed/${id}`; document.getElementById('player-wrap').style.display='block'; }
-        }
+// --- UTILITÁRIOS ---
+function addLog(msg) {
+const log = document.getElementById('access-log');
+log.innerHTML = `> [${new Date().toLocaleTimeString()}] ${msg}<br>` + log.innerHTML;
+}
 
-        function updateChart(data) {
-            const cats = {}; data.forEach(i => cats[i.cat] = (cats[i.cat] || 0) + 1);
-            const ctxC = document.getElementById('mainChart').getContext('2d');
-            if(myChart) myChart.destroy();
-            myChart = new Chart(ctxC, {
-                type: 'bar',
-                data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#222' } }, x: { grid: { display: false } } } }
-            });
-        }
+function goHome() {
+currentFilter = 'all';
+document.getElementById('search-input').value = '';
+if(document.body.classList.contains('focus-mode')) toggleFocus();
+switchTab('tab-vault');
+}
 
-        function renderFilters(data) {
-            const cats = ['all', ...new Set(data.map(l => l.cat))];
-            document.getElementById('cat-list').innerHTML = cats.filter(c=>c!=='all').map(c=>`<option value="${c}">`).join('');
-            document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c}</button>`).join('');
-        }
+function toggleSection(id) { const s = document.getElementById(id); s.style.display = (s.style.display==='none'||s.style.display==='')?'block':'none'; }
 
-        function exportData() {
-            const data = { links: localStorage.getItem(DB_KEY), docs: localStorage.getItem(TXT_KEY), notes: localStorage.getItem('titan_notes_v18') };
-            const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `TITAN_MASTER_BACKUP.json`; a.click();
-        }
+function changeTheme(t) { document.body.className = t; load(); }
+
+function saveNotes() { localStorage.setItem('titan_notes_v18', document.getElementById('notes').value); }
+
+function showQR(u) { const c = document.getElementById('qr-container'); c.innerHTML=""; new QRCode(c, {text:u, width:250, height:250}); document.getElementById('qr-modal').style.display='flex'; }
+
+function playVideo() {
+const u = document.getElementById('v-url').value;
+const id = u.includes('v=') ? u.split('v=')[1].split('&')[0] : u.split('be/')[1];
+if(id) { document.getElementById('v-frame').src=`https://www.youtube.com/embed/${id}`; document.getElementById('player-wrap').style.display='block'; }
+}
+
+function updateChart(data) {
+const cats = {}; data.forEach(i => cats[i.cat] = (cats[i.cat] || 0) + 1);
+const ctxC = document.getElementById('mainChart').getContext('2d');
+if(myChart) myChart.destroy();
+myChart = new Chart(ctxC, {
+type: 'bar',
+data: { labels: Object.keys(cats), datasets: [{ data: Object.values(cats), backgroundColor: getComputedStyle(document.body).getPropertyValue('--acc') }] },
+options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#222' } }, x: { grid: { display: false } } } }
+});
+}
+
+function renderFilters(data) {
+const cats = ['all', ...new Set(data.map(l => l.cat))];
+document.getElementById('cat-list').innerHTML = cats.filter(c=>c!=='all').map(c=>`<option value="${c}">`).join('');
+document.getElementById('filters').innerHTML = cats.map(c => `<button onclick="currentFilter='${c}';load()" class="btn-tool" style="background:${currentFilter===c?'var(--acc)':'transparent'}; color:${currentFilter===c?'#000':'var(--acc)'}">${c}</button>`).join('');
+}
+
+function exportData() {
+const data = { links: localStorage.getItem(DB_KEY), docs: localStorage.getItem(TXT_KEY), notes: localStorage.getItem('titan_notes_v18') };
+const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `TITAN_MASTER_BACKUP.json`; a.click();
+}
         function drawNebula() {
             ctxt.clearRect(0,0,canv.width,canv.height); 
             ctxt.fillStyle = '#00b4d8'; // MUDADO PARA AZUL CIANO
             // ... resto do código igual
         }
 
-        // --- INICIALIZAÇÃO ---
-        window.onload = () => {
-            initNebula();
-            animate();
-            load();
-            addLog("SISTEMA TITAN INICIALIZADO");
-        };
-        window.onresize = initNebula;
-    </script>
+// --- INICIALIZAÇÃO ---
+window.onload = () => {
+initNebula();
+animate();
+load();
+addLog("SISTEMA TITAN INICIALIZADO");
+};
+window.onresize = initNebula;
+</script>
 </body>
 </html>
